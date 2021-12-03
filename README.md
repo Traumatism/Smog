@@ -2,6 +2,8 @@
 
 ### A semi-automatic osint/recon framework.
 
+![](preview.png)
+
 ### How to use it:
 
 `git clone https://github.com/traumatism/Smog/`
