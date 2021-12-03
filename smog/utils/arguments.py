@@ -1,13 +1,13 @@
-""" Argument parser module for Smog. """
+""" Argumeents utils for Smog """
 
-import argparse
+from argparse import ArgumentParser, Namespace
 
 from smog.logger import console
-
 from rich.panel import Panel
 
-class ArgumentParser(argparse.ArgumentParser):
-    """ Custom argument parser. """
+
+class ArgumentParser(ArgumentParser):
+    """ Custom argument parser """
 
     class ParserError(Exception):
         """ Exception parser """

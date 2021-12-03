@@ -18,6 +18,8 @@ from smog.database import database
 from smog.logger import Logger, console
 from smog.banner import Banner
 
+from smog.utils.shell import parse_user_input
+
 from smog.commands.credits import Credits
 from smog.commands.python import Python
 from smog.commands.clear import Clear
@@ -79,7 +81,7 @@ class Shell:
         """ Get shell prompt """
         base_prompt = "\n[bold green]smog[/bold green]"
 
-        base_prompt += f" via [bold green]{self.selected_module.name} {self.selected_module.version}[/bold green]" if self.selected_module is not None else ""
+        base_prompt += f" via [bold green]{self.selected_module.name}({self.selected_module.version})[/bold green]" if self.selected_module is not None else ""
 
         k = round(abs(self.start_time - self.end_time))
 
@@ -101,11 +103,6 @@ class Shell:
 
         return ANSI(rendered)
 
-    def __parse_user_input(self, user_input: str):
-        """ Parse user input to command name and arguments """
-        command, *args = user_input.split()
-        return command.lower(), args
-
     def run(self):
         """ Run the shell """
 
@@ -125,7 +122,7 @@ class Shell:
                 if bool(user_input) is False:
                     continue
 
-                self.command, self.arguments = self.__parse_user_input(user_input)
+                self.command, self.arguments = parse_user_input(user_input)
 
                 if self.command in self.os_commands:
                     Logger.info(f"Executing system command '{user_input}'.")
@@ -159,3 +156,4 @@ class Shell:
 
             except (KeyboardInterrupt, EOFError):
                 Logger.warn("Please use 'quit' command to exit the shell.")
+                self.start_time = time.time()

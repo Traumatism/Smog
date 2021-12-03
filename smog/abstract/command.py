@@ -3,13 +3,13 @@ from abc import ABC, abstractmethod
 from rich.console import Console
 
 from smog.database.database import Database
-from smog.shell.arguments import ArgumentParser, argparse
+from smog.utils.arguments import ArgumentParser, Namespace
 
 from typing import List
 
 
 class Command(ABC):
-    """ Abstract class for commands. """
+    """ Abstract class for commands """
 
     command: str = ""
     description: str = ""
@@ -30,7 +30,7 @@ class Command(ABC):
         self.raw_arguments = raw_arguments
 
         self.parser = ArgumentParser(description=self.description, usage=self.command + " <options>")  
-        self.arguments = argparse.Namespace()
+        self.arguments = Namespace()
 
     def init_arguments(self):
         """ Initialize command arguments """
