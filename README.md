@@ -5,7 +5,9 @@
 ### How to use it:
 
 `git clone https://github.com/traumatism/Smog/`
+
 `cd Smog`
+
 `py -m Smog`
 
 ### THIS IS IN BETA

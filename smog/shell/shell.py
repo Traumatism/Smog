@@ -1,16 +1,13 @@
-
-
-""" Shell module for Smog. """
+""" Shell module for Smog """
 
 import time
 
-from os import read, system
+from os import system
 
 from rich.text import Text
 
-from prompt_toolkit import prompt, HTML, ANSI
-from prompt_toolkit.document import Document
-from prompt_toolkit.completion import Completer, Completion, NestedCompleter
+from prompt_toolkit import prompt, ANSI
+from prompt_toolkit.completion import NestedCompleter
 
 from typing import Dict, Union, Iterable, Type
 
