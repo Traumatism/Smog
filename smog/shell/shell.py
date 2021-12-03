@@ -30,6 +30,7 @@ from smog.commands.use import Use
 from smog.commands.run import Run
 from smog.commands.select import Select
 from smog.commands.add import Add
+from smog.commands.quit import Quit
 
 from smog import MODULES
 
@@ -37,7 +38,7 @@ COMMANDS = {
     Help, Clear,
     Show, Use, Run,
     Select, Add,
-    Python, Credits
+    Python, Credits, Quit
 }
 
 
@@ -160,4 +161,4 @@ class Shell:
                     Logger.warn(str(exc))
 
             except (KeyboardInterrupt, EOFError):
-                return Logger.warn("Pressed exit key.")
+                Logger.warn("Please use 'quit' command to exit the shell.")
