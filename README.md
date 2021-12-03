@@ -1,10 +1,10 @@
 # Smog Framework (beta)
 
-### A semi-automatic osint/recon framework.
+## A semi-automatic osint/recon framework.
 
 ![](preview.png)
 
-### How to use it:
+## How to use it:
 
 `git clone https://github.com/traumatism/Smog/`
 
@@ -12,51 +12,44 @@
 
 `py -m Smog`
 
-### THIS IS IN BETA
+Add a domain for example
 
-```
-.
-├── clean.sh
-├── LICENSE
-├── README.md
-└── smog
-   ├── __init__.py
-   ├── __main__.py
-   ├── abstract
-   │  ├── command.py
-   │  ├── module.py
-   │  └── type.py
-   ├── banner
-   │  ├── __init__.py
-   │  └── banner.py
-   ├── commands
-   │  ├── add.py
-   │  ├── clear.py
-   │  ├── credits.py
-   │  ├── help.py
-   │  ├── python.py
-   │  ├── run.py
-   │  ├── select.py
-   │  ├── show.py
-   │  └── use.py
-   ├── database
-   │  ├── __init__.py
-   │  ├── database.py
-   │  └── types
-   │     ├── __init__.py
-   │     ├── domain.py
-   │     ├── ip_address.py
-   │     ├── subdomain.py
-   │     └── url.py
-   ├── logger
-   │  ├── __init__.py
-   │  └── logger.py
-   ├── modules
-   │  ├── crtsh.py
-   │  ├── resolve.py
-   │  └── test.py
-   └── shell
-      ├── __init__.py
-      ├── arguments.py
-      └── shell.py
-```
+`add domain domain.com`
+
+Scan for subdomains with differents modules
+
+`use crtsh`
+
+`run`
+
+`use hackertarget`
+
+`run`
+
+...
+
+Now lets use the data we gathered to resolve the subdomains to IP addresses
+
+`use resolve`
+
+`run`
+
+The process is quasi-infinite. You can add more modules to get more informations and add modules that uses these informations (that why its "semi-automatic", the actions order is decided by the human)
+
+## TODO:
+
+### Modules
+
+* URL scanning
+* Endpoints scanning
+* Vulnerability scanning
+
+### Features
+
+* Delete data from database
+* Export to json or plain text
+* Add a workspace system
+* Multiple queries executions with ";" or "&&"
+* Execute system commands with "!" prefix
+
+## THIS IS IN BETA
