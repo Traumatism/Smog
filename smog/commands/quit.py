@@ -9,7 +9,7 @@ class Quit(Command):
 
     command = "quit"
     description = "Exit Smog"
-    aliases = ["leave", "exit"]
+    aliases = ["leave", "exit", "q"]
 
     def execute(self):
         response = Prompt.ask("Are you sure you want to exit? ", default="n", choices=["y", "n"])

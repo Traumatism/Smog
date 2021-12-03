@@ -63,4 +63,4 @@ class Database:
 
         self.__database[table][_id] = data
 
-        Logger.success(f"Added '{data.value}' to '{table.full_name}'.")
+        Logger.success(f"Added '{data.value}' to {table.full_name}.")
