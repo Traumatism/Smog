@@ -1,7 +1,4 @@
 import ipaddress
-import requests
-
-from typing import List
 
 from smog.abstract.type import Type
 

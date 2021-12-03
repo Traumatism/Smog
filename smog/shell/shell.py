@@ -107,7 +107,7 @@ class Shell:
         return command.lower(), args
 
     def run(self):
-        """ Run the shell. """
+        """ Run the shell """
 
         Banner.print()
 

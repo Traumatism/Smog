@@ -1,5 +1,3 @@
-import re
-
 from smog.abstract.type import Type
 
 

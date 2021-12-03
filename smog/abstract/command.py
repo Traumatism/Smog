@@ -1,13 +1,9 @@
-""" Smog abstract classes. """
-
 from abc import ABC, abstractmethod
 
 from rich.console import Console
 
 from smog.database.database import Database
 from smog.shell.arguments import ArgumentParser, argparse
-
-from prompt_toolkit.completion import Completer, Completion
 
 from typing import List
 
@@ -41,4 +37,4 @@ class Command(ABC):
 
     @abstractmethod
     def execute(self):
-        """ Execute the command. """
+        """ Execute the command """

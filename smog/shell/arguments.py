@@ -10,12 +10,12 @@ class ArgumentParser(argparse.ArgumentParser):
     """ Custom argument parser. """
 
     class ParserError(Exception):
-        """ Exception parser. """
+        """ Exception parser """
 
     def print_help(self):
-        """ Display the help. """
+        """ Display the help """
         return console.print(Panel(self.format_help(), width=80, highlight=True))
 
     def error(self, message):
-        """ Raise error message. """
+        """ Raise error message """
         raise self.ParserError(message)

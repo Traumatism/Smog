@@ -1,5 +1,3 @@
-""" Smog abstract classes. """
-
 import threading as _threading
 
 from abc import ABC, abstractmethod

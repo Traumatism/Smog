@@ -8,7 +8,7 @@ class Resolve(Module):
     name = "resolve"
     version = "0.0.1"
     author = "toastakerman"
-    description = "Resolve subdomains to IP addresses. "
+    description = "Resolve subdomains to IP addresses"
     category = "resolving"
 
     def subaction(self, target):

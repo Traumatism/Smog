@@ -1,10 +1,9 @@
-""" Database module for Smog. """
+""" Database module for Smog """
 
 from typing import Dict
-
 from typing import Type as _Type
-from smog.abstract.type import Type
 
+from smog.abstract.type import Type
 from smog.logger.logger import Logger
 
 from smog.database.types import Domain, IPAddress, Subdomain, URL
@@ -13,7 +12,6 @@ class Database:
     """ Primitive database class for Smog """
 
     def __init__(self) -> None:
-
         self.__database: Dict[_Type[Type], Dict[int, Type]] = {
             IPAddress: {},
             Domain: {},
@@ -28,7 +26,7 @@ class Database:
 
     @property
     def stats(self):
-        """ Get database stat """
+        """ Get database stats """
         total = sum(len(i) for i in self.__database.values())
         return [(i, round(len(self.__database[i]) / total * 100), len(self.__database[i])) for i in self.__database.keys()]
 
