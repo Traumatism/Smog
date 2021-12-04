@@ -46,10 +46,8 @@ The process is quasi-infinite. You can add more modules to get more informations
 
 ### Features
 
-* Delete data from database
 * Export to json or plain text
 * Add a workspace system
 * Multiple queries executions with ";" or "&&"
-* Execute system commands with "!" prefix
 
 ## THIS IS IN BETA

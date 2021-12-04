@@ -1,3 +1,3 @@
-from .database import Database as __Database
+from .database import DatabaseManager
 
-database = __Database()
+database = DatabaseManager()

@@ -5,7 +5,7 @@ from rich.box import SIMPLE
 
 from smog.abstract.command import Command
 from smog.logger import console
-from smog import OS_COMMANDS
+
 
 class Help(Command):
 
@@ -30,15 +30,4 @@ class Help(Command):
                 ", ".join(command.aliases) if command.aliases else "-"
             )
 
-        osc = [""]
-        osc.extend(OS_COMMANDS)
-
-        console.print(
-            Columns([
-                table, 
-                Panel(
-                    "\n [bold yellow]•[/bold yellow] ".join(osc), 
-                    title="[bold white]OS commands[/bold white]"
-                )
-            ])
-        )
+        console.print(table)

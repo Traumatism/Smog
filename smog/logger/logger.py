@@ -26,6 +26,11 @@ class Logger:
         cls.__log(message, "[bold yellow]^[/bold yellow]")
 
     @classmethod
+    def error(cls, message: str) -> None:
+        """ Log an error message """
+        cls.__log(message, "[bold red]-[/bold yellow]")
+
+    @classmethod
     def success(cls, message: str) -> None:
         """ Log a success message """
         cls.__log(message, "[bold green]+[/bold green]")

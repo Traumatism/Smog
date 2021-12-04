@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 
-from typing import Any
 
 class Type(ABC):
     """" Abstract class for database types """
@@ -9,9 +8,8 @@ class Type(ABC):
     full_name = ""
     description = ""
 
-    def __init__(self, value: Any) -> None:
-        self.value = value
-        self.sub_data = {}
+    def __init__(self, value) -> None:
+        self.sub_data, self.value = {}, value
 
     @abstractmethod
     def validate(self) -> bool:

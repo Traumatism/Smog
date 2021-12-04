@@ -3,24 +3,18 @@
 import time
 
 from os import system
-import rich
 
-from rich.text import Text
-
-from prompt_toolkit import prompt, ANSI
+from prompt_toolkit import prompt
 from prompt_toolkit.completion import NestedCompleter
 
-from typing import Dict, Union, Iterable, Type, List
+from typing import Dict, Union, Type, List, Set
 
 from smog.abstract.module import Module
 from smog.abstract.command import Command
 
 from smog.database import database
-from smog.logger import Logger, console
-from smog.banner import Banner
-
 from smog.utils.shell import parse_user_input, rich_to_ansi
-
+from smog.logger import Logger, console
 from smog.commands.credits import Credits
 from smog.commands.python import Python
 from smog.commands.clear import Clear
@@ -31,13 +25,14 @@ from smog.commands.run import Run
 from smog.commands.select import Select
 from smog.commands.add import Add
 from smog.commands.quit import Quit
+from smog.commands.delete import Delete
 
-from smog import MODULES, OS_COMMANDS
+from smog import MODULES
 
 COMMANDS = {
     Help, Clear,
     Show, Use, Run,
-    Select, Add,
+    Select, Add, Delete,
     Python, Credits, Quit
 }
 
@@ -50,8 +45,8 @@ class Shell:
 
         self.workspace = None
 
-        self.modules: Iterable[Type[Module]] = MODULES
-        self.commands: Iterable[Type[Command]] = COMMANDS
+        self.modules: Set[Type[Module]] = MODULES
+        self.commands: Set[Type[Command]] = COMMANDS
 
         self.modules_map: Dict[str, Type[Module]] = {}
         self.commands_map: Dict[str, Type[Command]] = {}
@@ -76,76 +71,104 @@ class Shell:
         self.completer = NestedCompleter.from_nested_dict(json_data)
 
     @property
+    def execution_time(self) -> int:
+        """ Get last command execution time """
+        return round(abs(self.start_time - self.end_time))
+
+    @property
     def prompt(self):
         """ Get shell prompt """
-        base_prompt = "\n[bold green]smog[/bold green]"
-
-        base_prompt += f" via [bold green]{self.selected_module.name}({self.selected_module.version})[/bold green]" if self.selected_module is not None else ""
-
-        k = round(abs(self.start_time - self.end_time))
-
-        base_prompt += (f" took [bold green]{k}s[/bold green]" if k >= 2 else "") + " > "
-
-        return rich_to_ansi(base_prompt)
+        return rich_to_ansi(
+            (
+                "\n[bold green]smog[/bold green]"
+            ) + (
+                f" via [bold green]{self.selected_module.name}({self.selected_module.version})[/bold green]" 
+                if self.selected_module is not None else ""
+            ) + (
+                f" took [bold green]{self.execution_time}s[/bold green]" 
+                if self.execution_time >= 2 else ""
+            ) + (
+                " > "
+            )
+        )
 
     def render_status_bar(self):
-        return f"Module: {self.selected_module.name} {self.selected_module.version} | {self.selected_module.description}" if self.selected_module is not None else "No module selected"
+        """ Status bar """
+        return rich_to_ansi(
+            f"[green]Module: {self.selected_module.name} v{self.selected_module.version} ({self.selected_module.description})[/green]" 
+            if self.selected_module is not None else "[red]No module selected[/red]"
+        )
 
-    def run_command(self, command_cls, arguments: List[str]):
+    def run_command(self, command, arguments: List[str] = []):
         """ Run a command """
+
+        # initialize the command
+        command = command(arguments, self, console, database)
+
         try:
-            command_cls = command_cls(arguments, self, console, database)
-            command_cls.init_arguments()
+            # initialize command arguments
+            command.init_arguments()
         except Exception as exc:
             return Logger.warn(str(exc))
 
         # don't exit the shell if the user asked for the command help
         if "-h" in arguments or "--help" in arguments:
-            return command_cls.parser.print_help()
+            return command.parser.print_help()
 
         try:
-            command_cls.arguments = command_cls.parser.parse_args(command_cls.raw_arguments)
-            command_cls.execute()
+            
+            # parse the arguments
+            command.arguments = command.parser.parse_args(command.raw_arguments)
+            
+            # run the command code
+            command.execute()
         except Exception as exc:
-            return Logger.warn(str(exc))
+            return Logger.error(str(exc))
+
+    def handle_command_line(self, user_input: str):
+        """ Handle user input """
+        if bool(user_input) is False:
+            return
+
+        # execute system commands
+        if user_input.startswith("!"):
+            system(user_input[1:])
+            return
+
+        command, arguments = parse_user_input(user_input)
+
+        command_cls = self.commands_map.get(command, None)
+
+        if command_cls is None:
+            return Logger.error(f"Unknown command: '{command}'.")
+
+        self.run_command(command_cls, arguments)
 
     def run(self):
         """ Run the shell """
 
-        self.run_command(Clear, [])
-
-        self.start_time = time.time()
+        self.run_command(Clear)
 
         console.print("[bold green]Run 'help' to see all commands.[/bold green]")
+
+        self.start_time = time.time()
 
         while True:
 
             try:
                 self.end_time = time.time()
 
-                user_input = prompt(self.prompt, completer=self.completer, complete_while_typing=True, bottom_toolbar=self.render_status_bar)
+                user_input = prompt(
+                    self.prompt, 
+                    completer=self.completer, 
+                    complete_while_typing=True, 
+                    bottom_toolbar=self.render_status_bar
+                )
 
                 self.start_time = time.time()
 
-                if bool(user_input) is False:
-                    continue
-
-                command, arguments = parse_user_input(user_input)
-
-                if command in OS_COMMANDS:
-                    Logger.info(f"Executing system command '{user_input}'.")
-                    system(user_input)
-                    Logger.success("Command executed.")
-                    continue
-
-                command_cls = self.commands_map.get(command, None)
-
-                if command_cls is None:
-                    Logger.warn(f"Unknown command: '{command}'.")
-                    continue
-
-                self.run_command(command_cls, arguments)
+                self.handle_command_line(user_input)
 
             except (KeyboardInterrupt, EOFError):
-                Logger.warn("Please use 'quit' command to exit the shell.")
+                self.run_command(Quit)
                 self.start_time = time.time()
