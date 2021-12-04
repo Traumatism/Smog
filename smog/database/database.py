@@ -1,14 +1,13 @@
 """ Database module for Smog """
 
-from typing import Dict, List, Literal, Union, Tuple
-from typing import Type as _Type
+from typing import Dict, List, Literal, Union, Tuple, Type, Generator
 
-from smog.abstract.type import Type
+from smog.abstract.type import Type as DatabaseType
 from smog.logger.logger import Logger
 from smog.database.types import Domain, IPAddress, Subdomain, URL
 
 
-DatabaseDict = Dict[_Type[Type], Dict[int, Type]]
+DatabaseDict = Dict[Type[DatabaseType], Dict[int, DatabaseType]]
 
 class Database:
     """ Primitive database class for Smog """
@@ -21,21 +20,24 @@ class Database:
             URL: {}
         }
 
-    def export_db(self) -> DatabaseDict:
+    def export_db(self) -> List:
         """ Export database """
-        return self.__database
+        return [
+            {database_type.full_name: [row.export() for _, row in content.items()]}
+            for database_type, content in self.__database.items()
+        ]
 
     def import_db(self, database: DatabaseDict):
         """ Import database """
         self.__database = database
 
     @property
-    def tables(self) -> List[_Type[Type]]:
+    def tables(self) -> List[Type[DatabaseType]]:
         """ Get the list of tables """
         return list(self.__database.keys())
 
     @property
-    def stats(self) -> List[Tuple[_Type[Type], Union[float, int], int]]:
+    def stats(self) -> List[Tuple[Type[DatabaseType], Union[float, int], int]]:
         """ Get database stats """
         total = sum(len(i) for i in self.__database.values())
 
@@ -44,7 +46,7 @@ class Database:
             for i in self.__database.keys()
         ]
 
-    def get_table_by_str(self, table: str) -> Union[Literal[False], _Type[Type]]:
+    def get_table_by_str(self, table: str) -> Union[Literal[False], Type[DatabaseType]]:
         """ Get table object with full name """
         for _table in self.tables:
             if table in (_table.full_name, _table.name):
@@ -85,10 +87,17 @@ class Database:
                     return _id
         return False
 
-    def select_data(self, table: str) -> Union[Literal[False], Dict[int, Type]]:
+    def select_data(self, table: str, _id: int = None) -> Union[Literal[False], Dict[int, DatabaseType]]:
         """ Select data from a table """
         _table = self.get_table_by_str(table)
-        return _table if _table is False else self.__database[_table]
+        
+        if _table is False:
+            return False
+        
+        if _id is not None:
+            return {_id: self.__database[_table][_id]}
+
+        return self.__database[_table]
 
     def insert_data(self, data: Type):
         """ Insert data into the table """

@@ -6,7 +6,7 @@ from rich.box import DOUBLE
 from smog import __version__
 from smog.logger import console
 
-BANNER = Text(r"""  
+A = Text(r"""  
   ______________ ________________ _
   __  ___/_  __ `__ \  __ \_  __ `/
  _(__  )_  / / / / / /_/ /  /_/ /
@@ -14,11 +14,12 @@ BANNER = Text(r"""
                        /____/ 
 """, style="magenta")
 
-A = Panel(Text("""
+B = Panel(Text("""
 A semi-automatic osint/recon framework
 Version %(version)s
 by @toastakerman
 """  % {"author": "toastakerman", "version": __version__}, justify="center"), box=DOUBLE, border_style="magenta")
+
 
 
 class Banner:
@@ -27,5 +28,5 @@ class Banner:
     @classmethod
     def print(cls):
       """ Print the banner to the terminal """
-      [console.print(i, justify="center") for i in (BANNER, A)]
+      [console.print(i, justify="center") for i in (A, B)]
       print()

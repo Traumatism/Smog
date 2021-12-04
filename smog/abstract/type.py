@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any, Dict, Tuple
 
 
 class Type(ABC):
@@ -9,7 +10,11 @@ class Type(ABC):
     description = ""
 
     def __init__(self, value) -> None:
-        self.sub_data, self.value = {}, value
+        self.sub_data = {}
+        self.value = value
+
+    def export(self) -> Tuple[Any, Dict]:
+        return (self.value, self.sub_data)
 
     @abstractmethod
     def validate(self) -> bool:
