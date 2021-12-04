@@ -1,3 +1,3 @@
-from .shell import Shell as __Shell
+from .shell import Shell
 
-shell = __Shell()
+shell = Shell()

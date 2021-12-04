@@ -12,7 +12,7 @@ class Quit(Command):
     aliases = ["leave", "exit", "q"]
 
     def execute(self):
-        response = Prompt.ask("Are you sure you want to exit? ", default="n", choices=["y", "n"])
-
+        response = Prompt.ask("Are you sure you want to exit? ", default="y", choices=["y", "n"])
+        
         if response == "y":
-            sys.exit(1)
+            sys.exit(0)

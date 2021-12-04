@@ -1,4 +1,4 @@
-# Smog Framework (beta)
+# Smog Framework
 
 ## A semi-automatic osint/recon framework.
 
@@ -6,32 +6,32 @@
 
 ## How to use it:
 
-* > `git clone https://github.com/traumatism/Smog/`
+* `git clone https://github.com/traumatism/Smog/`
 
-* > `cd Smog`
+* `cd Smog`
 
-* > `py -m Smog`
+* `py -m Smog`
 
 Add a domain for example
 
-* > `add domain domain.com`
+* `add domain domain.com`
 
 Scan for subdomains with differents modules
 
-* > `use crtsh`
+* `use crtsh`
 
-* > `run`
+* `run`
 
-* > `use hackertarget`
+* `use hackertarget`
 
-* > `run`
+* `run`
 
 ...
 
 Now lets use the data we gathered to resolve the subdomains to IP addresses
 
-* > `use resolve` 
-* > `run`
+* `use resolve` 
+* `run`
 
 The process is quasi-infinite. You can add more modules to get more informations and add modules that uses these informations (that why its "semi-automatic", the actions order is decided by the human)
 
@@ -48,5 +48,4 @@ The process is quasi-infinite. You can add more modules to get more informations
 * Export to json or plain text
 * Add a workspace system
 * Multiple queries executions with ";" or "&&"
-
-## THIS IS IN BETA
+* Syntax highlighting

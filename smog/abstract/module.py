@@ -57,4 +57,3 @@ class Module(ABC):
     @abstractmethod
     def execute(self) -> None:
         """ Execute the module """
-

@@ -1,11 +1,18 @@
 """ Shell module for Smog """
 
 import time
+import re
 
 from os import system
 
 from prompt_toolkit import prompt
+from prompt_toolkit.lexers import PygmentsLexer
 from prompt_toolkit.completion import NestedCompleter
+from prompt_toolkit.history import InMemoryHistory
+
+from pygments.token import Name, Number, String, Text, Keyword
+from pygments.lexer import RegexLexer
+
 
 from typing import Dict, Union, Type, List, Set
 
@@ -92,8 +99,8 @@ class Shell:
             )
         )
 
-    def render_status_bar(self):
-        """ Status bar """
+    def get_status_bar(self):
+        """ Get status bar """
         return rich_to_ansi(
             f"[green]Module: {self.selected_module.name} v{self.selected_module.version} ({self.selected_module.description})[/green]" 
             if self.selected_module is not None else "[red]No module selected[/red]"
@@ -162,7 +169,8 @@ class Shell:
                     self.prompt, 
                     completer=self.completer, 
                     complete_while_typing=True, 
-                    bottom_toolbar=self.render_status_bar
+                    bottom_toolbar=self.get_status_bar,
+                    history=InMemoryHistory()
                 )
 
                 self.start_time = time.time()

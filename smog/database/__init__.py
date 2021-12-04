@@ -1,3 +1,3 @@
-from .database import DatabaseManager
+from .database import Database
 
-database = DatabaseManager()
+database = Database()
