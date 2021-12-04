@@ -11,10 +11,10 @@ from typing import List
 class Command(ABC):
     """ Abstract class for commands """
 
-    command: str = ""
-    description: str = ""
-    aliases: List[str] = []
-
+    command = ""
+    description = ""
+    aliases = []
+    
     _arguments = {}
 
     def __init__(

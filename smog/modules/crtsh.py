@@ -9,7 +9,7 @@ class CRT(Module):
     version = "0.0.1"
     author = "toastakerman"
     description = "Search subdomains on CRT.sh"
-    category = "scanning"
+    keywords = ["crtsh", "certificates", "subdomains", "scanning"]
 
     def subaction(self, domain):
         with requests.get("https://crt.sh/?q=%(domain)s&output=json" % {"domain": domain}) as response:

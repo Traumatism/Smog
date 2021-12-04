@@ -20,3 +20,5 @@ class Run(Command):
         self.shell.selected_module(
             self.database, self.arguments.threads, self.arguments.debug_threads
         ).execute()
+
+        Logger.success("Done.")

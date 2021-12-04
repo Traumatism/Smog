@@ -11,7 +11,7 @@ class Use(Command):
     _arguments = {module.name for module in MODULES}
 
     def init_arguments(self):
-        self.parser.add_argument("module", help="Module name.", choices=self.shell.modules_map.keys())
+        self.parser.add_argument("module", help="Module name.")
 
     def execute(self):
 

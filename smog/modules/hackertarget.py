@@ -11,7 +11,7 @@ class HackerTarget(Module):
     version = "0.0.1"
     author = "toastakerman"
     description = "Search subdomains on hackertarget.com"
-    category = "scanning"
+    keywords = ["hackertarget", "subdomains", "ip addresses", "scanning"]
 
     def subaction(self, domain):
         with requests.get("https://api.hackertarget.com/hostsearch/?q=%(domain)s" % {"domain": domain}) as response:

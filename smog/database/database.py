@@ -5,26 +5,27 @@ from typing import Type as _Type
 
 from smog.abstract.type import Type
 from smog.logger.logger import Logger
-
 from smog.database.types import Domain, IPAddress, Subdomain, URL
 
+
+DatabaseDict = Dict[_Type[Type], Dict[int, Type]]
 
 class Database:
     """ Primitive database class for Smog """
 
     def __init__(self) -> None:
-        self.__database: Dict[_Type[Type], Dict[int, Type]] = {
+        self.__database: DatabaseDict = {
             IPAddress: {},
             Domain: {},
             Subdomain: {},
             URL: {}
         }
 
-    def export_db(self) -> Dict[_Type[Type], Dict[int, Type]]:
+    def export_db(self) -> DatabaseDict:
         """ Export database """
         return self.__database
 
-    def import_db(self, database: Dict[_Type[Type], Dict[int, Type]]):
+    def import_db(self, database: DatabaseDict):
         """ Import database """
         self.__database = database
 

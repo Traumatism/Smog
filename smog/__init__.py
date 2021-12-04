@@ -1,4 +1,4 @@
-__version__ = '1.0.0'
+__version__ = '1.0.0b'
 
 from smog.database import database
 

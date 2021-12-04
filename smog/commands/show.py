@@ -8,7 +8,6 @@ class Show(Command):
 
     command = "show"
     description = "Show database tables, modules, or statistics"
-
     _arguments = {"stats", "modules", "tables"}
 
     def init_arguments(self):
@@ -22,32 +21,29 @@ class Show(Command):
         table = Table(box=SIMPLE)
 
         if self.raw_arguments[0] == "stats":
-            table.add_column("#", style="bold bright_black")
             table.add_column("Type", style="bold green")
             table.add_column("%", style="bold blue")
             table.add_column("Count", style="bold cyan")
 
-            for i, (t, p, l) in enumerate(self.database.stats):
-                table.add_row(str(i + 1), t.description.lower(), str(p), str(l))
+            for _table, percents, count in self.database.stats:
+                table.add_row(_table.description.lower(), *map(str, (percents, count)))
 
         if self.raw_arguments[0] == "modules":
-            table.add_column("#", style="bold bright_black")
             table.add_column("Module", style="bold green")
             table.add_column("Version", style="bold blue")
             table.add_column("Description", style="bold cyan")
             table.add_column("Author", style="bold magenta")
 
-            for i, module in enumerate(self.shell.modules):
-                table.add_row(str(i + 1), module.name, module.version, module.description, module.author)
+            for module in self.shell.modules:
+                table.add_row(module.name, module.version, module.description, module.author)
 
         if self.raw_arguments[0] == "tables":
-            table.add_column("#", style="bold bright_black")
             table.add_column("Table", style="bold green")
             table.add_column("Description", style="bold cyan")
             table.add_column("Alias", style="bold magenta")
 
-            for i, j in enumerate(self.database.tables):
-                table.add_row(str(i + 1), j.full_name, j.description, j.name)
+            for _table in self.database.tables:
+                table.add_row(_table.full_name, _table.description, _table.name)
 
 
         return self.console.print(table)

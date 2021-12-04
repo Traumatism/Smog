@@ -1,11 +1,12 @@
 """ Shell module for Smog """
 
 import time
-import re
 
 from os import system
 
-from prompt_toolkit import prompt
+from prompt_toolkit import PromptSession
+from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
+from prompt_toolkit.formatted_text.ansi import ANSI
 from prompt_toolkit.lexers import PygmentsLexer
 from prompt_toolkit.completion import NestedCompleter
 from prompt_toolkit.history import InMemoryHistory
@@ -13,28 +14,24 @@ from prompt_toolkit.history import InMemoryHistory
 from pygments.token import Name, Number, String, Text, Keyword
 from pygments.lexer import RegexLexer
 
-
 from typing import Dict, Union, Type, List, Set
 
+from smog import MODULES, database
+from smog.logger import Logger, console
 from smog.abstract.module import Module
 from smog.abstract.command import Command
-
-from smog.database import database
 from smog.utils.shell import parse_user_input, rich_to_ansi
-from smog.logger import Logger, console
 from smog.commands.credits import Credits
+from smog.commands.select import Select
+from smog.commands.delete import Delete
 from smog.commands.python import Python
 from smog.commands.clear import Clear
 from smog.commands.help import Help
 from smog.commands.show import Show
+from smog.commands.quit import Quit
 from smog.commands.use import Use
 from smog.commands.run import Run
-from smog.commands.select import Select
 from smog.commands.add import Add
-from smog.commands.quit import Quit
-from smog.commands.delete import Delete
-
-from smog import MODULES
 
 COMMANDS = {
     Help, Clear,
@@ -52,14 +49,20 @@ class Shell:
 
         self.workspace = None
 
+        # list containing module objects
         self.modules: Set[Type[Module]] = MODULES
+        
+        # list containing commands objets
         self.commands: Set[Type[Command]] = COMMANDS
 
+        # dictionnary to convert string to module object
         self.modules_map: Dict[str, Type[Module]] = {}
-        self.commands_map: Dict[str, Type[Command]] = {}
 
         for module in self.modules:
             self.modules_map[module.name.lower()] = module
+
+        # dictionnary to convert string to command object
+        self.commands_map: Dict[str, Type[Command]] = {}
 
         for command in self.commands:
             self.commands_map[command.command.lower()] = command
@@ -67,15 +70,35 @@ class Shell:
             for alias in command.aliases:
                 self.commands_map[alias.lower()] = command
 
-        json_data = {
-            command: {
-                "%s " % argument 
-                for argument in command_cls._arguments
-            }
-            for command, command_cls in self.commands_map.items()
-        }
+        # setup completer
+        json_data = {}
+
+        for command in self.commands_map.values():
+            json_data[command.command] = {}
+
+            command = command([], self, console, database)
+
+            command.init_arguments()
+
+            for action_x in command.parser._action_groups:
+                for action_y in action_x._group_actions:
+                    for action_z in action_y.option_strings:
+                        json_data[command.command][action_z] = None
+
+            for argument in command._arguments:
+                if argument not in json_data[command.command].keys():
+                    json_data[command.command][argument] = None
 
         self.completer = NestedCompleter.from_nested_dict(json_data)
+
+        # setup prompt
+        self.prompt_session = PromptSession(
+            completer=self.completer, 
+            complete_while_typing=False, 
+            bottom_toolbar=self.get_status_bar,
+            wrap_lines=False,
+            auto_suggest=AutoSuggestFromHistory()
+        )
 
     @property
     def execution_time(self) -> int:
@@ -87,19 +110,19 @@ class Shell:
         """ Get shell prompt """
         return rich_to_ansi(
             (
-                "\n[bold green]smog[/bold green]"
+                "\n[bold cyan]smog[/bold cyan]"
             ) + (
-                f" via [bold green]{self.selected_module.name}({self.selected_module.version})[/bold green]" 
+                f" via [bold cyan]{self.selected_module.name}({self.selected_module.version})[/bold cyan]" 
                 if self.selected_module is not None else ""
             ) + (
-                f" took [bold green]{self.execution_time}s[/bold green]" 
+                f" took [bold cyan]{self.execution_time}s[/bold cyan]" 
                 if self.execution_time >= 2 else ""
             ) + (
                 " > "
             )
         )
 
-    def get_status_bar(self):
+    def get_status_bar(self) -> ANSI:
         """ Get status bar """
         return rich_to_ansi(
             f"[green]Module: {self.selected_module.name} v{self.selected_module.version} ({self.selected_module.description})[/green]" 
@@ -111,24 +134,15 @@ class Shell:
 
         # initialize the command
         command = command(arguments, self, console, database)
-
-        try:
-            # initialize command arguments
-            command.init_arguments()
-        except Exception as exc:
-            return Logger.warn(str(exc))
+        command.init_arguments()
 
         # don't exit the shell if the user asked for the command help
         if "-h" in arguments or "--help" in arguments:
             return command.parser.print_help()
 
         try:
-            
-            # parse the arguments
-            command.arguments = command.parser.parse_args(command.raw_arguments)
-            
-            # run the command code
-            command.execute()
+            command.arguments = command.parser.parse_args(command.raw_arguments) # parse the arguments
+            command.execute() # run the command code
         except Exception as exc:
             return Logger.error(str(exc))
 
@@ -156,7 +170,7 @@ class Shell:
 
         self.run_command(Clear)
 
-        console.print("[bold green]Run 'help' to see all commands.[/bold green]")
+        Logger.success("Welcome to [bold cyan]Smog[/bold cyan]! Type 'help' for help.")
 
         self.start_time = time.time()
 
@@ -165,13 +179,7 @@ class Shell:
             try:
                 self.end_time = time.time()
 
-                user_input = prompt(
-                    self.prompt, 
-                    completer=self.completer, 
-                    complete_while_typing=True, 
-                    bottom_toolbar=self.get_status_bar,
-                    history=InMemoryHistory()
-                )
+                user_input = self.prompt_session.prompt(self.prompt)
 
                 self.start_time = time.time()
 

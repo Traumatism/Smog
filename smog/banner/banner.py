@@ -1,26 +1,24 @@
 """ Banner module for Smog. """
+from rich.text import Text
 from rich.panel import Panel
-from rich.columns import Columns
+from rich.box import DOUBLE
 
 from smog import __version__
 from smog.logger import console
 
-BANNER = r"""[magenta]
+BANNER = Text(r"""  
+  ______________ ________________ _
+  __  ___/_  __ `__ \  __ \_  __ `/
+ _(__  )_  / / / / / /_/ /  /_/ /
+/____/ /_/ /_/ /_/\____/_\__, /
+                       /____/ 
+""", style="magenta")
 
- .::::::. .        :       ...       .,-:::::/  
-;;;`    ` ;;,.    ;;;   .;;;;;;;.  ,;;-'````'   
-'[==/[[[[,[[[[, ,[[[[, ,[[     \[[,[[[   [[[[[[/
-  '''    $$$$$$$$$"$$$ $$$,     $$$"$$c.    "$$ 
- 88b    dP888 Y88" 888o"888,_ _,88P `Y8bo,,,o88o
-  "YMmMY" MMM  M'  "MMM  "YMMMMMP"    `'YMUP"YMM 
-[/magenta]
-"""
-
-A = """
-[red bold]A semi-automatic osint/recon framework[/red bold]
-[green bold]Version %(version)s[/green bold]
-[cyan bold]by @toastakerman[/cyan bold]
-"""
+A = Panel(Text("""
+A semi-automatic osint/recon framework
+Version %(version)s
+by @toastakerman
+"""  % {"author": "toastakerman", "version": __version__}, justify="center"), box=DOUBLE, border_style="magenta")
 
 
 class Banner:
@@ -28,8 +26,5 @@ class Banner:
 
     @classmethod
     def print(cls):
-        """ Print the banner to the terminal """
-        console.print(
-            Columns([BANNER, A % {"author": "toastakerman", "version": __version__}], align="center" ),
-            highlight=False, justify="center", style="bold"
-        )
+      """ Print the banner to the terminal """
+      [console.print(i, justify="center") for i in (BANNER, A)]
