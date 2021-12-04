@@ -28,3 +28,4 @@ class Banner:
     def print(cls):
       """ Print the banner to the terminal """
       [console.print(i, justify="center") for i in (BANNER, A)]
+      print()

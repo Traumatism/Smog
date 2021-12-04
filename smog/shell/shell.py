@@ -9,7 +9,7 @@ from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.formatted_text.ansi import ANSI
 from prompt_toolkit.lexers import PygmentsLexer
 from prompt_toolkit.completion import NestedCompleter
-from prompt_toolkit.history import InMemoryHistory
+from prompt_toolkit.history import History, InMemoryHistory
 
 from pygments.token import Name, Number, String, Text, Keyword
 from pygments.lexer import RegexLexer
@@ -97,7 +97,8 @@ class Shell:
             complete_while_typing=False, 
             bottom_toolbar=self.get_status_bar,
             wrap_lines=False,
-            auto_suggest=AutoSuggestFromHistory()
+            auto_suggest=AutoSuggestFromHistory(),
+            history=InMemoryHistory([command.command for command in self.commands])
         )
 
     @property
