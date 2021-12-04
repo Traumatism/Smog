@@ -28,13 +28,38 @@ class Database:
     def stats(self):
         """ Get database stats """
         total = sum(len(i) for i in self.__database.values())
-        return [(i, round(len(self.__database[i]) / total * 100), len(self.__database[i])) for i in self.__database.keys()]
+        return [
+            (i, round(len(self.__database[i]) / total * 100), len(self.__database[i])) 
+            for i in self.__database.keys()
+        ]
 
     def get_table_by_str(self, table: str):
         """ Get table object with full name """
         for _table in self.tables:
             if table in (_table.full_name, _table.name):
                 return _table
+        return False
+
+    def delete_data(self, table: str, _id: int):
+        """ Delete data from a table """
+        _table = self.get_table_by_str(table)
+
+        if _table is False:
+            return Logger.warn("Can't find the table.")
+
+        if _id not in self.__database[_table]:
+            return Logger.warn("Can't find the data.")
+
+        del self.__database[_table][_id]
+
+        Logger.success(f"Deleted '{_id}' from {table}.")
+
+    def get_id_by_value(self, value: str) -> int:
+        """ Get the id of a value """
+        for table in self.tables:
+            for _id, data in self.__database[table].items():
+                if data.value == value:
+                    return _id
         return False
 
     def select_data(self, table: str):

@@ -21,5 +21,3 @@ class Use(Command):
             return Logger.warn(f"Module '{self.arguments.module}' not found.")
 
         self.shell.selected_module = module
-
-        Logger.success(f"Now using module '{self.arguments.module}'.")
