@@ -5,6 +5,7 @@ from rich.box import SIMPLE
 
 from smog.abstract.command import Command
 from smog.logger import console
+from smog import OS_COMMANDS
 
 class Help(Command):
 
@@ -30,7 +31,7 @@ class Help(Command):
             )
 
         osc = [""]
-        osc.extend(self.shell.os_commands)
+        osc.extend(OS_COMMANDS)
 
         console.print(
             Columns([
