@@ -5,14 +5,9 @@ import time
 from os import system
 
 from prompt_toolkit import PromptSession
-from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
+from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.formatted_text.ansi import ANSI
-from prompt_toolkit.lexers import PygmentsLexer
 from prompt_toolkit.completion import NestedCompleter
-from prompt_toolkit.history import History, InMemoryHistory
-
-from pygments.token import Name, Number, String, Text, Keyword
-from pygments.lexer import RegexLexer
 
 from typing import Dict, Union, Type, List, Set
 
@@ -40,6 +35,7 @@ COMMANDS = {
     Select, Add, Delete, Export,
     Python, Credits, Quit
 }
+
 
 
 class Shell:
@@ -98,7 +94,6 @@ class Shell:
             complete_while_typing=False, 
             bottom_toolbar=self.get_status_bar,
             wrap_lines=False,
-            auto_suggest=AutoSuggestFromHistory(),
             history=InMemoryHistory([command.command for command in self.commands])
         )
 
@@ -127,7 +122,7 @@ class Shell:
     def get_status_bar(self) -> ANSI:
         """ Get status bar """
         return rich_to_ansi(
-            f"[green]Module: {self.selected_module.name} v{self.selected_module.version} ({self.selected_module.description})[/green]" 
+            f"[green]Module: {self.selected_module.name}[/green]"
             if self.selected_module is not None else "[red]No module selected[/red]"
         )
 
@@ -190,3 +185,4 @@ class Shell:
             except (KeyboardInterrupt, EOFError):
                 self.run_command(Quit)
                 self.start_time = time.time()
+
