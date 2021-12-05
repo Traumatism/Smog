@@ -1,32 +1,22 @@
-""" Banner module for Smog. """
-from rich.text import Text
-from rich.panel import Panel
-from rich.box import DOUBLE
-
-from smog import __version__
+""" Banner module for Smog """
 from smog.logger import console
+from smog import __version__
 
-A = Text(r"""  
-  ______________ ________________ _
-  __  ___/_  __ `__ \  __ \_  __ `/
- _(__  )_  / / / / / /_/ /  /_/ /
-/____/ /_/ /_/ /_/\____/_\__, /
-                       /____/ 
-""", style="magenta")
+BANNER = r"""[red bold]
+              _                     
+ _ _  _  _   (_ _ _  _  _    _  _|  
+_)|||(_)(_)  | | (_||||(-\)/(_)| |( [green bold]%(version)s[/green bold]
+        _/                          
+[/red bold]
+[cyan bold]a semi automatic osint/recon framework[/cyan bold]
+[green bold]author: @toastakerman[/green bold]
 
-B = Panel(Text("""
-A semi-automatic osint/recon framework
-Version %(version)s
-by @toastakerman
-"""  % {"author": "toastakerman", "version": __version__}, justify="center"), box=DOUBLE, border_style="magenta")
-
-
+"""
 
 class Banner:
     """ Banner class for Smog """
-
-    @classmethod
-    def print(cls):
-      """ Print the banner to the terminal """
-      [console.print(i, justify="center") for i in (A, B)]
-      print()
+    
+    @staticmethod
+    def print():
+        """ Print the banner to the terminal """
+        console.print(BANNER % {"version": __version__}, highlight=False)

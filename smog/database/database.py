@@ -4,7 +4,7 @@ from typing import Dict, List, Literal, Union, Tuple, Type, Generator
 
 from smog.abstract.type import Type as DatabaseType
 from smog.logger.logger import Logger
-from smog.database.types import Domain, IPAddress, Subdomain, URL
+from smog.database.types import Domain, IPAddress, Subdomain, URL, Email, Phone, Credentials
 
 DatabaseDict = Dict[Type[DatabaseType], Dict[int, DatabaseType]]
 
@@ -16,7 +16,10 @@ class Database:
             IPAddress: {},
             Domain: {},
             Subdomain: {},
-            URL: {}
+            URL: {},
+            Email: {},
+            Credentials: {},
+            Phone: {}
         }
 
     def export_db(self) -> List:
