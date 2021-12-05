@@ -1,10 +1,10 @@
 from rich.table import Table
 from rich.box import SIMPLE
 
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 
 
-class Show(Command):
+class Show(CommandBase):
 
     command = "show"
     description = "Show database tables, modules, or statistics"

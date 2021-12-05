@@ -1,9 +1,9 @@
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 from smog.logger import console
 from smog.banner import Banner
 
 
-class Clear(Command):
+class Clear(CommandBase):
 
     command = "clear"
     description = "Clear the screen"

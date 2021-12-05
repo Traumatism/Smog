@@ -2,10 +2,10 @@ import sys
 
 from rich.prompt import Prompt
 
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 
 
-class Quit(Command):
+class Quit(CommandBase):
 
     command = "quit"
     description = "Exit Smog"

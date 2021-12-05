@@ -1,47 +1,53 @@
 """ Shell module for Smog """
 
+import pkgutil
 import time
+import re
 
 from os import system
 
 from prompt_toolkit import PromptSession
+from prompt_toolkit.lexers import PygmentsLexer
 from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.formatted_text.ansi import ANSI
 from prompt_toolkit.completion import NestedCompleter
+from prompt_toolkit.styles.pygments import style_from_pygments_cls
+
+from pygments import token
+from pygments.styles.monokai import MonokaiStyle
+from pygments.lexer import RegexLexer
 
 from typing import Dict, Union, Type, List, Set
 
-from smog import MODULES, database
+from smog import MODULES, COMMANDS, database
 from smog.logger import Logger, console
 from smog.abstract.module import Module
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 from smog.utils.shell import parse_user_input, rich_to_ansi
-from smog.commands.credits import Credits
-from smog.commands.select import Select
-from smog.commands.delete import Delete
-from smog.commands.python import Python
-from smog.commands.export import Export
-from smog.commands.clear import Clear
-from smog.commands.help import Help
-from smog.commands.show import Show
-from smog.commands.quit import Quit
-from smog.commands.use import Use
-from smog.commands.run import Run
-from smog.commands.add import Add
 
-COMMANDS = {
-    Help, Clear,
-    Show, Use, Run,
-    Select, Add, Delete, Export,
-    Python, Credits, Quit
-}
 
+class CommandLexer(RegexLexer):
+    
+    tokens = {}
+
+    @classmethod
+    def make(cls, commands = COMMANDS):
+        root = [
+            ("^" + re.escape(command.command) + "( |$)", token.Name.Function)
+            for command in commands
+        ]
+
+
+        cls.tokens["root"] = root
+
+        return cls
 
 
 class Shell:
     """ Shell class for Smog """
 
     def __init__(self):
+
         self.selected_module: Union[Module, None] = None
 
         self.workspace = None
@@ -50,7 +56,7 @@ class Shell:
         self.modules: Set[Type[Module]] = MODULES
         
         # list containing commands objets
-        self.commands: Set[Type[Command]] = COMMANDS
+        self.commands: Set[Type[CommandBase]] = COMMANDS
 
         # dictionnary to convert string to module object
         self.modules_map: Dict[str, Type[Module]] = {}
@@ -59,7 +65,7 @@ class Shell:
             self.modules_map[module.name.lower()] = module
 
         # dictionnary to convert string to command object
-        self.commands_map: Dict[str, Type[Command]] = {}
+        self.commands_map: Dict[str, Type[CommandBase]] = {}
 
         for command in self.commands:
             self.commands_map[command.command.lower()] = command
@@ -94,7 +100,9 @@ class Shell:
             complete_while_typing=False, 
             bottom_toolbar=self.get_status_bar,
             wrap_lines=False,
-            history=InMemoryHistory([command.command for command in self.commands])
+            history=InMemoryHistory([command.command for command in self.commands]),
+            lexer=PygmentsLexer(CommandLexer.make()),
+            style=style_from_pygments_cls(MonokaiStyle)
         )
 
     @property
@@ -106,17 +114,10 @@ class Shell:
     def prompt(self):
         """ Get shell prompt """
         return rich_to_ansi(
-            (
-                "\n[bold cyan]smog[/bold cyan]"
-            ) + (
-                f" via [bold cyan]{self.selected_module.name}({self.selected_module.version})[/bold cyan]" 
-                if self.selected_module is not None else ""
-            ) + (
-                f" took [bold cyan]{self.execution_time}s[/bold cyan]" 
-                if self.execution_time >= 2 else ""
-            ) + (
-                " > "
-            )
+            ("\n[bold cyan]smog[/bold cyan]"
+            ) + (f" via [bold cyan]{self.selected_module.name}({self.selected_module.version})[/bold cyan]" if self.selected_module is not None else ""
+            ) + (f" took [bold cyan]{self.execution_time}s[/bold cyan]" if self.execution_time >= 2 else ""
+            ) + " > "
         )
 
     def get_status_bar(self) -> ANSI:
@@ -165,7 +166,7 @@ class Shell:
     def run(self):
         """ Run the shell """
 
-        self.run_command(Clear)
+        self.handle_command_line("clear")
 
         Logger.success("Welcome to [bold cyan]Smog[/bold cyan]! Type 'help' for help.")
 
@@ -183,6 +184,6 @@ class Shell:
                 self.handle_command_line(user_input)
 
             except (KeyboardInterrupt, EOFError):
-                self.run_command(Quit)
+                self.handle_command_line("quit")
                 self.start_time = time.time()
 

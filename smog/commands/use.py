@@ -1,9 +1,9 @@
 from smog import MODULES
 from smog.logger.logger import Logger
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 
 
-class Use(Command):
+class Use(CommandBase):
 
     command = "use"
     description = "Select a module to use"

@@ -3,11 +3,11 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.box import SIMPLE
 
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 from smog.logger import console
 
 
-class Help(Command):
+class Help(CommandBase):
 
     command = "help"
     description = "Show help menu"

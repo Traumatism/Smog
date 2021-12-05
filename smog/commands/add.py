@@ -1,9 +1,9 @@
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 from smog.logger import Logger
 
 from smog import database
 
-class Add(Command):
+class Add(CommandBase):
 
     command = "add"
     aliases = ["insert"]

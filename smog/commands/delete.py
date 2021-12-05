@@ -1,9 +1,9 @@
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 from smog.logger import Logger
 
 from smog import database
 
-class Delete(Command):
+class Delete(CommandBase):
 
     command = "delete"
     aliases = ["del", "remove"]

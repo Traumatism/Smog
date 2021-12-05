@@ -1,4 +1,4 @@
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 from smog.logger import console
 
 from rich.markdown import Markdown
@@ -11,15 +11,17 @@ CREDITS = r'''
 * github.com/traumatism
 * twitter.com/toastakerman
 
-_Concept inspiration: sn0int, github.com/kpcyrd/sn0int_
+## Others
 
-_Banner inspiration: PwnFunction, youtube.com/PwnFunction_
+_Concept -> sn0int, github.com/kpcyrd/sn0int_
 
-_Shell inspiration: Spaceship, spaceship-prompt.sh_
+_Shell -> Starship, starship.rs_
+
+_Shell bis -> Pwncat, github.com/calebstewart/pwncat/_
 '''
 
 
-class Credits(Command):
+class Credits(CommandBase):
 
     command = "credits"
 

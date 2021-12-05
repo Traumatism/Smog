@@ -1,7 +1,7 @@
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 from smog.logger import Logger
 
-class Run(Command):
+class Run(CommandBase):
 
     command = "run"
     description = "Run the selected module"

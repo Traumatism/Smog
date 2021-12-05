@@ -3,11 +3,11 @@ from rich.box import ASCII2
 
 from smog import database
 
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 from smog.logger.logger import Logger
 
 
-class Select(Command):
+class Select(CommandBase):
 
     command = "select"    
     description = "Select datas from the database"

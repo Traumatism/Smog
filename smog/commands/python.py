@@ -1,9 +1,9 @@
 from os import system
 
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 from smog.logger import Logger
 
-class Python(Command):
+class Python(CommandBase):
 
     command = "python"
     aliases = ["py"]

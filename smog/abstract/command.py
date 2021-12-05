@@ -8,7 +8,7 @@ from smog.utils.arguments import ArgumentParser, Namespace
 from typing import List
 
 
-class Command(ABC):
+class CommandBase(ABC):
     """ Abstract class for commands """
 
     command = ""

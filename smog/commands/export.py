@@ -1,9 +1,9 @@
 import json
 
-from smog.abstract.command import Command
+from smog.abstract.command import CommandBase
 
 
-class Export(Command):
+class Export(CommandBase):
     
     command = "export"
     aliases = ["save"]
