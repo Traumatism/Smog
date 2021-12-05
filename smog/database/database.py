@@ -6,7 +6,6 @@ from smog.abstract.type import Type as DatabaseType
 from smog.logger.logger import Logger
 from smog.database.types import Domain, IPAddress, Subdomain, URL
 
-
 DatabaseDict = Dict[Type[DatabaseType], Dict[int, DatabaseType]]
 
 class Database:

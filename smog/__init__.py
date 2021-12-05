@@ -13,3 +13,4 @@ MODULES = {
 }
 
 from smog.shell import shell
+
