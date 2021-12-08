@@ -12,21 +12,17 @@ class Select(CommandBase):
     command = "select"    
     description = "Select datas from the database"
 
-    _arguments = {table.full_name for table in database.tables}
-
     def init_arguments(self):
         self.parser.add_argument(
-            "table", 
-            help="Table name.",
-            metavar="<table name>"
+            "table", help="Table name.", choices={table.full_name for table in database.tables}
         )
 
     def execute(self):
         data = self.database.select_data(self.arguments.table)
-        
+
         if data is False:
             return Logger.warn("Table does not exist.")
-        
+
         if data is []:
             return Logger.warn("Table is empty.")
 

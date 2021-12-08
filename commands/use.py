@@ -8,10 +8,10 @@ class Use(CommandBase):
     command = "use"
     description = "Select a module to use"
 
-    _arguments = {module.name for module in MODULES}
-
     def init_arguments(self):
-        self.parser.add_argument("module", help="Module name.")
+        self.parser.add_argument(
+            "module", help="Module name.", choices={module.name for module in MODULES}
+        )
 
     def execute(self):
 

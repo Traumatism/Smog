@@ -24,7 +24,6 @@ _Shell bis -> Pwncat, github.com/calebstewart/pwncat/_
 class Credits(CommandBase):
 
     command = "credits"
-
     description = "Show credits"
 
     def execute(self):

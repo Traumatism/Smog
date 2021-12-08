@@ -5,9 +5,7 @@ class Run(CommandBase):
 
     command = "run"
     description = "Run the selected module"
-    aliases = ["execute", "start"]
-
-    _arguments = {"-t", "--threads", "-d", "--debug-threads"}
+    aliases = ("execute", "start")
 
     def init_arguments(self):
         self.parser.add_argument("-t", "--threads", type=int, default=5, help="Number of threads to run.", metavar="<value>")

@@ -1,6 +1,4 @@
 """ Shell module for Smog """
-
-import pkgutil
 import time
 import re
 
@@ -17,30 +15,13 @@ from pygments import token
 from pygments.styles.monokai import MonokaiStyle
 from pygments.lexer import RegexLexer
 
-from typing import Dict, Union, Type, List, Set
+from typing import Any, Dict, Optional, Union, Type, List, Set
 
 from smog import MODULES, COMMANDS, database
 from smog.logger import Logger, console
 from smog.abstract.module import Module
 from smog.abstract.command import CommandBase
 from smog.utils.shell import parse_user_input, rich_to_ansi
-
-
-class CommandLexer(RegexLexer):
-    
-    tokens = {}
-
-    @classmethod
-    def make(cls, commands = COMMANDS):
-        root = [
-            ("^" + re.escape(command.command) + "( |$)", token.Name.Function)
-            for command in commands
-        ]
-
-
-        cls.tokens["root"] = root
-
-        return cls
 
 
 class Shell:
@@ -85,6 +66,11 @@ class Shell:
 
             for action_x in command.parser._action_groups:
                 for action_y in action_x._group_actions:
+
+                    if action_y.choices is not None:
+                        for k in action_y.choices:
+                            json_data[command.command][k] = None
+
                     for action_z in action_y.option_strings:
                         json_data[command.command][action_z] = None
 
@@ -101,7 +87,7 @@ class Shell:
             bottom_toolbar=self.get_status_bar,
             wrap_lines=False,
             history=InMemoryHistory([command.command for command in self.commands]),
-            lexer=PygmentsLexer(CommandLexer.make()),
+            #lexer=PygmentsLexer(CommandLexer.make(json_data)),
             style=style_from_pygments_cls(MonokaiStyle)
         )
 

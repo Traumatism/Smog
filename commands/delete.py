@@ -6,10 +6,8 @@ from smog import database
 class Delete(CommandBase):
 
     command = "delete"
-    aliases = ["del", "remove"]
+    aliases = ("del", "remove")
     description = "Remove data from a table."
-
-    _arguments = {table.name for table in database.tables}
 
     def init_arguments(self):
         self.parser.add_argument("table", help="Table to add data to.", choices={table.name for table in database.tables})

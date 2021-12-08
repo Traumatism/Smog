@@ -9,10 +9,8 @@ class Add(CommandBase):
     aliases = ["insert"]
     description = "Insert data into the database"
 
-    _arguments = {table.name for table in database.tables}
-
     def init_arguments(self):
-        self.parser.add_argument("table", help="Table to add data to.")
+        self.parser.add_argument("table", help="Table to add data to.", choices={table.name for table in database.tables})
         self.parser.add_argument("data", help="Data to add.")
 
     def execute(self):
