@@ -90,10 +90,8 @@ class Shell:
         self.prompt_session = PromptSession(
             completer=self.completer, 
             complete_while_typing=False, 
-            bottom_toolbar=self.get_status_bar,
             wrap_lines=False,
             history=InMemoryHistory([command.command for command in self.commands]),
-            #lexer=PygmentsLexer(CommandLexer.make(json_data)),
             style=style_from_pygments_cls(MonokaiStyle)
         )
 
@@ -110,13 +108,6 @@ class Shell:
             ) + (f" via [bold cyan]{self.selected_module.name}[/bold cyan]" if self.selected_module is not None else ""
             ) + (f" took [bold cyan]{self.execution_time}s[/bold cyan]" if self.execution_time >= 2 else ""
             ) + " > "
-        )
-
-    def get_status_bar(self) -> ANSI:
-        """ Get status bar """
-        return rich_to_ansi(
-            f"[green]Module: {self.selected_module.name}[/green]"
-            if self.selected_module is not None else "[red]No module selected[/red]"
         )
 
     def run_command(self, command, arguments: List[str] = []):
