@@ -6,12 +6,12 @@ from os import system
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.history import InMemoryHistory
-from prompt_toolkit.formatted_text.ansi import ANSI
 from prompt_toolkit.completion import NestedCompleter
 
 from typing import Dict, Union, Type, List, Set
 
 from smog import MODULES, COMMANDS, database
+
 from smog.logger import Logger, console
 from smog.abstract.module import Module
 from smog.abstract.command import CommandBase

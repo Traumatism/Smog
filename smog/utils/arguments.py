@@ -17,6 +17,7 @@ class Highlighter(RegexHighlighter):
         r"(?P<argument>[\-]+[a-z]+)",
     ]
 
+
 theme = Theme(
     {"arguments.metavar": "bold magenta", "arguments.argument": "bold green"}
 )
