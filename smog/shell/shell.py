@@ -107,7 +107,7 @@ class Shell:
         """ Get shell prompt """
         return rich_to_ansi(
             ("\n[bold cyan]smog[/bold cyan]"
-            ) + (f" via [bold cyan]{self.selected_module.name}({self.selected_module.version})[/bold cyan]" if self.selected_module is not None else ""
+            ) + (f" via [bold cyan]{self.selected_module.name}[/bold cyan]" if self.selected_module is not None else ""
             ) + (f" took [bold cyan]{self.execution_time}s[/bold cyan]" if self.execution_time >= 2 else ""
             ) + " > "
         )

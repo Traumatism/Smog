@@ -15,19 +15,19 @@ class Logger:
     @classmethod
     def info(cls, message: str):
         """ Log an info message """
-        cls.__log(message, "[bold cyan]*[/bold cyan]")
+        cls.__log(message, "[bold cyan]info[/bold cyan]")
 
     @classmethod
     def warn(cls, message: str):
         """ Log a warning message """
-        cls.__log(message, "[bold yellow]^[/bold yellow]")
+        cls.__log(message, "[bold yellow]warn[/bold yellow]")
 
     @classmethod
     def error(cls, message: str):
         """ Log an error message """
-        cls.__log(message, "[bold red]-[/bold red]")
+        cls.__log(message, "[bold red]fail[/bold red]")
 
     @classmethod
     def success(cls, message: str):
         """ Log a success message """
-        cls.__log(message, "[bold green]+[/bold green]")
+        cls.__log(message, "[bold green]okay[/bold green]")
