@@ -67,13 +67,19 @@ class Shell:
             for action_x in command.parser._action_groups:
                 for action_y in action_x._group_actions:
 
+                    # add from choices
                     if action_y.choices is not None:
                         for k in action_y.choices:
                             json_data[command.command][k] = None
 
+                    # add from options
                     for action_z in action_y.option_strings:
+                        if action_z.startswith("-") is False: # positional arguments
+                            continue
+
                         json_data[command.command][action_z] = None
 
+            # add from developer-provided arguments
             for argument in command._arguments:
                 if argument not in json_data[command.command].keys():
                     json_data[command.command][argument] = None
