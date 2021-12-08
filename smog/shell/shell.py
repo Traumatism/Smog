@@ -5,17 +5,11 @@ import re
 from os import system
 
 from prompt_toolkit import PromptSession
-from prompt_toolkit.lexers import PygmentsLexer
 from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.formatted_text.ansi import ANSI
 from prompt_toolkit.completion import NestedCompleter
-from prompt_toolkit.styles.pygments import style_from_pygments_cls
 
-from pygments import token
-from pygments.styles.monokai import MonokaiStyle
-from pygments.lexer import RegexLexer
-
-from typing import Any, Dict, Optional, Union, Type, List, Set
+from typing import Dict, Union, Type, List, Set
 
 from smog import MODULES, COMMANDS, database
 from smog.logger import Logger, console
@@ -92,7 +86,6 @@ class Shell:
             complete_while_typing=False, 
             wrap_lines=False,
             history=InMemoryHistory([command.command for command in self.commands]),
-            style=style_from_pygments_cls(MonokaiStyle)
         )
 
     @property
