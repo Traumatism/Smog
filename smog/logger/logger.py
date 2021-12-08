@@ -1,4 +1,4 @@
-""" Logger module for Smog. """
+""" Logger module for Smog """
 from rich.console import Console
 
 console = Console()
@@ -10,7 +10,7 @@ class Logger:
     @classmethod
     def __log(cls, message: str, prefix: str):
         """ Log a message to the console """
-        console.print(f"[bold white][{prefix}][/bold white] {message}")
+        console.print(f"[bold bright_black][{prefix}][/bold bright_black] {message}")
 
     @classmethod
     def info(cls, message: str):
