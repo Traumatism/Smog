@@ -32,15 +32,9 @@ class Database:
 
     def __init__(self) -> None:
 
-        self.__database: DatabaseDict = {
-            IPAddress: {},
-            Domain: {},
-            Subdomain: {},
-            URL: {},
-            Email: {},
-            Credentials: {},
-            Phone: {}
-        }
+        self.__tables = (IPAddress, Domain, Subdomain, URL, Email, Phone, Credentials)
+
+        self.__database: DatabaseDict = {table: {} for table in self.__tables}
 
         self.saved = False
         self.last_sum_saved = self.md5sum
