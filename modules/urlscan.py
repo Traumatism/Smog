@@ -1,6 +1,7 @@
-import httpx
+import requests
 
 from smog.abstract.module import ModuleBase
+from smog.database.types.url import URL
 
 
 class UrlScan(ModuleBase):
@@ -10,17 +11,26 @@ class UrlScan(ModuleBase):
     author = "toastakerman"
     keywords = ["urlscan", "url", "scan", "http", "https", "ip", "subdomain"]
 
-    def subaction(self, target):
-        with httpx.Client() as client:
-            try:
-                client.get("http://%s/" % target)
-                print("ok: %s" % target)
-            except:
-                print("not ok: %s" % target)
+    def subaction(self, target, scheme):
+        try:
+            response = requests.get("%s://%s/" % (target, scheme), verify=False, timeout=5)
+            self.database.insert_data(URL(response.url))
+        except:
+            pass
 
 
     def execute(self):
-        targets = self.database.select_data("subdomains") or []
+        targets = self.database.select_data("subdomains")
 
-        for target in targets:
-            self.respect_threads_run(args=(target,))
+        if targets:
+            for _, target in targets.items():
+                for scheme in ("http", "https"):
+                    self.respect_threads_run(args=(target.value, scheme))
+
+        targets = self.database.select_data("ip_addrs") or {}
+
+        if targets:
+            for _, target in targets.items():
+                self.respect_threads_run(args=(target.value,))
+
+        self.wait_for_finish()
