@@ -1,9 +1,9 @@
 import requests
 
-from smog.abstract.module import Module
+from smog.abstract.module import ModuleBase
 from smog.database.types.subdomain import Subdomain
 
-class CRT(Module):
+class CRT(ModuleBase):
 
     name = "crtsh"
     version = "0.0.1"

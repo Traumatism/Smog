@@ -6,7 +6,7 @@ from smog.database.database import Database
 from smog.logger.logger import Logger
 
 
-class Module(ABC):
+class ModuleBase(ABC):
     """" Abstract class for modules """
 
     name = ""

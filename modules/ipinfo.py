@@ -1,12 +1,12 @@
 import json
 import requests
 
-from smog.abstract.module import Module
+from smog.abstract.module import ModuleBase
 
 from smog.database.types.ip_address import IPAddress
 
 
-class IPInfo(Module):
+class IPInfo(ModuleBase):
 
     name = "ipinfo"
     version = "0.0.1"

@@ -1,4 +1,4 @@
-__version__ = '1.0.0b'
+__version__ = '1.1.0'
 
 from smog.database import database
 
@@ -7,9 +7,10 @@ from modules.test import Test
 from modules.resolve import Resolve
 from modules.hackertarget import HackerTarget
 from modules.ipinfo import IPInfo
+from modules.urlscan import UrlScan
 
 MODULES = {
-    CRT, Test, Resolve, HackerTarget, IPInfo
+    CRT, Test, Resolve, HackerTarget, IPInfo, UrlScan
 }
 
 from commands.credits import Credits

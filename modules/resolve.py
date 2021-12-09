@@ -1,10 +1,10 @@
 import dns.resolver
 
-from smog.abstract.module import Module
+from smog.abstract.module import ModuleBase
 from smog.database.types.ip_address import IPAddress
 from smog.database.types.subdomain import Subdomain
 
-class Resolve(Module):
+class Resolve(ModuleBase):
 
     name = "resolve"
     version = "0.0.1"

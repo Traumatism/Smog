@@ -1,17 +1,22 @@
+
 """ Database module for Smog """
 import hashlib
 import pickle
 import base64
 import sys
 
-from typing import Dict, List, Literal, Union, Tuple, Type, Generator
-from smog import database
+from typing import Dict, List, Literal, Union, Tuple
+from typing import Type as _Type
 
-from smog.abstract.type import Type as DatabaseType
+from smog.abstract.type import Type
 from smog.logger.logger import Logger
 from smog.database.types import Domain, IPAddress, Subdomain, URL, Email, Phone, Credentials
 
-DatabaseDict = Dict[Type[DatabaseType], Dict[int, DatabaseType]]
+from smog.abstract.type import Type
+
+DatabaseType = _Type[Type]
+DatabaseDict = Dict[DatabaseType, Dict[int, Type]]
+
 
 class Database:
     """ Primitive database class for Smog """
@@ -45,9 +50,12 @@ class Database:
 
     def export_db(self, file):
         """ Export database to a file """
+
+        file += ".smog" if not file.endswith(".smog") else ""
+
         with open(file, "wb") as output:
             data = pickle.dump(self.__database, output)
-            sel
+            output.write(data or b"")
 
         Logger.success(f"Database exported to '{file}'")
 
@@ -59,12 +67,12 @@ class Database:
         Logger.success(f"Database imported from '{file}'")
 
     @property
-    def tables(self) -> List[Type[DatabaseType]]:
+    def tables(self) -> List[DatabaseType]:
         """ Get the list of tables """
         return list(self.__database.keys())
 
     @property
-    def stats(self) -> List[Tuple[Type[DatabaseType], Union[float, int], int]]:
+    def stats(self) -> List[Tuple[DatabaseType, Union[float, int], int]]:
         """ Get database stats """
         total = sum(len(i) for i in self.__database.values())
 
@@ -73,7 +81,7 @@ class Database:
             for i in self.__database.keys()
         ]
 
-    def get_table_by_str(self, table: str) -> Union[Literal[False], Type[DatabaseType]]:
+    def get_table_by_str(self, table: str) -> Union[Literal[False], DatabaseType]:
         """ Get table object with full name """
         for _table in self.tables:
             if table in (_table.full_name, _table.name):
@@ -114,7 +122,7 @@ class Database:
                     return _id
         return False
 
-    def select_data(self, table: str, _id: int = None) -> Union[Literal[False], Dict[int, DatabaseType]]:
+    def select_data(self, table: str, _id: int = None) -> Union[Literal[False], Dict[int, Type]]:
         """ Select data from a table """
         _table = self.get_table_by_str(table)
        

@@ -2,9 +2,9 @@
 import time
 
 from smog.logger import Logger
-from smog.abstract.module import Module
+from smog.abstract.module import ModuleBase
 
-class Test(Module):
+class Test(ModuleBase):
 
     name = "test"
     version = "0.0.1"

@@ -1,11 +1,11 @@
 import requests
 
-from smog.abstract.module import Module
+from smog.abstract.module import ModuleBase
 
 from smog.database.types.subdomain import Subdomain
 from smog.database.types.ip_address import IPAddress
 
-class HackerTarget(Module):
+class HackerTarget(ModuleBase):
 
     name = "hackertarget"
     version = "0.0.1"

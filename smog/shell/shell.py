@@ -1,6 +1,5 @@
 """ Shell module for Smog """
 import time
-import re
 
 from os import system
 
@@ -8,39 +7,38 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.completion import NestedCompleter
 
-from typing import Dict, Union, Type, List, Set
+from typing import Dict, Union, List, Set
 
 from smog import MODULES, COMMANDS, database
 
 from smog.logger import Logger, console
-from smog.abstract.module import Module
-from smog.abstract.command import CommandBase
+from smog.abstract.module import ModuleBase
 from smog.utils.shell import parse_user_input, rich_to_ansi
-
+from smog.types import  ModuleType, CommandType
 
 class Shell:
     """ Shell class for Smog """
 
     def __init__(self):
 
-        self.selected_module: Union[Module, None] = None
+        self.selected_module: Union[ModuleBase, None] = None
 
         self.workspace = None
 
         # list containing module objects
-        self.modules: Set[Type[Module]] = MODULES
-        
+        self.modules: Set[ModuleType] = MODULES
+
         # list containing commands objets
-        self.commands: Set[Type[CommandBase]] = COMMANDS
+        self.commands: Set[CommandType] = COMMANDS
 
         # dictionnary to convert string to module object
-        self.modules_map: Dict[str, Type[Module]] = {}
+        self.modules_map: Dict[str, ModuleType] = {}
 
         for module in self.modules:
             self.modules_map[module.name.lower()] = module
 
         # dictionnary to convert string to command object
-        self.commands_map: Dict[str, Type[CommandBase]] = {}
+        self.commands_map: Dict[str, CommandType] = {}
 
         for command in self.commands:
             self.commands_map[command.command.lower()] = command
@@ -52,14 +50,13 @@ class Shell:
         json_data = {}
 
         for command in self.commands_map.values():
-            json_data[command.command] = {}
-
             command = command([], self, console, database)
 
             command.init_arguments()
 
-            for argument in command.parser.completions:
-                json_data[command.command][argument] = None
+            json_data[command.command] = {
+                argument: None for argument in command.parser.completions
+            }
 
             # add from developer-provided arguments
             for argument in command._arguments:

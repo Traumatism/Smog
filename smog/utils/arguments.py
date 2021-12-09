@@ -1,11 +1,14 @@
 """ Argumeents utils for Smog """
 
-from argparse import ArgumentParser, HelpFormatter, Namespace
-from typing import Dict, List
+from argparse import ArgumentParser, HelpFormatter, Namespace, _HelpAction
+from types import FunctionType
 
+from typing import List
+
+from rich.highlighter import RegexHighlighter
 from rich.console import Console
 from rich.theme import Theme
-from rich.highlighter import RegexHighlighter
+from rich.panel import Panel
 
 
 class Highlighter(RegexHighlighter):
@@ -41,10 +44,7 @@ class HelpFormatter(HelpFormatter):
         result = action.metavar or ('/'.join(str(choice) for choice in action.choices) if action.choices else default_metavar)
 
         def format(tuple_size):
-            if isinstance(result, tuple):
-                return result
-            else:
-                return (result, ) * tuple_size
+            return result if isinstance(result, tuple) else (result,) * tuple_size
 
         return format
 
@@ -68,14 +68,20 @@ class ArgumentParser(ArgumentParser):
 
     def _get_formatter(self):
         """ Return formatter """
-        return HelpFormatter(prog="", indent_increment=4, width=console.width, max_help_position=console.width)
+        return HelpFormatter(
+            prog="",
+            indent_increment=4,
+            width=console.width,
+            max_help_position=console.width
+        )
 
     def format_help(self):
         formatter = self._get_formatter()
 
-        formatter.add_text(f"[cyan]{self.description}[/cyan]")
-
         for action_group in self._action_groups:
+            if isinstance(action_group._group_actions[0], _HelpAction) and len(action_group._group_actions) == 1:
+                continue
+
             formatter.start_section(action_group.title)
             formatter.add_text(action_group.description)
             formatter.add_arguments(action_group._group_actions)
@@ -85,7 +91,8 @@ class ArgumentParser(ArgumentParser):
 
     def print_help(self):
         """ Display the help """
-        return console.print(self.format_help(), highlight=True)
+        console.print(Panel.fit("[bold magenta]%s[/bold magenta]"%str(self.description)))
+        console.print(self.format_help(), highlight=True)
 
     def error(self, message):
         """ Raise error message """
