@@ -10,7 +10,16 @@ from typing import Type as _Type
 
 from smog.abstract.type import Type
 from smog.logger.logger import Logger
-from smog.database.types import Domain, IPAddress, Subdomain, URL, Email, Phone, Credentials
+
+from smog.database.types import (
+    Domain,
+    IPAddress,
+    Subdomain,
+    URL,
+    Email,
+    Phone,
+    Credentials
+)
 
 from smog.abstract.type import Type
 
@@ -74,10 +83,8 @@ class Database:
     @property
     def stats(self) -> List[Tuple[DatabaseType, Union[float, int], int]]:
         """ Get database stats """
-        total = sum(len(i) for i in self.__database.values())
-
         return [
-            (i, round(len(self.__database[i]) / total * 100), len(self.__database[i])) 
+            (i, round(len(self.__database[i]) / sum(len(i) for i in self.__database.values()) * 100), len(self.__database[i]))
             for i in self.__database.keys()
         ]
 
