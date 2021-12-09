@@ -1,5 +1,3 @@
-import os
-
 from smog.abstract.command import CommandBase
 from smog.logger.logger import Logger
 

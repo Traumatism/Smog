@@ -15,6 +15,7 @@ class UrlScan(ModuleBase):
     def subaction(self, target, scheme):
         try:
             response = requests.get("%s://%s/" % (target, scheme), verify=False, timeout=5)
+
             self.database.insert_data(URL(response.url))
         except:
             pass

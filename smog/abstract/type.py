@@ -14,6 +14,7 @@ class Type(ABC):
         self.value = value
 
     def export(self) -> Tuple[Any, Dict]:
+        """ Export the data to a tuple """
         return (self.value, self.sub_data)
 
     @abstractmethod

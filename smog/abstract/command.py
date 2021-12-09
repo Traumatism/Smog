@@ -1,6 +1,8 @@
 """ Module containing abstract commad class """
 from typing import List
+
 from rich.console import Console
+
 from abc import ABC, abstractmethod
 
 from smog.database.database import Database
@@ -18,7 +20,7 @@ class CommandBase(ABC):
     def __init__(
         self,
         raw_arguments: List[str],
-        shell: ...,
+        shell,
         console: Console,
         database: Database
     ):
@@ -27,7 +29,11 @@ class CommandBase(ABC):
         self.database = database
         self.raw_arguments = raw_arguments
 
-        self.parser = ArgumentParser(description=self.description, usage=self.command + " <options>")
+        self.parser = ArgumentParser(
+            description=self.description,
+            usage=self.command + " <options>"
+        )
+
         self.arguments = Namespace()
 
     def init_arguments(self):
