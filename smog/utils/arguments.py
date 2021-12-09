@@ -1,7 +1,6 @@
 """ Argumeents utils for Smog """
 
 from argparse import ArgumentParser, HelpFormatter, Namespace, _HelpAction
-from types import FunctionType
 
 from typing import List
 
@@ -41,7 +40,7 @@ class HelpFormatter(HelpFormatter):
     """ Custom help formatter """
 
     def _metavar_formatter(self, action, default_metavar):
-        result = action.metavar or ('/'.join(str(choice) for choice in action.choices) if action.choices else default_metavar)
+        result = action.metavar or ("/".join(str(choice) for choice in action.choices) if action.choices else default_metavar)
 
         def format(tuple_size):
             return result if isinstance(result, tuple) else (result,) * tuple_size
@@ -91,7 +90,7 @@ class ArgumentParser(ArgumentParser):
 
     def print_help(self):
         """ Display the help """
-        console.print(Panel.fit("[bold magenta]%s[/bold magenta]"%str(self.description)))
+        console.print(Panel.fit(f"[bold magenta]{self.description}[/bold magenta]"))
         console.print(self.format_help(), highlight=True)
 
     def error(self, message):

@@ -5,11 +5,12 @@ from smog.database.types.url import URL
 
 
 class UrlScan(ModuleBase):
-    
+
     name = "urlscan"
     description = "Scan subdomains/IP addresses for HTTP(s) protocols"
     author = "toastakerman"
-    keywords = ["urlscan", "url", "scan", "http", "https", "ip", "subdomain"]
+
+    keywords = ["urlscan", "url", "scan", "http", "https", "subdomain"]
 
     def subaction(self, target, scheme):
         try:
