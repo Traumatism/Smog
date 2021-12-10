@@ -12,7 +12,7 @@ disable_warnings()
 
 class UrlScan(ModuleBase):
 
-    name = "url-scan"
+    name = "urlscan"
     description = "Scan subdomains/IP addresses for HTTP(s) protocols"
     author = "toastakerman"
 
