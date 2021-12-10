@@ -15,7 +15,9 @@ class ModuleBase(ABC):
     description = ""
     keywords = []
 
-    def __init__(self, database: Database, threads: int, debug_threads: bool) -> None:
+    def __init__(
+        self, database: Database, threads: int, debug_threads: bool
+    ):
         self.database, self.debug_threads, self.threads = database, debug_threads, threads
 
         self.__i = 0

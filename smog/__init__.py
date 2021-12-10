@@ -36,3 +36,5 @@ COMMANDS = {
 }
 
 from smog.shell import shell
+
+

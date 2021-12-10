@@ -2,8 +2,6 @@
 """ Database module for Smog """
 import hashlib
 import pickle
-import base64
-import sys
 
 from typing import Dict, List, Literal, Union, Tuple
 from typing import Type as _Type
@@ -18,7 +16,8 @@ from smog.database.types import (
     URL,
     Email,
     Phone,
-    Credentials
+    Credentials,
+    Social
 )
 
 from smog.abstract.type import Type
@@ -32,13 +31,12 @@ class Database:
 
     def __init__(self) -> None:
 
-        self.__tables = (IPAddress, Domain, Subdomain, URL, Email, Phone, Credentials)
+        self.__tables = (IPAddress, Domain, Subdomain, URL, Email, Phone, Credentials, Social)
 
         self.__database: DatabaseDict = {table: {} for table in self.__tables}
 
         self.saved = False
         self.last_sum_saved = self.md5sum
-        
 
     @property
     def md5sum(self) -> str:
@@ -51,7 +49,7 @@ class Database:
         print(len(self.__database.values()))
         return bool(len(self.__database.values()))
 
-    def export_db(self, file):
+    def export_db(self, file: str):
         """ Export database to a file """
 
         file += ".smog" if not file.endswith(".smog") else ""
@@ -62,7 +60,7 @@ class Database:
 
         Logger.success(f"Database exported to '{file}'")
 
-    def import_db(self, file):
+    def import_db(self, file: str):
         """ Import database """
         with open(file, "rb") as input:
             self.__database = pickle.Unpickler(input).load()
@@ -123,7 +121,9 @@ class Database:
                     return _id
         return False
 
-    def select_data(self, table: str, _id: int = None) -> Union[Literal[False], Dict[int, Type]]:
+    def select_data(
+        self, table: str, _id: int = None
+    ) -> Union[Literal[False], Dict[int, Type]]:
         """ Select data from a table """
         _table = self.get_table_by_str(table)
        

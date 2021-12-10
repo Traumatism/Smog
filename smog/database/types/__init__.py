@@ -5,3 +5,4 @@ from .email import Email
 from .phone import Phone
 from .credentials import Credentials
 from .url import URL
+from .social import Social

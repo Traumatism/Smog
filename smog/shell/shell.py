@@ -16,6 +16,7 @@ from smog.abstract.module import ModuleBase
 from smog.utils.shell import parse_user_input, rich_to_ansi
 from smog.types import  ModuleType, CommandType
 
+
 class Shell:
     """ Shell class for Smog """
 

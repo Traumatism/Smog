@@ -3,6 +3,10 @@ import requests
 from smog.abstract.module import ModuleBase
 from smog.database.types.url import URL
 
+from requests.packages.urllib3 import disable_warnings
+
+disable_warnings()
+
 
 class UrlScan(ModuleBase):
 
@@ -14,10 +18,9 @@ class UrlScan(ModuleBase):
 
     def subaction(self, target, scheme):
         try:
-            response = requests.get("%s://%s/" % (target, scheme), verify=False, timeout=5)
-
+            response = requests.get("%s://%s/" % (scheme, target), verify=False, timeout=5)
             self.database.insert_data(URL(response.url))
-        except:
+        except Exception as e:
             pass
 
 
@@ -33,6 +36,7 @@ class UrlScan(ModuleBase):
 
         if targets:
             for _, target in targets.items():
-                self.respect_threads_run(args=(target.value,))
+                for scheme in ("http", "https"):
+                    self.respect_threads_run(args=(target.value, scheme))
 
         self.wait_for_finish()
