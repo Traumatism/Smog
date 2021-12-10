@@ -1,6 +1,8 @@
 from rich.table import Table
 from rich.box import SIMPLE
 
+from smog import VARIABLES
+
 from smog.logger import Logger
 from smog.abstract.command import CommandBase
 
@@ -12,7 +14,7 @@ class Show(CommandBase):
 
     def init_arguments(self):
         self.parser.add_argument(
-            "type", help="Data to show", choices=("stats", "modules", "tables")
+            "type", help="Data to show", choices=("stats", "modules", "tables", "variables")
         )
 
     def execute(self):
@@ -39,6 +41,14 @@ class Show(CommandBase):
 
             for module in self.shell.modules:
                 table.add_row(module.name, module.version, module.description, module.author)
+
+        if self.arguments.type == "variables":
+
+            table.add_column("Variable", style="bold green")
+            table.add_column("Value", style="bold cyan")
+
+            for v, _v in VARIABLES.items():
+                table.add_row(v, _v[0])
 
         if self.arguments.type == "tables":
 
