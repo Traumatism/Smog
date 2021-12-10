@@ -23,8 +23,6 @@ class Shell:
 
         self.selected_module: Union[ModuleBase, None] = None
 
-        self.workspace = None
-
         # list containing module objects
         self.modules: Set[ModuleType] = MODULES
 
@@ -81,15 +79,15 @@ class Shell:
     @property
     def prompt(self):
         """ Get shell prompt """
-        prompt = "[bold cyan]smog[/bold cyan] "
+        prompt = "[bold cyan]smog[/bold cyan]"
 
         if self.selected_module is not None:
-            prompt += f"via [bold cyan]{self.selected_module.name}[/bold cyan]"
+            prompt += f" via [bold cyan]{self.selected_module.name}[/bold cyan]"
 
         if self.execution_time >= 2:
             prompt += f" took [bold cyan]{self.execution_time}s[/bold cyan]"
 
-        prompt += "> "
+        prompt += " : "
 
         return rich_to_ansi(prompt)
 

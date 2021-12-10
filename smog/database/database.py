@@ -142,7 +142,7 @@ class Database:
 
         # data validation
         if data.validate() is False:
-            return Logger.warn("Can't validate the data.")
+            return Logger.warn(f"Can't validate the data: '{data.value}'.")
 
         table = self.get_table_by_str(data.full_name)
 

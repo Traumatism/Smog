@@ -27,10 +27,7 @@ class HackerTarget(ModuleBase):
             self.database.insert_data(IPAddress(parts[1]))
 
     def execute(self):
-        targets = self.database.select_data("domains")
-
-        if targets is False:
-            return
+        targets = self.database.select_data("domains") or {}
 
         for _, target in targets.items():
             self.respect_threads_run((target.value,))

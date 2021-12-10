@@ -5,12 +5,14 @@ from smog.database.types.url import URL
 
 from requests.packages.urllib3 import disable_warnings
 
+from smog.logger.logger import Logger
+
 disable_warnings()
 
 
 class UrlScan(ModuleBase):
 
-    name = "urlscan"
+    name = "url-scan"
     description = "Scan subdomains/IP addresses for HTTP(s) protocols"
     author = "toastakerman"
 
@@ -20,23 +22,20 @@ class UrlScan(ModuleBase):
         try:
             response = requests.get("%s://%s/" % (scheme, target), verify=False, timeout=5)
             self.database.insert_data(URL(response.url))
-        except Exception as e:
+        except:
             pass
 
-
     def execute(self):
-        targets = self.database.select_data("subdomains")
+        targets = self.database.select_data("subdomains") or {}
 
-        if targets:
-            for _, target in targets.items():
-                for scheme in ("http", "https"):
-                    self.respect_threads_run(args=(target.value, scheme))
+        for _, target in targets.items():
+            for scheme in ("http", "https"):
+                self.respect_threads_run(args=(target.value, scheme))
 
         targets = self.database.select_data("ip_addrs") or {}
 
-        if targets:
-            for _, target in targets.items():
-                for scheme in ("http", "https"):
-                    self.respect_threads_run(args=(target.value, scheme))
+        for _, target in targets.items():
+            for scheme in ("http", "https"):
+                self.respect_threads_run(args=(target.value, scheme))
 
         self.wait_for_finish()

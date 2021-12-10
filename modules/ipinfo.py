@@ -30,10 +30,7 @@ class IPInfo(ModuleBase):
             pass
 
     def execute(self):
-        targets = self.database.select_data("ip_addrs")
-
-        if targets is False:
-            return
+        targets = self.database.select_data("ip_addrs") or {}
 
         for _, target in targets.items():
             self.respect_threads_run((target,))

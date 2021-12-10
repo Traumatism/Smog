@@ -29,10 +29,7 @@ class Resolve(ModuleBase):
             return
 
     def execute(self):
-        targets = self.database.select_data("subdomains")
-
-        if targets is False:
-            return
+        targets = self.database.select_data("subdomains") or {}
 
         for _, target in targets.items():
             self.respect_threads_run((target.value,))

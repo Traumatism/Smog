@@ -95,10 +95,8 @@ class PhpMyAdmin(ModuleBase):
                 self.database.insert_data(URL(response.url))
 
     def execute(self):
-        targets = self.database.select_data("urls")
-
-        if targets:
-            for target in targets:
-                self.respect_threads_run((target,))
+        targets = self.database.select_data("urls") or {}
+        for _, target in targets.items():
+            self.respect_threads_run((target,))
 
         self.wait_for_finish()
