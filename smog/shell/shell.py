@@ -1,5 +1,7 @@
 import time
 
+from string import ascii_lowercase
+
 from os import system
 
 from prompt_toolkit import PromptSession
@@ -120,6 +122,12 @@ class Shell:
 
     def run(self):
         """ Run the shell """
+
+        for module in MODULES:
+            for c in module.name:
+                if c not in ascii_lowercase:
+                    Logger.warn(f"Module '{module.name}' contains non-lowercase-letter characters, which is not recommended due to syntax highligting.")
+                    break
 
         self.handle_command_line("clear")
 

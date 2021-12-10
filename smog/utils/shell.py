@@ -1,3 +1,4 @@
+
 from smog.logger import console
 
 from rich.text import Text

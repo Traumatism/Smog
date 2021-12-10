@@ -6,6 +6,7 @@ VARIABLES = {
 __version__ = '1.1.0'
 
 from smog.database import database
+from smog.logger import Logger
 
 from modules.crtsh import CRT
 from modules.test import Test
