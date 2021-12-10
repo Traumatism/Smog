@@ -3,6 +3,7 @@ from smog.logger import Logger
 
 from smog import database
 
+
 class Delete(CommandBase):
 
     command = "delete"

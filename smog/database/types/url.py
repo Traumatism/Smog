@@ -11,4 +11,7 @@ class URL(Type):
     description = "URLs"
 
     def validate(self) -> bool:
-        return re.match(r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$", self.value) is not None
+        return re.match(
+            r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$",
+            self.value
+        ) is not None

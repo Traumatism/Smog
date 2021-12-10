@@ -21,8 +21,8 @@ class Help(CommandBase):
         table.add_column("Aliases", style="bold magenta")
 
         for command in self.shell.commands:
-            table.add_row(
-                command.command, command.description, ", ".join(command.aliases) if command.aliases else "-"
+            table.add_row(command.command, command.description, ", ".join(
+                command.aliases) if command.aliases else "-"
             )
 
         console.print(table)

@@ -1,3 +1,4 @@
+import re
 
 from smog.abstract.type import Type
 
@@ -10,4 +11,8 @@ class Email(Type):
     description = "Email addresses"
 
     def validate(self) -> bool:
-        return True
+        # regex to validate email
+        return re.match(
+            r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",
+            self.value
+        ) is not None

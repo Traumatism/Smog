@@ -9,9 +9,7 @@ class Type(ABC):
     full_name = ""
     description = ""
 
-    def __init__(
-        self, value: Any
-    ):
+    def __init__(self, value: Any):
         self.value = value
         self.sub_data = {}
 

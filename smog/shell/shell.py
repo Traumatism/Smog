@@ -6,7 +6,7 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.completion import NestedCompleter
 
-from typing import Dict, Union, List, Set
+from typing import Dict, Union,  Set
 
 from smog import MODULES, COMMANDS, database
 
@@ -67,8 +67,8 @@ class Shell:
 
         # setup prompt
         self.prompt_session = PromptSession(
-            completer=self.completer, 
-            complete_while_typing=False, 
+            completer=self.completer,
+            complete_while_typing=False,
             wrap_lines=False,
             history=InMemoryHistory([command.command for command in self.commands]),
         )
@@ -81,41 +81,43 @@ class Shell:
     @property
     def prompt(self):
         """ Get shell prompt """
-        return rich_to_ansi(
-            ("\n[bold cyan]smog[/bold cyan]"
-            ) + (f" via [bold cyan]{self.selected_module.name}[/bold cyan]" if self.selected_module is not None else ""
-            ) + (f" took [bold cyan]{self.execution_time}s[/bold cyan]" if self.execution_time >= 2 else ""
-            ) + " > "
-        )
+        prompt = "[bold cyan]Smog[/bold cyan] "
+
+        if self.selected_module is not None:
+            prompt += f"via [bold cyan]{self.selected_module.name}[/bold cyan] "
+
+        if self.execution_time >= 2:
+            prompt += f" took [bold cyan]{self.execution_time}s[/bold cyan]"
+
+        prompt += "> "
+
+        return rich_to_ansi(prompt)
 
     def handle_command_line(self, user_input: str):
         """ Handle user input """
         if bool(user_input) is False:
             return
 
-        # execute system commands
         if user_input.startswith("!"):
             system(user_input[1:])
             return
 
-        command, arguments = parse_user_input(user_input) # split user input into command and arguments
+        command, arguments = parse_user_input(user_input)
 
-        command_cls = self.commands_map.get(command, None) # get the command class
+        command_cls = self.commands_map.get(command, None)
 
         if command_cls is None:
             return Logger.error(f"Unknown command: '{command}'.")
 
-        # initialize the command
         command = command_cls(arguments, self, console, database)
         command.init_arguments()
 
-        # don't exit the shell if the user asked for the command help
         if "-h" in arguments or "--help" in arguments:
             return command.parser.print_help()
 
         try:
-            command.arguments = command.parser.parse_args(command.raw_arguments) # parse the arguments
-            command.execute() # run the command code
+            command.arguments = command.parser.parse_args(command.raw_arguments)
+            command.execute()
         except Exception as exc:
             return Logger.error(str(exc))
 

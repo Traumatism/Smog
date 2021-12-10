@@ -31,11 +31,9 @@ from commands.add import Add
 COMMANDS = {
     Help, Clear,
     Show, Use, Run,
-    Select, Add, Delete, 
+    Select, Add, Delete,
     Export, Load,
     Python, Credits, Quit
 }
 
 from smog.shell import shell
-
-

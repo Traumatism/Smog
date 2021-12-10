@@ -15,10 +15,10 @@ class ModuleBase(ABC):
     description = ""
     keywords = []
 
-    def __init__(
-        self, database: Database, threads: int, debug_threads: bool
-    ):
-        self.database, self.debug_threads, self.threads = database, debug_threads, threads
+    def __init__(self, database: Database, threads: int, debug_threads: bool):
+        self.database = database
+        self.threads = threads
+        self.debug_threads = debug_threads
 
         self.__i = 0
 
@@ -43,7 +43,7 @@ class ModuleBase(ABC):
                 self.__i += 1
                 return _threading.Thread(target=self._subaction, args=(self.__i, args)).start()
 
-    def wait_for_finish(self) :
+    def wait_for_finish(self):
         """ Wait for threads to finish """
         if self.debug_threads:
             Logger.info("Waiting for threads to finish...")

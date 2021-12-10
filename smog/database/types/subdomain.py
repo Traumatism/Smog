@@ -1,3 +1,5 @@
+import re
+
 from smog.abstract.type import Type
 
 
@@ -9,4 +11,7 @@ class Subdomain(Type):
     description = "Subdomains"
 
     def validate(self) -> bool:
-        return True
+        return re.match(
+            r"^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$",
+            self.value
+        ) is not None

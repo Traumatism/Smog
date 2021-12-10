@@ -1,4 +1,4 @@
-import ipaddress
+import re
 
 from smog.abstract.type import Type
 
@@ -11,8 +11,7 @@ class IPAddress(Type):
     description = "IP addresses"
 
     def validate(self) -> bool:
-        try:
-            ipaddress.IPv4Address(self.value)
-            return True
-        except:
-            return False
+        return re.match(
+            r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+            self.value
+        ) is not None

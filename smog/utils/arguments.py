@@ -38,7 +38,10 @@ class HelpFormatter(HelpFormatter):
     """ Custom help formatter """
 
     def _metavar_formatter(self, action, default_metavar):
-        result = action.metavar or ("/".join(str(choice) for choice in action.choices) if action.choices else default_metavar)
+        result = action.metavar or (
+            "/".join(str(choice) for choice in action.choices) 
+            if action.choices else default_metavar
+        )
 
         def format(tuple_size):
             return result if isinstance(result, tuple) else (result,) * tuple_size
@@ -58,7 +61,7 @@ class ArgumentParser(ArgumentParser):
                     for k in action_y.choices:
                         c.append(k)
                 for action_z in action_y.option_strings:
-                    if action_z.startswith("-") is False: # positional arguments
+                    if action_z.startswith("-") is False:  # positional arguments
                         continue
                     c.append(action_z)
         return c
@@ -76,7 +79,10 @@ class ArgumentParser(ArgumentParser):
         formatter = self._get_formatter()
 
         for action_group in self._action_groups:
-            if isinstance(action_group._group_actions[0], _HelpAction) and len(action_group._group_actions) == 1:
+            if (
+                isinstance(action_group._group_actions[0], _HelpAction) 
+                and len(action_group._group_actions) == 1
+            ):
                 continue
 
             formatter.start_section(action_group.title)
@@ -88,7 +94,10 @@ class ArgumentParser(ArgumentParser):
 
     def print_help(self):
         """ Display the help """
-        console.print(Panel.fit(f"[bold magenta]{self.description}[/bold magenta]"))
+        console.print(
+            Panel.fit(f"[bold magenta]{self.description}[/bold magenta]")
+        )
+
         console.print(self.format_help(), highlight=True)
 
     def error(self, message):

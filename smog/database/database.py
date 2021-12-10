@@ -1,9 +1,7 @@
-
-""" Database module for Smog """
 import hashlib
 import pickle
 
-from typing import Dict, List, Literal, Union, Tuple
+from typing import Dict, Iterable, List, Literal, Union, Tuple
 from typing import Type as _Type
 
 from smog.abstract.type import Type
@@ -40,7 +38,7 @@ class Database:
 
     @property
     def md5sum(self) -> str:
-        """ Return the database md5 sum """ 
+        """ Return the database md5 sum """
         return hashlib.md5(pickle.dumps(self.__database)).hexdigest()
 
     @property
@@ -73,12 +71,18 @@ class Database:
         return list(self.__database.keys())
 
     @property
-    def stats(self) -> List[Tuple[DatabaseType, Union[float, int], int]]:
+    def stats(self) -> Iterable[Tuple[DatabaseType, Union[float, int], int]]:
         """ Get database stats """
-        return [
-            (i, round(len(self.__database[i]) / sum(len(i) for i in self.__database.values()) * 100), len(self.__database[i]))
+        return (
+            (
+                i,
+                round(len(self.__database[i]) / sum(
+                    len(i) for i in self.__database.values()
+                ) * 100),
+                len(self.__database[i])
+            )
             for i in self.__database.keys()
-        ]
+        )
 
     def get_table_by_str(self, table: str) -> Union[Literal[False], DatabaseType]:
         """ Get table object with full name """
@@ -121,12 +125,10 @@ class Database:
                     return _id
         return False
 
-    def select_data(
-        self, table: str, _id: int = None
-    ) -> Union[Literal[False], Dict[int, Type]]:
+    def select_data(self, table: str, _id: int = None) -> Union[Literal[False], Dict[int, Type]]:
         """ Select data from a table """
         _table = self.get_table_by_str(table)
-       
+
         if _table is False:
             return False
 
