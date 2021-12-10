@@ -4,7 +4,7 @@ from smog.abstract.type import Type
 
 
 class Subdomain(Type):
-    """ Subdomain database type for Smog """
+    """ Subdomain database """
 
     name = "subdomain"
     full_name = "subdomains"

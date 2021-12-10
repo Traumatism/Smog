@@ -1,12 +1,23 @@
 from rich.console import Console
-
 from typing import Literal
+from smog import VARIABLES
 
 console = Console()
 
 
 class Logger:
     """ Logger class for Smog """
+
+    @classmethod
+    def reload(cls):
+        maps = {
+            "litteral": ("info", "okay", "warn", "fail"),
+            "symbols": ("*", "+", "!", "-"),
+            "emojis": ("ℹ️", "✅", "⚠️", "❌"),
+            "fruits": ("🫐", "🍏", "🍋", "🍎"),
+        }
+
+        cls.INFO, cls.SUCCESS, cls.WARNING, cls.ERROR = maps.get(VARIABLES["logging_type"][0], (" ",) * 4)
 
     @classmethod
     def __log(cls, message: str, prefix: str):
@@ -16,23 +27,27 @@ class Logger:
     @classmethod
     def info(cls, message: str) -> Literal[True]:
         """ Log an info message """
-        cls.__log(message, "[bold cyan]info[/bold cyan]")
+        cls.reload()
+        cls.__log(message, f"[bold cyan]{cls.INFO}[/bold cyan]")
         return True
 
     @classmethod
     def warn(cls, message: str) -> Literal[False]:
         """ Log a warning message """
-        cls.__log(message, "[bold yellow]warn[/bold yellow]")
+        cls.reload()
+        cls.__log(message, f"[bold yellow]{cls.WARNING}[/bold yellow]")
         return False
 
     @classmethod
     def error(cls, message: str) -> Literal[False]:
         """ Log an error message """
-        cls.__log(message, "[bold red]fail[/bold red]")
+        cls.reload()
+        cls.__log(message, f"[bold red]{cls.ERROR}[/bold red]")
         return False
 
     @classmethod
     def success(cls, message: str) -> Literal[True]:
         """ Log a success message """
-        cls.__log(message, "[bold green]okay[/bold green]")
+        cls.reload()
+        cls.__log(message, f"[bold green]{cls.SUCCESS}[/bold green]")
         return True

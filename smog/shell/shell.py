@@ -8,7 +8,7 @@ from prompt_toolkit.completion import NestedCompleter
 
 from typing import Dict, Union,  Set
 
-from smog import MODULES, COMMANDS, database
+from smog import MODULES, COMMANDS, VARIABLES, database
 
 from smog.logger import Logger, console
 from smog.abstract.module import ModuleBase
@@ -20,7 +20,6 @@ class Shell:
     """ Shell class for Smog """
 
     def __init__(self):
-
         self.selected_module: Union[ModuleBase, None] = None
 
         # list containing module objects
@@ -87,7 +86,7 @@ class Shell:
         if self.execution_time >= 2:
             prompt += f" took [bold cyan]{self.execution_time}s[/bold cyan]"
 
-        prompt += " : "
+        prompt += f" {VARIABLES['prompt_char'][0]} "
 
         return rich_to_ansi(prompt)
 

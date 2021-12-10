@@ -4,7 +4,7 @@ TYPES = ("instagram.com", "facebook.com", "github.com")
 
 
 class Social(Type):
-    """ Social type for Smog database """
+    """ Social type """
 
     name = "social"
     full_name = "socials"

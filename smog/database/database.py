@@ -44,7 +44,6 @@ class Database:
     @property
     def is_empty(self) -> bool:
         """ Is the database empty? """
-        print(len(self.__database.values()))
         return bool(len(self.__database.values()))
 
     def export_db(self, file: str):
@@ -53,15 +52,16 @@ class Database:
         file += ".smog" if not file.endswith(".smog") else ""
 
         with open(file, "wb") as output:
-            data = pickle.dump(self.__database, output)
+            data = pickle.dump(self.__database, output) # serialize the database
             output.write(data or b"")
 
+        self.last_sum_saved = self.md5sum
         Logger.success(f"Database exported to '{file}'")
 
     def import_db(self, file: str):
         """ Import database """
         with open(file, "rb") as input:
-            self.__database = pickle.Unpickler(input).load()
+            self.__database = pickle.Unpickler(input).load() # deserialize the database
 
         Logger.success(f"Database imported from '{file}'")
 
@@ -96,10 +96,10 @@ class Database:
         _table = self.get_table_by_str(table)
 
         if _table is False:
-            return Logger.warn("Can't find the table.")
+            return Logger.error("Can't find the table.")
 
         if _id not in self.__database[_table]:
-            return Logger.warn(f"Can't find the data for id {_id}.")
+            return Logger.error(f"Can't find the data for id {_id}.")
 
         self.__database[_table][_id].sub_data[key] = value
 
@@ -108,10 +108,10 @@ class Database:
         _table = self.get_table_by_str(table)
 
         if _table is False:
-            return Logger.warn("Can't find the table.")
+            return Logger.error("Can't find the table.")
 
         if _id not in self.__database[_table]:
-            return Logger.warn("Can't find the data.")
+            return Logger.error("Can't find the data.")
 
         del self.__database[_table][_id]
 
@@ -129,13 +129,10 @@ class Database:
         """ Select data from a table """
         _table = self.get_table_by_str(table)
 
-        if _table is False:
-            return False
-
-        if _id is not None:
-            return {_id: self.__database[_table][_id]}
-
-        return self.__database[_table]
+        return ({_id: self.__database[_table][_id]}
+                if _id is not None
+                else self.__database[_table]
+        ) if _table is not False else False
 
     def insert_data(self, data: Type):
         """ Insert data into the table """

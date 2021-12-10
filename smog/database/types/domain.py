@@ -4,7 +4,7 @@ from smog.abstract.type import Type
 
 
 class Domain(Type):
-    """ Domain database type for Smog """
+    """ Domain database type """
 
     name = "domain"
     full_name = "domains"

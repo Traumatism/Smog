@@ -4,7 +4,7 @@ from smog.abstract.type import Type
 
 
 class IPAddress(Type):
-    """ IP address type for Smog database """
+    """ IP address type """
 
     name = "ip_addr"
     full_name = "ip_addrs"

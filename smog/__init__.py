@@ -1,3 +1,8 @@
+VARIABLES = {
+    "prompt_char": (">", ("$", ">", "#")),
+    "logging_type": ("litteral", ("litteral", "symbols", "emojis", "fruits")),
+}
+
 __version__ = '1.1.0'
 
 from smog.database import database
@@ -27,12 +32,14 @@ from commands.quit import Quit
 from commands.use import Use
 from commands.run import Run
 from commands.add import Add
+from commands.set import Set
 
 COMMANDS = {
     Help, Clear,
     Show, Use, Run,
     Select, Add, Delete,
     Export, Load,
+    Set,
     Python, Credits, Quit
 }
 

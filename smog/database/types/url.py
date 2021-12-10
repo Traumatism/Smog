@@ -4,7 +4,7 @@ from smog.abstract.type import Type
 
 
 class URL(Type):
-    """ URL database type for Smog """
+    """ URL database type """
 
     name = "url"
     full_name = "urls"
