@@ -1,15 +1,14 @@
 from smog.abstract.type import Type
 
+TYPES = ("instagram.com", "facebook.com", "github.com")
+
 
 class Social(Type):
-    """ Credentials type for Smog database """
+    """ Social type for Smog database """
 
     name = "social"
     full_name = "socials"
     description = "Social networks"
-
-    def __init__(self, value: str) -> None:
-        super().__init__(value)
 
     def validate(self) -> bool:
         return True

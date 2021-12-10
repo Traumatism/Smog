@@ -1,5 +1,3 @@
-""" Argumeents utils for Smog """
-
 from argparse import ArgumentParser, HelpFormatter, Namespace, _HelpAction
 
 from typing import List

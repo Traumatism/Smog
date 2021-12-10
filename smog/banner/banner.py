@@ -1,4 +1,3 @@
-""" Banner module for Smog """
 from smog.logger import console
 from smog import __version__
 
@@ -15,7 +14,7 @@ _)|||(_)(_)  | | (_||||(-\)/(_)| |( [green bold]%(version)s[/green bold]
 
 class Banner:
     """ Banner class for Smog """
-    
+
     @staticmethod
     def print():
         """ Print the banner to the terminal """

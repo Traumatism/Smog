@@ -1,4 +1,3 @@
-""" Module containing abstract commad class """
 from typing import List
 
 from rich.console import Console
@@ -19,7 +18,7 @@ class CommandBase(ABC):
 
     def __init__(
         self, raw_arguments: List[str], shell, console: Console, database: Database
-    ) -> None:
+    ):
         self.shell = shell
         self.console = console
         self.database = database

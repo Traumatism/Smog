@@ -1,4 +1,3 @@
-""" Logger module for Smog """
 from rich.console import Console
 
 console = Console()

@@ -1,5 +1,3 @@
-""" Shell utils for Smog """
-
 from smog.logger import console
 
 from rich.text import Text

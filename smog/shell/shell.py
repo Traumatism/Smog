@@ -1,4 +1,3 @@
-""" Shell module for Smog """
 import time
 
 from os import system
@@ -89,11 +88,25 @@ class Shell:
             ) + " > "
         )
 
-    def run_command(self, command, arguments: List[str] = []):
-        """ Run a command """
+    def handle_command_line(self, user_input: str):
+        """ Handle user input """
+        if bool(user_input) is False:
+            return
+
+        # execute system commands
+        if user_input.startswith("!"):
+            system(user_input[1:])
+            return
+
+        command, arguments = parse_user_input(user_input) # split user input into command and arguments
+
+        command_cls = self.commands_map.get(command, None) # get the command class
+
+        if command_cls is None:
+            return Logger.error(f"Unknown command: '{command}'.")
 
         # initialize the command
-        command = command(arguments, self, console, database)
+        command = command_cls(arguments, self, console, database)
         command.init_arguments()
 
         # don't exit the shell if the user asked for the command help
@@ -106,25 +119,6 @@ class Shell:
         except Exception as exc:
             return Logger.error(str(exc))
 
-    def handle_command_line(self, user_input: str):
-        """ Handle user input """
-        if bool(user_input) is False:
-            return
-
-        # execute system commands
-        if user_input.startswith("!"):
-            system(user_input[1:])
-            return
-
-        command, arguments = parse_user_input(user_input)
-
-        command_cls = self.commands_map.get(command, None)
-
-        if command_cls is None:
-            return Logger.error(f"Unknown command: '{command}'.")
-
-        self.run_command(command_cls, arguments)
-
     def run(self):
         """ Run the shell """
 
@@ -135,17 +129,8 @@ class Shell:
         self.start_time = time.time()
 
         while True:
+            self.end_time = time.time()
+            user_input = self.prompt_session.prompt(self.prompt)
+            self.start_time = time.time()
 
-            try:
-                self.end_time = time.time()
-
-                user_input = self.prompt_session.prompt(self.prompt)
-
-                self.start_time = time.time()
-
-                self.handle_command_line(user_input)
-
-            except (KeyboardInterrupt, EOFError):
-                self.handle_command_line("quit")
-                self.start_time = time.time()
-
+            self.handle_command_line(user_input)

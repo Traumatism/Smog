@@ -8,9 +8,10 @@ from modules.resolve import Resolve
 from modules.hackertarget import HackerTarget
 from modules.ipinfo import IPInfo
 from modules.urlscan import UrlScan
+from modules.phpmyadmin import PhpMyAdmin
 
 MODULES = {
-    CRT, Test, Resolve, HackerTarget, IPInfo, UrlScan
+    CRT, Test, Resolve, HackerTarget, IPInfo, UrlScan, PhpMyAdmin
 }
 
 from commands.credits import Credits
