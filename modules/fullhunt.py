@@ -3,6 +3,7 @@ import requests
 from smog.abstract.module import ModuleBase
 from smog.database.types.subdomain import Subdomain
 
+
 class FullHunt(ModuleBase):
 
     name = "fullhunt"
@@ -10,7 +11,7 @@ class FullHunt(ModuleBase):
     author = "toastakerman"
     description = "Search subdomains on FullHunt.io"
 
-    def subaction(self, domain):
+    def sub_action(self, domain):
         with requests.get("https://fullhunt.io/api/v1/domain/%(domain)s/subdomains" % {"domain": domain}) as response:
             json_data = response.json()
 

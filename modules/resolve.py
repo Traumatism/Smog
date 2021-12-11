@@ -2,7 +2,7 @@ import dns.resolver
 
 from smog.abstract.module import ModuleBase
 from smog.database.types.ip_address import IPAddress
-from smog.database.types.subdomain import Subdomain
+
 
 class Resolve(ModuleBase):
 
@@ -12,9 +12,9 @@ class Resolve(ModuleBase):
     description = "Resolve subdomains to IP addresses"
     category = "resolving"
 
-    def subaction(self, target):
+    def sub_action(self, target: str):
         try:
-            answers = dns.resolver.query(target, 'A')
+            answers = dns.resolver.resolve(target, 'A')
 
             for answer in answers:
                 self.database.insert_data(IPAddress(answer.address))
@@ -25,7 +25,7 @@ class Resolve(ModuleBase):
                     addr = list(addr.values())[0].export()
 
                 self.database.update_subdata("subdomains", self.database.get_id_by_value(target), "ip_addr", addr)
-        except:
+        except Exception:
             return
 
     def execute(self):

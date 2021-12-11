@@ -18,7 +18,7 @@ class UrlScan(ModuleBase):
 
     keywords = ["urlscan", "url", "scan", "http", "https", "subdomain"]
 
-    def subaction(self, target, scheme):
+    def sub_action(self, target, scheme):
         try:
             response = requests.get("%s://%s/" % (scheme, target), verify=False, timeout=5)
             self.database.insert_data(URL("%s://%s/" % (scheme, target)))

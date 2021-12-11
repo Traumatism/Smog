@@ -84,7 +84,7 @@ class PhpMyAdmin(ModuleBase):
     description = "Search for phpmyadmin in the URLs"
     author = "toastakerman"
 
-    def subaction(self, target):
+    def sub_action(self, target):
         for path in PHPMYADMIN_PATHS:
             try:
                 response = requests.get("%s/%s" % (target, path), verify=False, timeout=5)

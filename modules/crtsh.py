@@ -3,6 +3,7 @@ import requests
 from smog.abstract.module import ModuleBase
 from smog.database.types.subdomain import Subdomain
 
+
 class CRT(ModuleBase):
 
     name = "crtsh"
@@ -11,11 +12,11 @@ class CRT(ModuleBase):
     description = "Search subdomains on CRT.sh"
     keywords = ["crtsh", "certificates", "subdomains", "scanning"]
 
-    def subaction(self, domain):
+    def sub_action(self, domain):
         with requests.get("https://crt.sh/?q=%(domain)s&output=json" % {"domain": domain}) as response:
             json_data = response.json()
 
-        if json_data == []:
+        if not json_data:
             return
 
         for data in json_data:

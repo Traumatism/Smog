@@ -10,7 +10,7 @@ from smog.utils.arguments import ArgumentParser, Namespace
 
 class CommandBase(ABC):
     """ Abstract class for commands """
-
+    
     command = ""
     description = ""
     aliases = []

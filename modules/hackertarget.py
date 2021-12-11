@@ -5,6 +5,7 @@ from smog.abstract.module import ModuleBase
 from smog.database.types.subdomain import Subdomain
 from smog.database.types.ip_address import IPAddress
 
+
 class HackerTarget(ModuleBase):
 
     name = "hackertarget"
@@ -13,7 +14,7 @@ class HackerTarget(ModuleBase):
     description = "Search subdomains on hackertarget.com"
     keywords = ["hackertarget", "subdomains", "ip addresses", "scanning"]
 
-    def subaction(self, domain):
+    def sub_action(self, domain):
         with requests.get("https://api.hackertarget.com/hostsearch/?q=%(domain)s" % {"domain": domain}) as response:
             html_content = response.text
 

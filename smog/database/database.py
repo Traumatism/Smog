@@ -58,16 +58,15 @@ class Database:
         file += ".smog" if not file.endswith(".smog") else ""
 
         with open(file, "wb") as output:
-            data = pickle.dump(self.__database, output) # serialize the database
-            output.write(data or b"")
+            pickle.dump(self.__database, output)  # serialize the database
 
         self.last_sum_saved = self.md5sum
         Logger.success(f"Database exported to '{file}'.")
 
     def import_db(self, file: str):
         """ Import database """
-        with open(file, "rb") as input:
-            self.__database = pickle.Unpickler(input).load() # deserialize the database
+        with open(file, "rb") as _input:
+            self.__database = pickle.Unpickler(_input).load()  # deserialize the database
 
         Logger.success(f"Database imported from '{file}'.")
 
@@ -98,7 +97,7 @@ class Database:
         return False
 
     def update_subdata(self, table: str, _id: int, key: str, value):
-        """ Update subdata from a table """
+        """ Update sub-data from a table """
         _table = self.get_table_by_str(table)
 
         if _table is False:
@@ -135,9 +134,10 @@ class Database:
         """ Select data from a table """
         _table = self.get_table_by_str(table)
 
-        return ({_id: self.__database[_table][_id]}
-                if _id is not None
-                else self.__database[_table]
+        return (
+            {_id: self.__database[_table][_id]}
+            if _id is not None
+            else self.__database[_table]
         ) if _table is not False else False
 
     def insert_data(self, data: Type):

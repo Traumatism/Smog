@@ -23,15 +23,15 @@ class ModuleBase(ABC):
         self.__i = 0
 
     @abstractmethod
-    def subaction(self):
-        """ This function gonna be runned with threading """
+    def sub_action(self, *args):
+        """ This function gonna be run with threading """
 
-    def _subaction(self, i, args=[]):
-        """ Run subaction """
+    def _sub_action(self, i, args=()):
+        """ Run sub-action """
         if self.debug_threads:
             Logger.info(f"Running subaction #{i}...")
 
-        self.subaction(*args)
+        self.sub_action(*args)
 
         if self.debug_threads:
             Logger.success(f"Subaction #{i} finished.")
@@ -41,7 +41,7 @@ class ModuleBase(ABC):
         while 1:
             if _threading.active_count() <= self.threads:
                 self.__i += 1
-                return _threading.Thread(target=self._subaction, args=(self.__i, args)).start()
+                return _threading.Thread(target=self._sub_action, args=(self.__i, args)).start()
 
     def wait_for_finish(self):
         """ Wait for threads to finish """

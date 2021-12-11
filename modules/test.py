@@ -4,6 +4,7 @@ import time
 from smog.logger import Logger
 from smog.abstract.module import ModuleBase
 
+
 class Test(ModuleBase):
 
     name = "test"
@@ -12,7 +13,7 @@ class Test(ModuleBase):
     description = "Module for testing"
     category = "misc"
 
-    def subaction(self, i):
+    def sub_action(self, i):
         time.sleep(1.5)
 
     def execute(self):

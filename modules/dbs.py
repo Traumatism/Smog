@@ -26,13 +26,13 @@ class Dbs(ModuleBase):
     description = "Search for databases servers using port scanning"
     author = "toastakerman"
 
-    def subaction(self, i, ip, port, engine):
+    def sub_action(self, i, ip, port, engine):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(3.5)
 
         try:
             s.connect((ip, port))
-        except:
+        except socket.error:
             return
 
         Logger.success(f"Found potential {engine} server on '{ip}:{port}'.")

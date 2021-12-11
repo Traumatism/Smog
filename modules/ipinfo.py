@@ -1,8 +1,6 @@
-import json
 import requests
 
 from smog.abstract.module import ModuleBase
-
 from smog.database.types.ip_address import IPAddress
 
 
@@ -14,7 +12,7 @@ class IPInfo(ModuleBase):
     description = "Gather informations on IP addresses"
     category = "scanning"
 
-    def subaction(self, ip_address: IPAddress):
+    def sub_action(self, ip_address: IPAddress):
         with requests.get(f"https://ipinfo.io/{ip_address.value}/json") as response:
             json_data = response.json()
 
@@ -25,8 +23,11 @@ class IPInfo(ModuleBase):
 
         try:
             self.database.update_subdata("ip_addrs", _id, "org", json_data["org"])
-            self.database.update_subdata("ip_addrs", _id, "loc", {"country": json_data["country"], "city": json_data["city"]})
-        except:
+            self.database.update_subdata(
+                "ip_addrs", _id, "loc",
+                {"country": json_data["country"], "city": json_data["city"]}
+            )
+        except KeyError:
             pass
 
     def execute(self):
