@@ -14,6 +14,7 @@ from smog import MODULES, COMMANDS, VARIABLES, database
 
 from smog.logger import Logger, console
 from smog.abstract.module import ModuleBase
+from smog.abstract.command import CommandBase
 from smog.utils.shell import parse_user_input, rich_to_ansi
 from smog.types import  ModuleType, CommandType
 
@@ -25,16 +26,24 @@ class Shell:
         self.selected_module: Union[ModuleBase, None] = None
 
         # list containing module objects
-        self.modules: Set[ModuleType] = MODULES
+        self.modules: Set[ModuleType] = {
+            module 
+            for module in MODULES 
+            if issubclass(module, ModuleBase)
+        }
 
-        # list containing commands objets
-        self.commands: Set[CommandType] = COMMANDS
+        # list containing commands objets-
+        self.commands: Set[CommandType] = {
+            command 
+            for command in COMMANDS 
+            if issubclass(command, CommandBase)
+        }
 
         # dictionnary to convert string to module object
-        self.modules_map: Dict[str, ModuleType] = {}
-
-        for module in self.modules:
-            self.modules_map[module.name.lower()] = module
+        self.modules_map: Dict[str, ModuleType] = {
+            module.name.lower(): module 
+            for module in self.modules
+        }
 
         # dictionnary to convert string to command object
         self.commands_map: Dict[str, CommandType] = {}
@@ -54,7 +63,8 @@ class Shell:
             command.init_arguments()
 
             json_data[command.command] = {
-                argument: None for argument in command.parser.completions
+                argument: None
+                for argument in command.parser.completions
             }
 
             # add from developer-provided arguments
@@ -94,12 +104,11 @@ class Shell:
 
     def handle_command_line(self, user_input: str):
         """ Handle user input """
-        if bool(user_input) is False:
+        if not user_input:
             return
 
         if user_input.startswith("!"):
-            system(user_input[1:])
-            return
+            return system(user_input[1:])
 
         command, arguments = parse_user_input(user_input)
 
@@ -123,13 +132,15 @@ class Shell:
     def run(self):
         """ Run the shell """
 
+        self.handle_command_line("clear") # clear screen
+
         for module in MODULES:
             for c in module.name:
                 if c not in ascii_lowercase:
-                    Logger.warn(f"Module '{module.name}' contains non-lowercase-letter characters, which is not recommended due to syntax highligting.")
+                    Logger.warn(
+                        f"Module '{module.name}' contains non-lowercase-letter characters, which is not recommended due to syntax highligting."
+                    )
                     break
-
-        self.handle_command_line("clear")
 
         Logger.success("Welcome to [bold cyan]Smog[/bold cyan]! Type 'help' for help.")
 
@@ -139,5 +150,4 @@ class Shell:
             self.end_time = time.time()
             user_input = self.prompt_session.prompt(self.prompt)
             self.start_time = time.time()
-
             self.handle_command_line(user_input)

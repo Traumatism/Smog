@@ -1,12 +1,11 @@
 VARIABLES = {
-    "prompt_char": (">", ("$", ">", "#")),
+    "prompt_char": (">", ("$", ">", "#", ":")),
     "logging_type": ("litteral", ("litteral", "symbols", "emojis", "fruits")),
 }
 
-__version__ = '1.1.0'
+__version__ = '1.2.0'
 
 from smog.database import database
-from smog.logger import Logger
 
 from modules.crtsh import CRT
 from modules.test import Test
@@ -15,9 +14,12 @@ from modules.hackertarget import HackerTarget
 from modules.ipinfo import IPInfo
 from modules.urlscan import UrlScan
 from modules.phpmyadmin import PhpMyAdmin
+from modules.fullhunt import FullHunt
+
 
 MODULES = {
-    CRT, Test, Resolve, HackerTarget, IPInfo, UrlScan, PhpMyAdmin
+    CRT, Test, Resolve, HackerTarget, IPInfo, UrlScan, PhpMyAdmin,
+    FullHunt
 }
 
 from commands.credits import Credits
