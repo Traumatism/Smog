@@ -15,8 +15,8 @@ from smog import MODULES, COMMANDS, VARIABLES, database
 from smog.logger import Logger, console
 from smog.abstract.module import ModuleBase
 from smog.abstract.command import CommandBase
-from smog.utils.shell import parse_user_input, rich_to_ansi
 from smog.types import  ModuleType, CommandType
+from smog.utils.shell import parse_user_input, rich_to_ansi
 
 
 class Shell:

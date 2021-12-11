@@ -14,8 +14,7 @@ from smog.database.types import (
     URL,
     Email,
     Phone,
-    Credentials,
-    Social
+    Social,
 )
 
 from smog.abstract.type import Type
@@ -29,9 +28,16 @@ class Database:
 
     def __init__(self) -> None:
 
-        self.__tables = (IPAddress, Domain, Subdomain, URL, Email, Phone, Credentials, Social)
+        self.__tables = {
+            IPAddress, Domain, Subdomain, 
+            URL, Email, Phone, Social
+        }
 
-        self.__database: DatabaseDict = {table: {} for table in self.__tables}
+        self.__database: DatabaseDict = {
+            table: {} 
+            for table in self.__tables
+            if issubclass(table, Type)
+        }
 
         self.saved = False
         self.last_sum_saved = self.md5sum

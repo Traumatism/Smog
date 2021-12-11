@@ -1,7 +1,6 @@
 from typing import Literal, Tuple
 from smog.abstract.type import Type
 from smog.database.types.ip_address import IPAddress
-from smog.database.types.credentials import Credentials
 
 
 class DatabaseServer(Type):
