@@ -56,14 +56,14 @@ class Database:
             output.write(data or b"")
 
         self.last_sum_saved = self.md5sum
-        Logger.success(f"Database exported to '{file}'")
+        Logger.success(f"Database exported to '{file}'.")
 
     def import_db(self, file: str):
         """ Import database """
         with open(file, "rb") as input:
             self.__database = pickle.Unpickler(input).load() # deserialize the database
 
-        Logger.success(f"Database imported from '{file}'")
+        Logger.success(f"Database imported from '{file}'.")
 
     @property
     def tables(self) -> List[DatabaseType]:
