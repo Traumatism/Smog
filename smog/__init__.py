@@ -15,17 +15,16 @@ from modules.ipinfo import IPInfo
 from modules.urlscan import UrlScan
 from modules.phpmyadmin import PhpMyAdmin
 from modules.fullhunt import FullHunt
-
+from modules.dbs import Dbs
 
 MODULES = {
-    CRT, Test, Resolve, HackerTarget, IPInfo, UrlScan, PhpMyAdmin,
-    FullHunt
+    CRT, Test, Resolve, HackerTarget, IPInfo, 
+    UrlScan, PhpMyAdmin, FullHunt, Dbs
 }
 
 from commands.credits import Credits
 from commands.select import Select
 from commands.delete import Delete
-from commands.python import Python
 from commands.export import Export
 from commands.load import Load
 from commands.clear import Clear
@@ -42,8 +41,7 @@ COMMANDS = {
     Show, Use, Run,
     Select, Add, Delete,
     Export, Load,
-    Set,
-    Python, Credits, Quit
+    Set, Credits, Quit
 }
 
 from smog.shell import shell

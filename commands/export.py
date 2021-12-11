@@ -14,7 +14,7 @@ class Export(CommandBase):
         )
 
     def execute(self):
-        if self.database.is_empty:
+        if self.database.is_empty is True:
             Logger.warn("The database is empty.")
 
         self.database.export_db(self.arguments.file)

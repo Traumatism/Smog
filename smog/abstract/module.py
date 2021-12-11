@@ -53,6 +53,10 @@ class ModuleBase(ABC):
 
         self.__i = 0
 
+    def _execute(self):
+        self.execute()
+        self.wait_for_finish()
+
     @abstractmethod
     def execute(self):
         """ Execute the module """

@@ -21,7 +21,7 @@ class UrlScan(ModuleBase):
     def subaction(self, target, scheme):
         try:
             response = requests.get("%s://%s/" % (scheme, target), verify=False, timeout=5)
-            self.database.insert_data(URL(response.url))
+            self.database.insert_data(URL("%s://%s/" % (scheme, target)))
         except:
             pass
 
@@ -37,5 +37,3 @@ class UrlScan(ModuleBase):
         for _, target in targets.items():
             for scheme in ("http", "https"):
                 self.respect_threads_run(args=(target.value, scheme))
-
-        self.wait_for_finish()

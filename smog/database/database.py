@@ -44,7 +44,7 @@ class Database:
     @property
     def is_empty(self) -> bool:
         """ Is the database empty? """
-        return bool(len(self.__database.values()))
+        return not bool(sum((len(_) for _ in self.__database.values())))
 
     def export_db(self, file: str):
         """ Export database to a file """

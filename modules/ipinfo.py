@@ -34,5 +34,3 @@ class IPInfo(ModuleBase):
 
         for _, target in targets.items():
             self.respect_threads_run((target,))
-
-        self.wait_for_finish()

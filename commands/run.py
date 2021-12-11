@@ -17,6 +17,6 @@ class Run(CommandBase):
 
         self.shell.selected_module(
             self.database, self.arguments.threads, self.arguments.debug_threads
-        ).execute()
+        )._execute()
 
         Logger.success("Done.")
