@@ -48,7 +48,6 @@ class HelpFormatter(HelpFormatter):
 
         return format
 
-
 class ArgumentParser(ArgumentParser):
     """ Custom argument parser """
 
@@ -80,8 +79,8 @@ class ArgumentParser(ArgumentParser):
 
         for action_group in self._action_groups:
             if (
-                isinstance(action_group._group_actions[0], _HelpAction) 
-                and len(action_group._group_actions) == 1
+                len(action_group._group_actions) == 1
+                and isinstance(action_group._group_actions[0], _HelpAction) 
             ):
                 continue
 
