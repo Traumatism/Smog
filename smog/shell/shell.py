@@ -1,6 +1,5 @@
 import time
-
-from string import ascii_lowercase
+import random
 
 from os import system
 
@@ -15,8 +14,15 @@ from smog import MODULES, COMMANDS, VARIABLES, database
 from smog.logger import Logger, console
 from smog.abstract.module import ModuleBase
 from smog.abstract.command import CommandBase
-from smog.types import  ModuleType, CommandType
+from smog.types import ModuleType, CommandType
 from smog.utils.shell import parse_user_input, rich_to_ansi
+
+
+TIPS = (
+    "Type 'help' to see a list of available commands.",
+    "Use '!command' to run a command in the shell.",
+    "If you are using a Nerd Font, you can use 'set logging_type nerdfont'.",
+)
 
 
 class Shell:
@@ -27,21 +33,21 @@ class Shell:
 
         # list containing module objects
         self.modules: Set[ModuleType] = {
-            module 
-            for module in MODULES 
+            module
+            for module in MODULES
             if issubclass(module, ModuleBase)
         }
 
         # list containing commands objets-
         self.commands: Set[CommandType] = {
-            command 
-            for command in COMMANDS 
+            command
+            for command in COMMANDS
             if issubclass(command, CommandBase)
         }
 
         # dictionnary to convert string to module object
         self.modules_map: Dict[str, ModuleType] = {
-            module.name.lower(): module 
+            module.name.lower(): module
             for module in self.modules
         }
 
@@ -79,7 +85,8 @@ class Shell:
             completer=self.completer,
             complete_while_typing=False,
             wrap_lines=False,
-            history=InMemoryHistory([command.command for command in self.commands]),
+            history=InMemoryHistory(
+                [command.command for command in self.commands]),
         )
 
     @property
@@ -93,7 +100,9 @@ class Shell:
         prompt = "[bold cyan]smog[/bold cyan]"
 
         if self.selected_module is not None:
-            prompt += f" via [bold cyan]{self.selected_module.name}[/bold cyan]"
+            prompt += (
+                f" via [bold cyan]{self.selected_module.name}[/bold cyan]"
+            )
 
         if self.execution_time >= 2:
             prompt += f" took [bold cyan]{self.execution_time}s[/bold cyan]"
@@ -124,7 +133,8 @@ class Shell:
             return command.parser.print_help()
 
         try:
-            command.arguments = command.parser.parse_args(command.raw_arguments)
+            command.arguments = command.parser.parse_args(
+                command.raw_arguments)
             command.execute()
         except Exception as exc:
             return Logger.error(str(exc))
@@ -132,17 +142,11 @@ class Shell:
     def run(self):
         """ Run the shell """
 
-        self.handle_command_line("clear") # clear screen
+        self.handle_command_line("clear")  # clear screen
 
-        for module in MODULES:
-            for c in module.name:
-                if c not in ascii_lowercase:
-                    Logger.warn(
-                        f"Module '{module.name}' contains non-lowercase-letter characters, which is not recommended due to syntax highligting."
-                    )
-                    break
-
-        Logger.success("Welcome to [bold cyan]Smog[/bold cyan]! Type 'help' for help.")
+        Logger.info(
+            f"{random.choice(TIPS)}\n"
+        )
 
         self.start_time = time.time()
 

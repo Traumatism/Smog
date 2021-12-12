@@ -2,8 +2,6 @@
 
 import pickle
 
-from smog.database.database import Database
-
 from smog import database, VARIABLES
 
 
@@ -26,5 +24,7 @@ class Workspace:
     def export(self):
         self.refresh()
 
-        with open(f"{self.workspace.get('name', 'default')}.smogws", "wb") as file:
+        with open(
+            f"{self.workspace.get('name', 'default')}.smogws", "wb"
+        ) as file:
             pickle.dump(self.workspace, file)

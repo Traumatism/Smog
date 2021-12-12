@@ -24,7 +24,10 @@ while True:
 
 VARIABLES = {
     "prompt_char": (">", ("$", ">", "#", ":")),
-    "logging_type": ("litteral", ("litteral", "symbols", "emojis", "fruits", "nerdfont")),
+    "logging_type": (
+        "litteral",
+        ("litteral", "symbols", "emojis", "fruits", "nerdfont")
+    ),
     "shodan_key": ("null", None),
     "workspace_name": ("default", None),
 }
@@ -44,7 +47,7 @@ from modules.fullhunt import FullHunt
 from modules.dbs import Dbs
 
 MODULES = {
-    CRT, Test, Resolve, HackerTarget, IPInfo, 
+    CRT, Test, Resolve, HackerTarget, IPInfo,
     UrlScan, PhpMyAdmin, FullHunt, Dbs
 }
 

@@ -20,6 +20,6 @@ class Banner:
     def print():
         """ Print the banner to the terminal """
         console.print(
-            BANNER % {"version": __version__}, 
+            BANNER % {"version": __version__},
             highlight=False
         )

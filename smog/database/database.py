@@ -18,8 +18,6 @@ from smog.database.types import (
     Social
 )
 
-from smog.abstract.type import Type
-
 DatabaseType = _Type[Type]
 DatabaseDict = Dict[DatabaseType, Dict[int, Type]]
 
@@ -30,12 +28,12 @@ class Database:
     def __init__(self) -> None:
 
         self.__tables = {
-            IPAddress, Domain, Subdomain, 
+            IPAddress, Domain, Subdomain,
             URL, Email, Phone, Social
         }
 
         self.__database: DatabaseDict = {
-            table: {} 
+            table: {}
             for table in self.__tables
             if issubclass(table, Type)
         }
@@ -74,7 +72,7 @@ class Database:
     def import_db(self, file: str):
         """ Import database """
         with open(file, "rb") as _input:
-            self.__database = pickle.Unpickler(_input).load()  # deserialize the database
+            self.__database = pickle.Unpickler(_input).load()
 
         Logger.success(f"Database imported from '{file}'.")
 
@@ -86,16 +84,20 @@ class Database:
     @property
     def stats(self) -> Iterable[Tuple[DatabaseType, Union[float, int], int]]:
         """ Get database stats """
-        return (
-            (
-                i,
-                round(len(self.__database[i]) / sum(len(i) for i in self.__database.values()) * 100),
-                len(self.__database[i])
-            )
-            for i in self.__database.keys()
-        )
+        total = sum(len(i) for i in self.__database.values())
 
-    def get_table_by_str(self, table: str) -> Union[Literal[False], DatabaseType]:
+        return [
+                (
+                    table,
+                    round(len(self.__database[table]) / total * 100),
+                    len(self.__database[table])
+                )
+                for table in self.__database.keys()
+            ]
+
+    def get_table_by_str(
+        self, table: str
+    ) -> Union[Literal[False], DatabaseType]:
         """ Get table object with full name """
         for _table in self.tables:
             if table in (_table.full_name, _table.name):
@@ -126,7 +128,9 @@ class Database:
 
         del self.__database[_table][_id]
 
-        Logger.success(f"Deleted data from {table} where ID was equal to {_id}.")
+        Logger.success(
+            f"Deleted data from {table} where ID was equal to {_id}."
+        )
 
     def get_id_by_value(self, value: str) -> int:
         """ Get the id of a value """
@@ -136,7 +140,9 @@ class Database:
                     return _id
         return False
 
-    def select_data(self, table: str, _id: int = None) -> Union[Literal[False], Dict[int, Type]]:
+    def select_data(
+        self, table: str, _id: int = None
+    ) -> Union[Literal[False], Dict[int, Type]]:
         """ Select data from a table """
         _table = self.get_table_by_str(table)
 
@@ -164,8 +170,12 @@ class Database:
                 return
 
         # generate the ID
-        _id = max(self.__database[table].keys()) + 1 if len(self.__database[table]) > 0 else 1
+        _id = (
+            max(self.__database[table].keys()) + 1
+            if len(self.__database[table]) > 0
+            else 1
+        )
 
-        self.__database[table][_id] = data # assign new data to the ID
+        self.__database[table][_id] = data  # assign new data to the ID
 
         Logger.success(f"Added '{data.value}' to {table.full_name}.")

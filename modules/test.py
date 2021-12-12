@@ -18,6 +18,7 @@ class Test(ModuleBase):
     def execute(self):
         for _ in range(15):
 
-            # This built-in function will spawn a new thread of 'self.sub_action'
-            # with respect to the number of threads specified
+            # This built-in function will spawn a new thread of
+            # 'self.sub_action' with respect to the number of
+            # threads specified
             self.respect_threads_run((_, ))

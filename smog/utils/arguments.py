@@ -1,4 +1,4 @@
-from argparse import ArgumentParser, HelpFormatter, Namespace, _HelpAction
+from argparse import ArgumentParser, HelpFormatter, _HelpAction
 
 from typing import List
 
@@ -60,7 +60,7 @@ class ArgumentParser(ArgumentParser):
                     for k in action_y.choices:
                         c.append(k)
                 for action_z in action_y.option_strings:
-                    if action_z.startswith("-") is False:  # positional arguments
+                    if action_z.startswith("-") is False:
                         continue
                     c.append(action_z)
         return c
@@ -80,7 +80,7 @@ class ArgumentParser(ArgumentParser):
         for action_group in self._action_groups:
             if (
                 len(action_group._group_actions) == 1
-                and isinstance(action_group._group_actions[0], _HelpAction) 
+                and isinstance(action_group._group_actions[0], _HelpAction)
             ):
                 continue
 
