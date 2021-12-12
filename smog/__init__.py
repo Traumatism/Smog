@@ -1,7 +1,32 @@
+import json
+import os
+
+PATH = os.path.join(os.path.expanduser('~'), '.smog.json')
+
+if not os.path.exists(PATH) or not os.path.isfile(PATH):
+
+    if os.path.exists(PATH):
+        os.remove(PATH)
+
+    with open(PATH, "a+") as f:
+        f.write("{}")
+
+while True:
+    try:
+        with open(PATH, "r") as f:
+            CONFIG = json.load(f)
+            break
+    except:
+        os.remove(PATH)
+        with open(PATH, "a+") as f:
+            f.write("{}")
+
+
 VARIABLES = {
     "prompt_char": (">", ("$", ">", "#", ":")),
-    "logging_type": ("litteral", ("litteral", "symbols", "emojis", "fruits")),
+    "logging_type": ("litteral", ("litteral", "symbols", "emojis", "fruits", "nerdfont")),
     "shodan_key": ("null", None),
+    "workspace_name": ("default", None),
 }
 
 __version__ = '1.2.0'

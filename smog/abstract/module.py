@@ -1,6 +1,7 @@
 import threading as _threading
 
 from abc import ABC, abstractmethod
+from typing import Iterable
 
 from smog.database.database import Database
 from smog.logger.logger import Logger
@@ -9,18 +10,19 @@ from smog.logger.logger import Logger
 class ModuleBase(ABC):
     """" Abstract class for modules """
 
-    name = ""
-    version = "0.0.1"
-    author = ""
-    description = ""
-    keywords = []
+    name: str = ""
+    version: str = "0.0.1"
+    author: str = ""
+    description: str = ""
+    category: str = ""
+    keywords: Iterable[str] = []
 
     def __init__(self, database: Database, threads: int, debug_threads: bool):
         self.database = database
         self.threads = threads
         self.debug_threads = debug_threads
 
-        self.__i = 0
+        self.__action = 0
 
     @abstractmethod
     def sub_action(self, *args):
@@ -40,8 +42,11 @@ class ModuleBase(ABC):
         """ Run a function with respect to max threads """
         while 1:
             if _threading.active_count() <= self.threads:
-                self.__i += 1
-                return _threading.Thread(target=self._sub_action, args=(self.__i, args)).start()
+                self.__action += 1
+                return _threading.Thread(
+                    target=self._sub_action, 
+                    args=(self.__action, args)
+                ).start()
 
     def wait_for_finish(self):
         """ Wait for threads to finish """

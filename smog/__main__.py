@@ -1,5 +1,6 @@
 from smog import shell
 
+
 if __name__ == "__main__":
     try:
         shell.run()

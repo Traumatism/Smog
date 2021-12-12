@@ -1,5 +1,6 @@
 import hashlib
 import pickle
+import base64
 
 from typing import Dict, Iterable, List, Literal, Union, Tuple
 from typing import Type as _Type
@@ -62,6 +63,13 @@ class Database:
 
         self.last_sum_saved = self.md5sum
         Logger.success(f"Database exported to '{file}'.")
+
+    def import_from_data(self, data: str):
+        pass
+
+    def export_to_data(self) -> str:
+        """ Export the database to a base64 string """
+        return base64.b64encode(pickle.dumps(self.__database)).decode("utf-8")
 
     def import_db(self, file: str):
         """ Import database """

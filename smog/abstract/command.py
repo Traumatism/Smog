@@ -1,4 +1,4 @@
-from typing import List
+from typing import Iterable, List, Any
 
 from rich.console import Console
 
@@ -11,10 +11,10 @@ from smog.utils.arguments import ArgumentParser, Namespace
 class CommandBase(ABC):
     """ Abstract class for commands """
     
-    command = ""
-    description = ""
-    aliases = []
-    _arguments = {}
+    command:str = ""
+    description: str = ""
+    aliases: Iterable[str] = []
+    _arguments: Iterable[Any] = {}
 
     def __init__(
         self, raw_arguments: List[str], shell, console: Console, database: Database
