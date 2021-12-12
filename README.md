@@ -71,3 +71,4 @@ The process is quasi-infinite. You can add more modules to get more informations
 ### Features
 
 * Key system
+* Automatic modules/commands loading
