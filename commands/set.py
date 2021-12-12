@@ -16,7 +16,10 @@ class Set(CommandBase):
     def execute(self):
         value = " ".join(self.arguments.value)
 
-        if value not in VARIABLES[self.arguments.variable][1]:
+        if (
+            value not in VARIABLES[self.arguments.variable][1] 
+            and VARIABLES[self.arguments.variable][1] is not None
+        ):
             return Logger.error(f"Invalid value for variable. (choose from {VARIABLES[self.arguments.variable][1]})")
 
         tmp = VARIABLES[self.arguments.variable][1]

@@ -81,9 +81,7 @@ class Database:
         return (
             (
                 i,
-                round(len(self.__database[i]) / sum(
-                    len(i) for i in self.__database.values()
-                ) * 100),
+                round(len(self.__database[i]) / sum(len(i) for i in self.__database.values()) * 100),
                 len(self.__database[i])
             )
             for i in self.__database.keys()

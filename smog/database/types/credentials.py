@@ -1,4 +1,5 @@
 from typing import Tuple, Union
+
 from smog.abstract.type import Type
 from smog.database.types.email import Email
 

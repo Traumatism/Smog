@@ -1,6 +1,7 @@
 VARIABLES = {
     "prompt_char": (">", ("$", ">", "#", ":")),
     "logging_type": ("litteral", ("litteral", "symbols", "emojis", "fruits")),
+    "shodan_key": ("null", None),
 }
 
 __version__ = '1.2.0'
