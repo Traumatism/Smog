@@ -2,7 +2,12 @@
 
 ## A semi-automatic osint/recon framework.
 
-![](preview.png)
+![](images/preview.png)
+
+## Requirements
+
+* git
+* Python >= 3.8
 
 ## How to use it:
 
@@ -44,19 +49,25 @@ Then we can use another module to gather IP addresses informations
 
 * `run`
 
+Then we can look up for websites
+
+* `use urlscan`
+
+* `run`
+
 The process is quasi-infinite. You can add more modules to get more informations and add modules that uses these informations (that why its "semi-automatic", the actions order is decided by the human)
+
+## Module example
+
+![](images/module.png)
 
 ## TODO:
 
 ### Modules
 
-* URL scanning
 * Endpoints scanning
 * Vulnerability scanning
 
 ### Features
 
-* Export to json or plain text
-* Add a workspace system
-* Multiple queries executions with ";" or "&&"
-* Syntax highlighting
+* Key system

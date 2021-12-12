@@ -14,7 +14,7 @@ from smog.database.types import (
     URL,
     Email,
     Phone,
-    Social,
+    Social
 )
 
 from smog.abstract.type import Type

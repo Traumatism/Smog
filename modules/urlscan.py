@@ -5,8 +5,6 @@ from smog.database.types.url import URL
 
 from requests.packages.urllib3 import disable_warnings
 
-from smog.logger.logger import Logger
-
 disable_warnings()
 
 
@@ -20,9 +18,9 @@ class UrlScan(ModuleBase):
 
     def sub_action(self, target, scheme):
         try:
-            response = requests.get("%s://%s/" % (scheme, target), verify=False, timeout=5)
+            requests.get("%s://%s/" % (scheme, target), verify=False, timeout=5)
             self.database.insert_data(URL("%s://%s/" % (scheme, target)))
-        except:
+        except requests.RequestException:
             pass
 
     def execute(self):

@@ -1,7 +1,5 @@
-
 import time
 
-from smog.logger import Logger
 from smog.abstract.module import ModuleBase
 
 
@@ -14,11 +12,12 @@ class Test(ModuleBase):
     category = "misc"
 
     def sub_action(self, i):
-        time.sleep(1.5)
+        """ This function gonna be executed in a thread """
+        time.sleep(1)
 
     def execute(self):
         for _ in range(15):
-            self.respect_threads_run((_, ))
 
-        self.wait_for_finish()
-        Logger.success("All actions completed!")
+            # This built-in function will spawn a new thread of 'self.sub_action'
+            # with respect to the number of threads specified
+            self.respect_threads_run((_, ))
