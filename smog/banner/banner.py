@@ -7,13 +7,14 @@ BANNER = r"""[red bold]
 _)|||(_)(_)  | | (_||||(-\)/(_)| |( [green bold]%(version)s[/green bold]
         _/
 [/red bold]
-[cyan bold]a semi automatic osint/recon framework[/cyan bold]
+[cyan bold]a semi automatic osint/recon framework in Python 🐍[/cyan bold]
 [green bold]author: @toastakerman[/green bold]
 
 """
 
+
 class Banner:
-    """ Banner class for Smog """
+    """ Banner class """
 
     @staticmethod
     def print():
