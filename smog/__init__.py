@@ -1,6 +1,7 @@
 import json
 import os
 
+
 PATH = os.path.join(os.path.expanduser('~'), '.smog.json')
 
 if not os.path.exists(PATH) or not os.path.isfile(PATH):
