@@ -21,7 +21,8 @@ from smog.utils.shell import parse_user_input, rich_to_ansi
 TIPS = (
     "Type 'help' to see a list of available commands.",
     "Use '!command' to run a command in the shell.",
-    "If you are using a Nerd Font, you can use 'set logging_type nerdfont'.",
+    "If you are using a Nerd Font, you can use 'set logging-type nerdfont'.",
+    "Subscribe to my Twitter: @toastakerman :)"
 )
 
 
@@ -64,7 +65,7 @@ class Shell:
         json_data = {}
 
         for command in self.commands_map.values():
-            command = command([], self, console, database)
+            command = command((), self, console, database)
 
             command.init_arguments()
 
@@ -100,14 +101,12 @@ class Shell:
         prompt = "([bold cyan]smog[/bold cyan])"
 
         if self.selected_module is not None:
-            prompt += (
-                f"([bold cyan]{self.selected_module.name}[/bold cyan])"
-            )
+            prompt += f"([bold cyan]{self.selected_module.name}[/bold cyan])"
 
         if self.execution_time >= 2:
             prompt += f"([bold cyan]took {self.execution_time}s[/bold cyan])"
 
-        prompt += f" {VARIABLES['prompt_char'][0]} "
+        prompt += f" {VARIABLES['prompt-char'][0]} "
 
         return rich_to_ansi(prompt)
 
@@ -133,8 +132,7 @@ class Shell:
             return command.parser.print_help()
 
         try:
-            command.arguments = command.parser.parse_args(
-                command.raw_arguments)
+            command.arguments = command.parser.parse_args(arguments)
             command.execute()
         except Exception as exc:
             if VARIABLES["exceptions_debug"] == "false":
@@ -154,6 +152,8 @@ class Shell:
 
         while True:
             self.end_time = time.time()
+
             user_input = self.prompt_session.prompt(self.prompt)
+
             self.start_time = time.time()
             self.handle_command_line(user_input)

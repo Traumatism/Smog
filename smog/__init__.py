@@ -17,21 +17,22 @@ while True:
         with open(PATH, "r") as f:
             CONFIG = json.load(f)
             break
-    except:
+    except FileExistsError:
         os.remove(PATH)
         with open(PATH, "a+") as f:
             f.write("{}")
 
 
 VARIABLES = {
-    "prompt_char": (">", ("$", ">", "#", ":")),
-    "logging_type": (
+    "prompt-char": (">", ("$", ">", "#", ":")),
+    "logging-type": (
         "litteral",
         ("litteral", "symbols", "emojis", "fruits", "nerdfont")
     ),
-    "shodan_key": ("null", None),
+    "shodan-key": ("null", None),
     "workspace_name": ("default", None),
-    "exceptions_debug": ("false", ("false", "true"))
+    "exceptions_debug": ("false", ("false", "true")),
+    "user-agent": ("Mozilla/5.0", None)
 }
 
 __version__ = '1.2.0'

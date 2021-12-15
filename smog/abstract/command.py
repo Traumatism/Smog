@@ -1,6 +1,6 @@
 from argparse import Namespace
 
-from typing import Iterable, List, Any
+from typing import Iterable, Any
 
 from rich.console import Console
 
@@ -20,7 +20,7 @@ class CommandBase(ABC):
 
     def __init__(
         self,
-        raw_arguments: List[str],
+        raw_arguments: Iterable[str],
         shell,
         console: Console,
         database: Database

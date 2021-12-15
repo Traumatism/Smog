@@ -19,7 +19,7 @@ class Logger:
         }
 
         cls.INFO, cls.SUCCESS, cls.WARNING, cls.ERROR = maps.get(
-            VARIABLES["logging_type"][0], (" ",) * 4
+            VARIABLES["logging-type"][0], (" ",) * 4
         )
 
     @classmethod
