@@ -97,15 +97,15 @@ class Shell:
     @property
     def prompt(self):
         """ Get shell prompt """
-        prompt = "[bold cyan]smog[/bold cyan]"
+        prompt = "([bold cyan]smog[/bold cyan])"
 
         if self.selected_module is not None:
             prompt += (
-                f" via [bold cyan]{self.selected_module.name}[/bold cyan]"
+                f"([bold cyan]{self.selected_module.name}[/bold cyan])"
             )
 
         if self.execution_time >= 2:
-            prompt += f" took [bold cyan]{self.execution_time}s[/bold cyan]"
+            prompt += f"([bold cyan]took {self.execution_time}s[/bold cyan])"
 
         prompt += f" {VARIABLES['prompt_char'][0]} "
 
