@@ -9,7 +9,9 @@
 * git
 * Python >= 3.8
 
-## How to use it:
+## Getting started:
+
+### Installation
 
 * `git clone https://github.com/traumatism/Smog/`
 
@@ -20,6 +22,8 @@
 * `python3 -m smog`
 
 * One line: `git clone https://github.com/traumatism/Smog/ && cd Smog && pip3 install -r requirements.txt && python3 -m smog`
+
+### Usage
 
 Add a domain for example
 

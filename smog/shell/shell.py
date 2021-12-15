@@ -9,7 +9,9 @@ from prompt_toolkit.completion import NestedCompleter
 
 from typing import Dict, Union,  Set
 
-from smog import MODULES, COMMANDS, VARIABLES, database
+from smog import (
+    MODULES, COMMANDS, VARIABLES, database
+)
 
 from smog.logger import Logger, console
 from smog.abstract.module import ModuleBase
@@ -87,7 +89,8 @@ class Shell:
             complete_while_typing=False,
             wrap_lines=False,
             history=InMemoryHistory(
-                [command.command for command in self.commands]),
+                [command.command for command in self.commands]
+            )
         )
 
     @property
