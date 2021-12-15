@@ -7,7 +7,7 @@ class Load(CommandBase):
 
     command = "load"
     aliases = ["import"]
-    description = "Import database from a smog file"
+    description = "Import database from a .smog file"
     _arguments = {path for path in os.listdir(".") if path.endswith(".smog")}
 
     def init_arguments(self):

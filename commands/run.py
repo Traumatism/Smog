@@ -1,6 +1,7 @@
 from smog.abstract.command import CommandBase
 from smog.logger import Logger
 
+
 class Run(CommandBase):
 
     command = "run"
@@ -8,8 +9,15 @@ class Run(CommandBase):
     aliases = ("execute", "start")
 
     def init_arguments(self):
-        self.parser.add_argument("-t", "--threads", type=int, default=5, help="Number of threads to run.", metavar="<value>")
-        self.parser.add_argument("-d", "--debug-threads", action="store_true", help="Debug threads.")
+        self.parser.add_argument(
+            "-t", "--threads", type=int, default=5,
+            help="Number of threads to run.", metavar="<value>"
+        )
+
+        self.parser.add_argument(
+            "-d", "--debug-threads",
+            action="store_true", help="Debug threads."
+        )
 
     def execute(self):
         if self.shell.selected_module is None:

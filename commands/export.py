@@ -6,7 +6,7 @@ class Export(CommandBase):
     
     command = "export"
     aliases = ["save"]
-    description = "Export database to a smog file"
+    description = "Export database to a .smog file"
 
     def init_arguments(self):
         self.parser.add_argument(

@@ -1,6 +1,4 @@
-from rich.columns import Columns
-from rich.panel import Panel
-from rich.table import Table, Row
+from rich.table import Table
 from rich.box import SIMPLE
 
 from smog.abstract.command import CommandBase

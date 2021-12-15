@@ -24,7 +24,7 @@ class Set(CommandBase):
         value = " ".join(self.arguments.value)
         tmp = VARIABLES[self.arguments.variable][1]
 
-        if value not in tmp and tmp is not None:
+        if tmp is not None and value not in tmp:
             return Logger.error(
                 f"Invalid value for variable. (choose from {tmp})"
             )

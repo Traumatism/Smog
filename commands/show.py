@@ -10,7 +10,7 @@ from smog.abstract.command import CommandBase
 class Show(CommandBase):
 
     command = "show"
-    description = "Show database tables, modules, or statistics"
+    description = "Show "
 
     def init_arguments(self):
         self.parser.add_argument(

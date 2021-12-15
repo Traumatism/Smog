@@ -4,12 +4,12 @@
 
 ![](images/preview.png)
 
-## Requirements
+## Getting started:
+
+### Requirements
 
 * git
 * Python >= 3.8
-
-## Getting started:
 
 ### Installation
 
