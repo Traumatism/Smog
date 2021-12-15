@@ -9,12 +9,13 @@ from smog.logger.logger import Logger
 
 class Select(CommandBase):
 
-    command = "select"    
+    command = "select"
     description = "Select datas from the database"
 
     def init_arguments(self):
         self.parser.add_argument(
-            "table", help="Table name.", choices={table.full_name for table in database.tables}
+            "table", help="Table name.",
+            choices={table.full_name for table in database.tables}
         )
 
     def execute(self):

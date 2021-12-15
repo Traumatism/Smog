@@ -18,12 +18,16 @@ class Logger:
             "nerdfont": ("", "", "", ""),
         }
 
-        cls.INFO, cls.SUCCESS, cls.WARNING, cls.ERROR = maps.get(VARIABLES["logging_type"][0], (" ",) * 4)
+        cls.INFO, cls.SUCCESS, cls.WARNING, cls.ERROR = maps.get(
+            VARIABLES["logging_type"][0], (" ",) * 4
+        )
 
     @classmethod
     def __log(cls, message: str, prefix: str):
         """ Log a message to the console """
-        console.print(f"[bold bright_black][{prefix}][/bold bright_black] {message}")
+        console.print(
+            f"[bold bright_black][{prefix}][/bold bright_black] {message}"
+        )
 
     @classmethod
     def info(cls, message: str) -> Literal[True]:

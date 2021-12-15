@@ -8,7 +8,7 @@ from smog.logger.logger import Logger
 
 
 class ModuleBase(ABC):
-    """ Abstract class for modules"""
+    """ Abstract class for modules """
 
     name: str = ""
     version: str = "0.0.1"

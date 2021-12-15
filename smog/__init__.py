@@ -31,6 +31,7 @@ VARIABLES = {
     ),
     "shodan_key": ("null", None),
     "workspace_name": ("default", None),
+    "exceptions_debug": ("false", ("false", "true"))
 }
 
 __version__ = '1.2.0'

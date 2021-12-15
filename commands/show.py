@@ -14,7 +14,8 @@ class Show(CommandBase):
 
     def init_arguments(self):
         self.parser.add_argument(
-            "type", help="Data to show", choices=("stats", "modules", "tables", "variables")
+            "type", help="Data to show",
+            choices=("stats", "modules", "tables", "variables")
         )
 
     def execute(self):
@@ -28,9 +29,13 @@ class Show(CommandBase):
 
             try:
                 for _table, percents, count in self.database.stats:
-                    table.add_row(_table.description.lower(), *map(str, (percents, count)))
-            except:
-                Logger.warn("Database is empty.")
+                    table.add_row(
+                        _table.description.lower(),
+                        *map(str, (percents, count))
+                    )
+
+            except ZeroDivisionError:
+                Logger.error("Database is empty.")
 
         if self.arguments.type == "modules":
 
@@ -40,7 +45,10 @@ class Show(CommandBase):
             table.add_column("Author", style="bold magenta")
 
             for module in self.shell.modules:
-                table.add_row(module.name, module.version, module.description, module.author)
+                table.add_row(
+                    module.name, module.version,
+                    module.description, module.author
+                )
 
         if self.arguments.type == "variables":
 
@@ -57,6 +65,8 @@ class Show(CommandBase):
             table.add_column("Alias", style="bold magenta")
 
             for _table in self.database.tables:
-                table.add_row(_table.full_name, _table.description, _table.name)
+                table.add_row(
+                    _table.full_name, _table.description, _table.name
+                )
 
         return self.console.print(table)

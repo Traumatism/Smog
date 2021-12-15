@@ -137,7 +137,9 @@ class Shell:
                 command.raw_arguments)
             command.execute()
         except Exception as exc:
-            return Logger.error(str(exc))
+            if VARIABLES["exceptions_debug"] == "false":
+                return Logger.error(str(exc))
+            return console.print_exception()
 
     def run(self):
         """ Run the shell """
