@@ -1,4 +1,14 @@
-# Smog Framework
+```
+   . .
+.+'|=|`+.
+|  | `+.|
+|  | .
+`+.|=|`+.
+.    |  |   Smog Framework
+|`+. |  |   version 1.2.0
+`+.|=|.+'
+
+```
 
 ## A semi-automatic osint/recon framework.
 
