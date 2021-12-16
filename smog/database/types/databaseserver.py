@@ -3,6 +3,11 @@ from typing import Literal, Tuple
 from smog.abstract.type import Type
 from smog.database.types.ip_address import IPAddress
 
+ValueType = Tuple[
+    IPAddress, int, str,  str, str,
+    Literal["mysql", "mssql", "mongodb", "postgresql"]
+]
+
 
 class DatabaseServer(Type):
     """ Database  """
@@ -11,7 +16,7 @@ class DatabaseServer(Type):
     full_name = "databases"
     description = "Database server"
 
-    def __init__(self, value: Tuple[IPAddress, int, str,  str, str, Literal["mysql", "mssql", "mongodb", "postgresql"]]) -> None:
+    def __init__(self, value: ValueType) -> None:
         super().__init__(value)
 
     def validate(self) -> bool:

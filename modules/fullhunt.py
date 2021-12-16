@@ -12,7 +12,10 @@ class FullHunt(ModuleBase):
     description = "Search subdomains on FullHunt.io"
 
     def sub_action(self, domain):
-        with requests.get("https://fullhunt.io/api/v1/domain/%(domain)s/subdomains" % {"domain": domain}) as response:
+        with requests.get(
+            "https://fullhunt.io/api/v1/domain/%(domain)s/subdomains"
+            % {"domain": domain}
+        ) as response:
             json_data = response.json()
 
         for subdomain in json_data["hosts"]:
