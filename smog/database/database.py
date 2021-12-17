@@ -63,6 +63,8 @@ class Database:
 
     def import_db(self, file: str):
         """ Import database """
+        Logger.info(f"Importing database from '{file}'...")
+
         with open(file, "rb") as _input:
             self.__database = pickle.Unpickler(_input).load()
 

@@ -145,11 +145,9 @@ class Shell:
     def run(self):
         """ Run the shell """
 
-        self.handle_command_line("clear")  # clear screen
+        self.handle_command_line("clear -d")  # clear screen
 
-        Logger.info(
-            f"{random.choice(TIPS)}\n"
-        )
+        Logger.info(f"{random.choice(TIPS)}\n")
 
         self.start_time = time.time()
 
@@ -159,4 +157,5 @@ class Shell:
             user_input = self.prompt_session.prompt(self.prompt)
 
             self.start_time = time.time()
+
             self.handle_command_line(user_input)
