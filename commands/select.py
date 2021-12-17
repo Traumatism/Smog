@@ -14,7 +14,7 @@ class Select(CommandBase):
 
     def init_arguments(self):
         self.parser.add_argument(
-            "table", help="Table name.",
+            "table", help="Table name",
             choices={table.full_name for table in database.tables}
         )
 

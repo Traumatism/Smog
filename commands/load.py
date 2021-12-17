@@ -11,7 +11,7 @@ class Load(CommandBase):
     _arguments = {path for path in os.listdir(".") if path.endswith(".smog")}
 
     def init_arguments(self):
-        self.parser.add_argument("file", help="File to import the DB from.")
+        self.parser.add_argument("file", help="File to import the DB from")
 
     def execute(self):
         self.database.import_db(self.arguments.file)

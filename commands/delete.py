@@ -2,8 +2,6 @@ import re
 
 from smog.abstract.command import CommandBase
 
-from smog import database
-
 
 class Delete(CommandBase):
 
@@ -13,13 +11,13 @@ class Delete(CommandBase):
 
     def init_arguments(self):
         self.parser.add_argument(
-            "table", help="Table to add data to.", 
-            choices={table.name for table in database.tables}
+            "table", help="Table to add data to",
+            choices={table.name for table in self.database.tables}
         )
 
         self.parser.add_argument(
             "id",
-            help="ID of the data to delete.",
+            help="ID of the data to delete",
             type=str, metavar="id"
         )
 

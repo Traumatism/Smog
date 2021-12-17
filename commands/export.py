@@ -10,7 +10,7 @@ class Export(CommandBase):
 
     def init_arguments(self):
         self.parser.add_argument(
-            "file", help="File to export the DB to."
+            "file", help="File to export the DB to"
         )
 
     def execute(self):

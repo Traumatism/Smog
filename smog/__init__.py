@@ -67,13 +67,14 @@ from commands.use import Use
 from commands.run import Run
 from commands.add import Add
 from commands.set import Set
+from commands.search import Search
 
 COMMANDS = {
     Help, Clear,
     Show, Use, Run,
     Select, Add, Delete,
     Export, Load,
-    Set, Credits, Quit
+    Set, Credits, Search, Quit
 }
 
 from smog.shell import shell

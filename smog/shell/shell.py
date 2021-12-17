@@ -138,7 +138,7 @@ class Shell:
             command.arguments = command.parser.parse_args(arguments)
             command.execute()
         except Exception as exc:
-            if VARIABLES["exceptions_debug"] == "false":
+            if VARIABLES["exceptions_debug"][0] == "false":
                 return Logger.error(str(exc))
             return console.print_exception()
 

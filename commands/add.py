@@ -13,7 +13,7 @@ class Add(CommandBase):
     def init_arguments(self):
 
         self.parser.add_argument(
-            "table", help="Table to add data to.",
+            "table", help="Table to add data to",
             choices={table.name for table in database.tables}
         )
 

@@ -11,12 +11,12 @@ class Set(CommandBase):
 
     def init_arguments(self):
         self.parser.add_argument(
-            "variable", help="Variable to affect.",
+            "variable", help="Variable to affect",
             choices={x for x in VARIABLES.keys()}
         )
 
         self.parser.add_argument(
-            "value", help="Value to set variable to.",
+            "value", help="Value to set variable to",
             nargs="*"
         )
 
