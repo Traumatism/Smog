@@ -8,7 +8,7 @@ class Add(CommandBase):
 
     command = "add"
     aliases = ["insert"]
-    description = "Add data to the database."
+    description = "Add data to the database"
 
     def init_arguments(self):
 
