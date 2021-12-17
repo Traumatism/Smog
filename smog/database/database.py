@@ -9,7 +9,7 @@ from smog.abstract.type import Type
 from smog.logger.logger import Logger
 
 from smog.database.types import (
-    Domain, IPAddress, Subdomain,
+    Domain, IPAddress, Port, Subdomain,
     URL, Email, Phone, Social
 )
 
@@ -23,7 +23,7 @@ class Database:
     def __init__(self) -> None:
 
         self.__tables = {
-            IPAddress, Domain, Subdomain, URL, Email, Phone, Social
+            IPAddress, Domain, Subdomain, URL, Email, Phone, Social, Port
         }
 
         self.__database: DatabaseDict = {

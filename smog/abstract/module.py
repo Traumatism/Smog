@@ -18,9 +18,9 @@ class ModuleBase(ABC):
     keywords: Iterable[str] = []
 
     def __init__(self, database: Database, threads: int, debug_threads: bool):
+        self.debug_threads = debug_threads
         self.database = database
         self.threads = threads
-        self.debug_threads = debug_threads
 
         self.__action = 0
 
@@ -38,7 +38,7 @@ class ModuleBase(ABC):
         if self.debug_threads:
             Logger.success(f"Subaction #{i} finished.")
 
-    def respect_threads_run(self, args=[]):
+    def respect_threads_run(self, args: Iterable = []):
         """ Run a function with respect to max threads """
         while 1:
             if _threading.active_count() <= self.threads:
