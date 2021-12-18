@@ -55,7 +55,7 @@ class ModuleBase(ABC):
         while _threading.active_count() > 1:
             pass
 
-        self.__i = 0
+        self.__action = 0
 
     def _execute(self):
         self.execute()

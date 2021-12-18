@@ -23,11 +23,19 @@ class Database:
     def __init__(self) -> None:
 
         self.__tables = {
-            IPAddress, Domain, Subdomain, URL, Email, Phone, Social, Port
+            IPAddress,
+            Domain,
+            Subdomain,
+            URL,
+            Email,
+            Phone,
+            Social,
+            Port
         }
 
         self.__database: DatabaseDict = {
-            table: {} for table in self.__tables if issubclass(table, Type)
+            table: {} for table in self.__tables
+            if issubclass(table, Type)
         }
 
         self.saved = False
