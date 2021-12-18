@@ -3,7 +3,7 @@ from smog.logger.logger import Logger
 
 
 class Export(CommandBase):
-    
+
     command = "export"
     aliases = ["save"]
     description = "Export database to a .smog file"
