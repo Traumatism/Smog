@@ -14,7 +14,7 @@ class Show(CommandBase):
 
     def init_arguments(self):
         self.parser.add_argument(
-            "type", help="Data to show",
+            "type", help="Thing to show",
             choices=("stats", "modules", "tables", "variables")
         )
 

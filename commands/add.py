@@ -18,7 +18,7 @@ class Add(CommandBase):
         )
 
         self.parser.add_argument(
-            "data", help="Data to add."
+            "data", help="Data to add"
         )
 
     def execute(self):

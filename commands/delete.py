@@ -7,7 +7,7 @@ class Delete(CommandBase):
 
     command = "delete"
     aliases = ("del", "remove")
-    description = "Remove data from a table."
+    description = "Remove data from a table"
 
     def init_arguments(self):
         self.parser.add_argument(

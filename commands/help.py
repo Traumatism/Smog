@@ -1,8 +1,8 @@
 from rich.table import Table
 from rich.box import SIMPLE
+from rich.panel import Panel
 
 from smog.abstract.command import CommandBase
-from smog.logger import console
 
 
 class Help(CommandBase):
@@ -11,7 +11,30 @@ class Help(CommandBase):
     description = "Show help menu"
     aliases = ("h", "?")
 
+    def init_arguments(self):
+        self.parser.add_argument(
+            "-f",
+            help="Print full help",
+            action="store_true",
+            required=False,
+            dest="print_full"
+        )
+
     def execute(self):
+
+        if self.arguments.print_full:
+            for command in self.shell.commands:
+
+                command_cls = command(
+                    (), self.shell, self.console, self.database
+                )
+                command_cls.init_arguments()
+
+                panel = command_cls.parser.print_help()
+
+                self.console.print(panel)
+            return
+
         table = Table(box=SIMPLE)
 
         table.add_column("Command", style="bold green")
@@ -23,4 +46,4 @@ class Help(CommandBase):
                 command.aliases) if command.aliases else "-"
             )
 
-        console.print(table)
+        self.console.print(table)

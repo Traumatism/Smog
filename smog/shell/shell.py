@@ -19,7 +19,6 @@ from smog.abstract.command import CommandBase
 from smog.types import ModuleType, CommandType
 from smog.utils.shell import parse_user_input, rich_to_ansi
 
-
 TIPS = (
     "Type 'help' to see a list of available commands.",
     "Use '!command' to run a command in the shell.",

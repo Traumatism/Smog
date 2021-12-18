@@ -1,11 +1,13 @@
 from argparse import ArgumentParser, HelpFormatter, _HelpAction
 
-from typing import List
+from typing import List, Tuple
 
 from rich.highlighter import RegexHighlighter
 from rich.console import Console
+from rich.markup import render
 from rich.theme import Theme
 from rich.panel import Panel
+from rich.text import Text
 
 
 class Highlighter(RegexHighlighter):
@@ -93,6 +95,14 @@ class ArgumentParser(ArgumentParser):
             formatter.end_section()
 
         return formatter.format_help()
+
+    def get_help(self) -> Tuple[Panel, Text]:
+        """ Display the help """
+
+        return (
+            Panel.fit(f"[bold magenta]{self.description}[/bold magenta]"),
+            render(self.format_help())
+        )
 
     def print_help(self):
         """ Display the help """

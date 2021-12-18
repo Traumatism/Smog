@@ -74,7 +74,7 @@ COMMANDS = {
     Show, Use, Run,
     Select, Add, Delete,
     Export, Load,
-    Set, Credits, Search, Quit
+    Set, Credits, Search, Quit,
 }
 
 from smog.shell import shell
