@@ -7,11 +7,9 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.completion import NestedCompleter
 
-from typing import Dict, Union,  Set
+from typing import Dict, Union, Set
 
-from smog import (
-    MODULES, COMMANDS, VARIABLES, database
-)
+from smog import MODULES, COMMANDS, VARIABLES, database
 
 from smog.logger import Logger, console
 from smog.abstract.module import ModuleBase
@@ -23,34 +21,29 @@ TIPS = (
     "Type 'help' to see a list of available commands.",
     "Use '!command' to run a command in the shell.",
     "If you are using a Nerd Font, you can use 'set logging-type nerdfont'.",
-    "Subscribe to my Twitter: @toastakerman :)"
+    "Subscribe to my Twitter: @toastakerman :)",
 )
 
 
 class Shell:
-    """ Shell class for Smog """
+    """Shell class for Smog"""
 
     def __init__(self):
         self.selected_module: Union[ModuleBase, None] = None
 
         # list containing module objects
         self.modules: Set[ModuleType] = {
-            module
-            for module in MODULES
-            if issubclass(module, ModuleBase)
+            module for module in MODULES if issubclass(module, ModuleBase)
         }
 
         # list containing commands objets-
         self.commands: Set[CommandType] = {
-            command
-            for command in COMMANDS
-            if issubclass(command, CommandBase)
+            command for command in COMMANDS if issubclass(command, CommandBase)
         }
 
         # dictionnary to convert string to module object
         self.modules_map: Dict[str, ModuleType] = {
-            module.name.lower(): module
-            for module in self.modules
+            module.name.lower(): module for module in self.modules
         }
 
         # dictionnary to convert string to command object
@@ -71,8 +64,7 @@ class Shell:
             command.init_arguments()
 
             json_data[command.command] = {
-                argument: None
-                for argument in command.parser.completions
+                argument: None for argument in command.parser.completions
             }
 
             # add from developer-provided arguments
@@ -87,19 +79,17 @@ class Shell:
             completer=self.completer,
             complete_while_typing=False,
             wrap_lines=False,
-            history=InMemoryHistory(
-                [command.command for command in self.commands]
-            )
+            history=InMemoryHistory([command.command for command in self.commands]),
         )
 
     @property
     def execution_time(self) -> int:
-        """ Get last command execution time """
+        """Get last command execution time"""
         return round(abs(self.start_time - self.end_time))
 
     @property
     def prompt(self):
-        """ Get shell prompt """
+        """Get shell prompt"""
         prompt = "([bold cyan]smog[/bold cyan])"
 
         if self.selected_module is not None:
@@ -113,7 +103,7 @@ class Shell:
         return rich_to_ansi(prompt)
 
     def handle_command_line(self, user_input: str):
-        """ Handle user input """
+        """Handle user input"""
         if not user_input:
             return
 
@@ -142,7 +132,7 @@ class Shell:
             return console.print_exception()
 
     def run(self):
-        """ Run the shell """
+        """Run the shell"""
 
         self.handle_command_line("clear -d")  # clear screen
 

@@ -17,7 +17,7 @@ class Help(CommandBase):
             help="Print full help",
             action="store_true",
             required=False,
-            dest="print_full"
+            dest="print_full",
         )
 
     def execute(self):
@@ -25,9 +25,7 @@ class Help(CommandBase):
         if self.arguments.print_full:
             for command in self.shell.commands:
 
-                command_cls = command(
-                    (), self.shell, self.console, self.database
-                )
+                command_cls = command((), self.shell, self.console, self.database)
                 command_cls.init_arguments()
 
                 panel = command_cls.parser.print_help()
@@ -42,8 +40,10 @@ class Help(CommandBase):
         table.add_column("Aliases", style="bold magenta")
 
         for command in self.shell.commands:
-            table.add_row(command.command, command.description, ", ".join(
-                command.aliases) if command.aliases else "-"
+            table.add_row(
+                command.command,
+                command.description,
+                ", ".join(command.aliases) if command.aliases else "-",
             )
 
         self.console.print(table)

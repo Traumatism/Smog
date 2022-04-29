@@ -11,23 +11,17 @@ class Set(CommandBase):
 
     def init_arguments(self):
         self.parser.add_argument(
-            "variable", help="Variable to affect",
-            choices={x for x in VARIABLES.keys()}
+            "variable", help="Variable to affect", choices={x for x in VARIABLES.keys()}
         )
 
-        self.parser.add_argument(
-            "value", help="Value to set variable to",
-            nargs="*"
-        )
+        self.parser.add_argument("value", help="Value to set variable to", nargs="*")
 
     def execute(self):
         value = " ".join(self.arguments.value)
         tmp = VARIABLES[self.arguments.variable][1]
 
         if tmp is not None and value not in tmp:
-            return Logger.error(
-                f"Invalid value for variable. (choose from {tmp})"
-            )
+            return Logger.error(f"Invalid value for variable. (choose from {tmp})")
 
         VARIABLES[self.arguments.variable] = (value, tmp)
 

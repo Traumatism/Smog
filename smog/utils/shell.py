@@ -1,4 +1,3 @@
-
 from smog.logger import console
 
 from rich.text import Text
@@ -7,13 +6,13 @@ from prompt_toolkit import ANSI
 
 
 def parse_user_input(user_input: str) -> Tuple[str, List[str]]:
-    """ Parse user input to command name and arguments """
+    """Parse user input to command name and arguments"""
     command, *args = user_input.split()
     return command.lower(), args
 
 
 def rich_to_ansi(rich_text: str) -> ANSI:
-    """ Convert rich text to ANSI """
+    """Convert rich text to ANSI"""
     text = Text.from_markup(rich_text)
     rendered = ""
 

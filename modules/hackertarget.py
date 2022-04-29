@@ -16,8 +16,7 @@ class HackerTarget(ModuleBase):
 
     def sub_action(self, domain):
         with requests.get(
-            "https://api.hackertarget.com/hostsearch/?q=%(domain)s"
-            % {"domain": domain}
+            "https://api.hackertarget.com/hostsearch/?q=%(domain)s" % {"domain": domain}
         ) as response:
             html_content = response.text
 
@@ -25,7 +24,7 @@ class HackerTarget(ModuleBase):
             return
 
         for line in html_content.splitlines():
-            parts = line.split(',')
+            parts = line.split(",")
 
             self.database.insert_data(Subdomain(parts[0]))
             self.database.insert_data(IPAddress(parts[1]))

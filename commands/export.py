@@ -9,9 +9,7 @@ class Export(CommandBase):
     description = "Export database to a .smog file"
 
     def init_arguments(self):
-        self.parser.add_argument(
-            "file", help="File to export the DB to"
-        )
+        self.parser.add_argument("file", help="File to export the DB to")
 
     def execute(self):
         if self.database.is_empty is True:

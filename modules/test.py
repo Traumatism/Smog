@@ -12,7 +12,7 @@ class Test(ModuleBase):
     category = "misc"
 
     def sub_action(self, i):
-        """ This function gonna be executed in a thread """
+        """This function gonna be executed in a thread"""
         time.sleep(1)
 
     def execute(self):
@@ -21,4 +21,4 @@ class Test(ModuleBase):
             # This built-in function will spawn a new thread of
             # 'self.sub_action' with respect to the number of
             # threads specified
-            self.respect_threads_run((_, ))
+            self.respect_threads_run((_,))

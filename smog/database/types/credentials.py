@@ -5,7 +5,7 @@ from smog.database.types.email import Email
 
 
 class Credentials(Type):
-    """ Credentials type """
+    """Credentials type"""
 
     name = "credential"
     full_name = "credentials"

@@ -4,14 +4,14 @@ from typing import Iterable, Any
 
 from rich.console import Console
 
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 from smog.database.database import Database
 from smog.utils.arguments import ArgumentParser
 
 
-class CommandBase(ABC):
-    """ Abstract class for commands """
+class CommandBase(metaclass=ABCMeta):
+    """Abstract class for commands"""
 
     command: str = ""
     description: str = ""
@@ -19,11 +19,7 @@ class CommandBase(ABC):
     _arguments: Iterable[Any] = {}
 
     def __init__(
-        self,
-        raw_arguments: Iterable[str],
-        shell,
-        console: Console,
-        database: Database
+        self, raw_arguments: Iterable[str], shell, console: Console, database: Database
     ):
         self.shell = shell
         self.console = console
@@ -31,15 +27,14 @@ class CommandBase(ABC):
         self.raw_arguments = raw_arguments
 
         self.parser = ArgumentParser(
-            description=self.description,
-            usage=self.command + " <options>"
+            description=self.description, usage=f"{self.command} <options>"
         )
 
         self.arguments = Namespace()
 
     def init_arguments(self):
-        """ Initialize command arguments """
+        """Initialize command arguments"""
 
     @abstractmethod
     def execute(self):
-        """ Execute the command """
+        """Execute the command"""

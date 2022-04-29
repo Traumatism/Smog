@@ -4,13 +4,12 @@ from smog.abstract.type import Type
 from smog.database.types.ip_address import IPAddress
 
 ValueType = Tuple[
-    IPAddress, int, str,  str, str,
-    Literal["mysql", "mssql", "mongodb", "postgresql"]
+    IPAddress, int, str, str, str, Literal["mysql", "mssql", "mongodb", "postgresql"]
 ]
 
 
 class DatabaseServer(Type):
-    """ Database  """
+    """Database"""
 
     name = "database"
     full_name = "databases"

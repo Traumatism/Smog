@@ -11,18 +11,17 @@ class Delete(CommandBase):
 
     def init_arguments(self):
         self.parser.add_argument(
-            "table", help="Table to add data to",
-            choices={table.name for table in self.database.tables}
+            "table",
+            help="Table to add data to",
+            choices={table.name for table in self.database.tables},
         )
 
         self.parser.add_argument(
-            "id",
-            help="ID of the data to delete",
-            type=str, metavar="id"
+            "id", help="ID of the data to delete", type=str, metavar="id"
         )
 
     def test(self):
-        """ Testing syntax """
+        """Testing syntax"""
         ids = []
 
         if re.match(r"\d+<=i<=\d+", self.arguments.id):

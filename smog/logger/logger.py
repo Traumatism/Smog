@@ -6,7 +6,7 @@ console = Console()
 
 
 class Logger:
-    """ Logger class for Smog """
+    """Logger class for Smog"""
 
     @classmethod
     def reload(cls):
@@ -24,35 +24,33 @@ class Logger:
 
     @classmethod
     def __log(cls, message: str, prefix: str):
-        """ Log a message to the console """
-        console.print(
-            f"[bold bright_black][{prefix}][/bold bright_black] {message}"
-        )
+        """Log a message to the console"""
+        console.print(f"[bold bright_black][{prefix}][/bold bright_black] {message}")
 
     @classmethod
     def info(cls, message: str) -> Literal[True]:
-        """ Log an info message """
+        """Log an info message"""
         cls.reload()
         cls.__log(message, f"[bold cyan]{cls.INFO}[/bold cyan]")
         return True
 
     @classmethod
     def warn(cls, message: str) -> Literal[False]:
-        """ Log a warning message """
+        """Log a warning message"""
         cls.reload()
         cls.__log(message, f"[bold yellow]{cls.WARNING}[/bold yellow]")
         return False
 
     @classmethod
     def error(cls, message: str) -> Literal[False]:
-        """ Log an error message """
+        """Log an error message"""
         cls.reload()
         cls.__log(message, f"[bold red]{cls.ERROR}[/bold red]")
         return False
 
     @classmethod
     def success(cls, message: str) -> Literal[True]:
-        """ Log a success message """
+        """Log a success message"""
         cls.reload()
         cls.__log(message, f"[bold green]{cls.SUCCESS}[/bold green]")
         return True

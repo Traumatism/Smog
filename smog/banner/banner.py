@@ -19,11 +19,9 @@ BANNER = """[red]
 
 
 class Banner:
-    """ Banner class """
+    """Banner class"""
 
     @staticmethod
     def print():
-        """ Print the banner to the terminal """
-        console.print(
-            BANNER % {"version": __version__}, highlight=True
-        )
+        """Print the banner to the terminal"""
+        console.print(BANNER % {"version": __version__}, highlight=True)

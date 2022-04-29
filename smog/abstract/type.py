@@ -1,9 +1,9 @@
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 from typing import Any, Dict, Tuple
 
 
-class Type(ABC):
-    """" Abstract class for database types """
+class Type(metaclass=ABCMeta):
+    """ " Abstract class for database types"""
 
     name: str = ""
     full_name: str = ""
@@ -14,9 +14,9 @@ class Type(ABC):
         self.sub_data: Dict[str, Any] = {}
 
     def export(self) -> Tuple[Any, Dict]:
-        """ Export the data to a tuple """
+        """Export the data to a tuple"""
         return self.value, self.sub_data
 
     @abstractmethod
     def validate(self) -> bool:
-        """ Validate the value """
+        """Validate the value"""

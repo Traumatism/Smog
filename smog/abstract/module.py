@@ -1,16 +1,17 @@
 import threading as _threading
 
-from abc import ABC, abstractmethod
-from typing import Iterable
+from abc import ABCMeta, abstractmethod
+
+from typing import Iterable, Optional
 
 from smog.database.database import Database
 from smog.logger.logger import Logger
 
 
-class ModuleBase(ABC):
-    """ Abstract class for modules """
+class ModuleBase(metaclass=ABCMeta):
+    """Abstract class for modules"""
 
-    name: str = ""
+    name: str
     version: str = "0.0.1"
     author: str = ""
     description: str = ""
@@ -26,10 +27,10 @@ class ModuleBase(ABC):
 
     @abstractmethod
     def sub_action(self, *args):
-        """ This function gonna be run with threading """
+        """This function gonna be run with threading"""
 
     def _sub_action(self, i, args=()):
-        """ Run sub-action """
+        """Run sub-action"""
         if self.debug_threads:
             Logger.info(f"Running subaction #{i}...")
 
@@ -38,8 +39,11 @@ class ModuleBase(ABC):
         if self.debug_threads:
             Logger.success(f"Subaction #{i} finished.")
 
-    def respect_threads_run(self, args: Iterable = []):
-        """ Run a function with respect to max threads """
+    def respect_threads_run(self, args: Optional[Iterable] = None):
+        """Run a function with respect to max threads"""
+        if args is None:
+            args = []
+
         while 1:
             if _threading.active_count() <= self.threads:
                 self.__action += 1
@@ -48,7 +52,7 @@ class ModuleBase(ABC):
                 ).start()
 
     def wait_for_finish(self):
-        """ Wait for threads to finish """
+        """Wait for threads to finish"""
         if self.debug_threads:
             Logger.info("Waiting for threads to finish...")
 
@@ -63,4 +67,5 @@ class ModuleBase(ABC):
 
     @abstractmethod
     def execute(self):
-        """ Execute the module """
+        """Execute the module"""
+        raise NotImplementedError

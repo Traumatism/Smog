@@ -13,9 +13,7 @@ class IPInfo(ModuleBase):
     category = "scanning"
 
     def sub_action(self, ip_address: IPAddress):
-        with requests.get(
-            f"https://ipinfo.io/{ip_address.value}/json"
-        ) as response:
+        with requests.get(f"https://ipinfo.io/{ip_address.value}/json") as response:
             json_data = response.json()
 
         if response.status_code != 200 or "bogon" in json_data:
@@ -24,13 +22,13 @@ class IPInfo(ModuleBase):
         _id = self.database.get_id_by_value(ip_address.value)
 
         try:
-            self.database.update_subdata(
-                "ip_addrs", _id, "org", json_data["org"]
-            )
+            self.database.update_subdata("ip_addrs", _id, "org", json_data["org"])
 
             self.database.update_subdata(
-                "ip_addrs", _id, "loc",
-                {"country": json_data["country"], "city": json_data["city"]}
+                "ip_addrs",
+                _id,
+                "loc",
+                {"country": json_data["country"], "city": json_data["city"]},
             )
         except KeyError:
             pass

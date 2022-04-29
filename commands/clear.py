@@ -15,11 +15,11 @@ class Clear(CommandBase):
             help="Enable banner printing",
             action="store_true",
             required=False,
-            dest="print_banner"
+            dest="print_banner",
         )
 
     def execute(self):
         console.clear()
-        
+
         if self.arguments.print_banner:
             Banner.print()

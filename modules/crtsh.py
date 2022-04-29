@@ -13,7 +13,9 @@ class CRT(ModuleBase):
     keywords = ["crtsh", "certificates", "subdomains", "scanning"]
 
     def sub_action(self, domain):
-        with requests.get("https://crt.sh/?q=%(domain)s&output=json" % {"domain": domain}) as response:
+        with requests.get(
+            "https://crt.sh/?q=%(domain)s&output=json" % {"domain": domain}
+        ) as response:
             json_data = response.json()
 
         if not json_data:

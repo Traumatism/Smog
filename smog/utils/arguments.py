@@ -1,6 +1,6 @@
 from argparse import ArgumentParser, HelpFormatter, _HelpAction
 
-from typing import List, Tuple
+from typing import Iterator, Tuple
 
 from rich.highlighter import RegexHighlighter
 from rich.console import Console
@@ -11,81 +11,78 @@ from rich.text import Text
 
 
 class Highlighter(RegexHighlighter):
-    """ Highlighter for arguments help """
+    """Highlighter for arguments help"""
 
     base_style = "arguments."
 
     highlights = [
         r"(?P<metavar>[<\[]\w+[\]>])",
         r"(?P<argument>[\-]+[a-z]+)",
-        r"(?P<opt>(options|positional arguments):)"
+        r"(?P<opt>(options|positional arguments):)",
     ]
 
 
-theme = Theme({
-    "arguments.metavar": "bold magenta",
-    "arguments.argument": "bold yellow",
-    "arguments.usage": "cyan",
-    "arguments.opt": "bold green"
-})
+theme = Theme(
+    {
+        "arguments.metavar": "bold magenta",
+        "arguments.argument": "bold yellow",
+        "arguments.usage": "cyan",
+        "arguments.opt": "bold green",
+    }
+)
 
 console = Console(highlighter=Highlighter(), theme=theme)
 
 
 class ParserError(Exception):
-    """ Exception parser """
+    """Exception parser"""
 
 
 class HelpFormatter(HelpFormatter):
-    """ Custom help formatter """
+    """Custom help formatter"""
 
     def _metavar_formatter(self, action, default_metavar):
         result = action.metavar or (
-            "/".join(str(choice) for choice in action.choices) 
-            if action.choices else default_metavar
+            "/".join(str(choice) for choice in action.choices)
+            if action.choices
+            else default_metavar
         )
 
         def format(tuple_size):
-            return (
-                result if isinstance(result, tuple) else (result,) * tuple_size
-            )
+            return result if isinstance(result, tuple) else (result,) * tuple_size
 
         return format
 
 
 class ArgumentParser(ArgumentParser):
-    """ Custom argument parser """
+    """Custom argument parser"""
 
     @property
-    def completions(self) -> List[str]:
-        c = []
+    def completions(self) -> Iterator[str]:
         for action_x in self._action_groups:
             for action_y in action_x._group_actions:
                 if action_y.choices is not None:
-                    for k in action_y.choices:
-                        c.append(k)
+                    yield from action_y.choices
+
                 for action_z in action_y.option_strings:
-                    if action_z.startswith("-") is False:
-                        continue
-                    c.append(action_z)
-        return c
+                    if action_z.startswith("-") is True:
+                        yield action_z
 
     def _get_formatter(self):
-        """ Return formatter """
+        """Return formatter"""
         return HelpFormatter(
             prog="",
             indent_increment=4,
             width=console.width,
-            max_help_position=console.width
+            max_help_position=console.width,
         )
 
     def format_help(self):
         formatter = self._get_formatter()
 
         for action_group in self._action_groups:
-            if (
-                len(action_group._group_actions) == 1
-                and isinstance(action_group._group_actions[0], _HelpAction)
+            if len(action_group._group_actions) == 1 and isinstance(
+                action_group._group_actions[0], _HelpAction
             ):
                 continue
 
@@ -97,21 +94,19 @@ class ArgumentParser(ArgumentParser):
         return formatter.format_help()
 
     def get_help(self) -> Tuple[Panel, Text]:
-        """ Display the help """
+        """Display the help"""
 
         return (
             Panel.fit(f"[bold magenta]{self.description}[/bold magenta]"),
-            render(self.format_help())
+            render(self.format_help()),
         )
 
     def print_help(self):
-        """ Display the help """
-        console.print(
-            Panel.fit(f"[bold magenta]{self.description}[/bold magenta]")
-        )
+        """Display the help"""
+        console.print(Panel.fit(f"[bold magenta]{self.description}[/bold magenta]"))
 
         console.print(self.format_help(), highlight=True)
 
     def error(self, message):
-        """ Raise error message """
+        """Raise error message"""
         raise ParserError(message)

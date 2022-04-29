@@ -10,13 +10,16 @@ class Run(CommandBase):
 
     def init_arguments(self):
         self.parser.add_argument(
-            "-t", "--threads", type=int, default=5,
-            help="Number of threads to run", metavar="<value>"
+            "-t",
+            "--threads",
+            type=int,
+            default=5,
+            help="Number of threads to run",
+            metavar="<value>",
         )
 
         self.parser.add_argument(
-            "-d", "--debug-threads",
-            action="store_true", help="Debug threads"
+            "-d", "--debug-threads", action="store_true", help="Debug threads"
         )
 
     def execute(self):

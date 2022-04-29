@@ -2,7 +2,7 @@ import json
 import os
 
 
-PATH = os.path.join(os.path.expanduser('~'), '.smog.json')
+PATH = os.path.join(os.path.expanduser("~"), ".smog.json")
 
 if not os.path.exists(PATH) or not os.path.isfile(PATH):
 
@@ -27,15 +27,15 @@ VARIABLES = {
     "prompt-char": (">", ("$", ">", "#", ":")),
     "logging-type": (
         "litteral",
-        ("litteral", "symbols", "emojis", "fruits", "nerdfont")
+        ("litteral", "symbols", "emojis", "fruits", "nerdfont"),
     ),
     "shodan-key": ("null", None),
     "workspace_name": ("default", None),
     "exceptions_debug": ("false", ("false", "true")),
-    "user-agent": ("Mozilla/5.0", None)
+    "user-agent": ("Mozilla/5.0", None),
 }
 
-__version__ = '1.2.0'
+__version__ = "1.2.0"
 
 from smog.database import database
 
@@ -49,10 +49,7 @@ from modules.phpmyadmin import PhpMyAdmin
 from modules.fullhunt import FullHunt
 from modules.dbs import Dbs
 
-MODULES = {
-    CRT, Test, Resolve, HackerTarget, IPInfo,
-    UrlScan, PhpMyAdmin, FullHunt, Dbs
-}
+MODULES = {CRT, Test, Resolve, HackerTarget, IPInfo, UrlScan, PhpMyAdmin, FullHunt, Dbs}
 
 from commands.credits import Credits
 from commands.select import Select
@@ -70,11 +67,20 @@ from commands.set import Set
 from commands.search import Search
 
 COMMANDS = {
-    Help, Clear,
-    Show, Use, Run,
-    Select, Add, Delete,
-    Export, Load,
-    Set, Credits, Search, Quit,
+    Help,
+    Clear,
+    Show,
+    Use,
+    Run,
+    Select,
+    Add,
+    Delete,
+    Export,
+    Load,
+    Set,
+    Credits,
+    Search,
+    Quit,
 }
 
 from smog.shell import shell

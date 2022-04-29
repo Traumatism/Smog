@@ -2,15 +2,21 @@ import hashlib
 import pickle
 import base64
 
-from typing import Dict, Iterable, List, Literal, Union, Tuple
+from typing import Dict, Iterable, List, Literal, Union, Tuple, Optional
 from typing import Type as _Type
 
 from smog.abstract.type import Type
 from smog.logger.logger import Logger
 
 from smog.database.types import (
-    Domain, IPAddress, Port, Subdomain,
-    URL, Email, Phone, Social
+    Domain,
+    IPAddress,
+    Port,
+    Subdomain,
+    URL,
+    Email,
+    Phone,
+    Social,
 )
 
 DatabaseType = _Type[Type]
@@ -18,7 +24,7 @@ DatabaseDict = Dict[DatabaseType, Dict[int, Type]]
 
 
 class Database:
-    """ Primitive database class for Smog """
+    """Primitive database class for Smog"""
 
     def __init__(self) -> None:
 
@@ -30,12 +36,11 @@ class Database:
             Email,
             Phone,
             Social,
-            Port
+            Port,
         }
 
         self.__database: DatabaseDict = {
-            table: {} for table in self.__tables
-            if issubclass(table, Type)
+            table: {} for table in self.__tables if issubclass(table, Type)
         }
 
         self.saved = False
@@ -43,18 +48,18 @@ class Database:
 
     @property
     def md5sum(self) -> str:
-        """ Return the database md5 sum """
+        """Return the database md5 sum"""
         return hashlib.md5(pickle.dumps(self.__database)).hexdigest()
 
     @property
     def is_empty(self) -> bool:
-        """ Is the database empty? """
+        """Is the database empty?"""
         return not bool(sum((len(_) for _ in self.__database.values())))
 
     def export_db(self, file: str):
-        """ Export database to a file """
+        """Export database to a file"""
 
-        file += ".smog" if not file.endswith(".smog") else ""
+        file += "" if file.endswith(".smog") else ".smog"
 
         with open(file, "wb") as output:
             pickle.dump(self.__database, output)  # serialize the database
@@ -66,11 +71,11 @@ class Database:
         pass
 
     def export_to_data(self) -> str:
-        """ Export the database to a base64 string """
+        """Export the database to a base64 string"""
         return base64.b64encode(pickle.dumps(self.__database)).decode("utf-8")
 
     def import_db(self, file: str):
-        """ Import database """
+        """Import database"""
         Logger.info(f"Importing database from '{file}'...")
 
         with open(file, "rb") as _input:
@@ -80,12 +85,12 @@ class Database:
 
     @property
     def tables(self) -> List[DatabaseType]:
-        """ Get the list of tables """
+        """Get the list of tables"""
         return list(self.__database.keys())
 
     @property
     def stats(self) -> Iterable[Tuple[DatabaseType, Union[float, int], int]]:
-        """ Get database stats """
+        """Get database stats"""
         total = sum(len(i) for i in self.__database.values())
 
         return [
@@ -97,20 +102,22 @@ class Database:
             for table in self.__database.keys()
         ]
 
-    def get_table_by_str(
-        self, table: str
-    ) -> Union[Literal[False], DatabaseType]:
-        """ Get table object with full name """
-        for _table in self.tables:
-            if table in (_table.full_name, _table.name):
-                return _table
-        return False
+    def get_table_by_str(self, table: str) -> Optional[DatabaseType]:
+        """Get table object with full name"""
+        return next(
+            (
+                _table
+                for _table in self.tables
+                if table in (_table.full_name, _table.name)
+            ),
+            None,
+        )
 
     def update_subdata(self, table: str, _id: int, key: str, value):
-        """ Update sub-data from a table """
+        """Update sub-data from a table"""
         _table = self.get_table_by_str(table)
 
-        if _table is False:
+        if _table is None:
             return Logger.error("Can't find the table.")
 
         if _id not in self.__database[_table]:
@@ -119,10 +126,10 @@ class Database:
         self.__database[_table][_id].sub_data[key] = value
 
     def delete_data(self, table: str, _id: int):
-        """ Delete data from a table """
+        """Delete data from a table"""
         _table = self.get_table_by_str(table)
 
-        if _table is False:
+        if _table is None:
             return Logger.error("Can't find the table.")
 
         if _id not in self.__database[_table]:
@@ -130,12 +137,10 @@ class Database:
 
         del self.__database[_table][_id]
 
-        Logger.success(
-            f"Deleted data from {table} where ID was equal to {_id}."
-        )
+        Logger.success(f"Deleted data from {table} where ID was equal to {_id}.")
 
     def get_id_by_value(self, value: str) -> int:
-        """ Get the id of a value """
+        """Get the id of a value"""
         for table in self.tables:
             for _id, data in self.__database[table].items():
                 if data.value == value:
@@ -143,10 +148,13 @@ class Database:
         return False
 
     def select_data(
-        self, table: str, _id: int = None
+        self, table: str, _id: Optional[int] = None
     ) -> Union[Literal[False], Dict[int, Type]]:
-        """ Select data from a table """
+        """Select data from a table"""
         _table = self.get_table_by_str(table)
+
+        if _table is None:
+            return Logger.warn("Can't find the table.")
 
         return (
             (
@@ -159,7 +167,7 @@ class Database:
         )
 
     def insert_data(self, data: Type):
-        """ Insert data into the table """
+        """Insert data into the table"""
 
         # data validation
         if data.validate() is False:
@@ -167,7 +175,7 @@ class Database:
 
         table = self.get_table_by_str(data.full_name)
 
-        if table is False:
+        if table is None:
             return Logger.warn("Can't find the table.")
 
         # don't add data if its already in the database

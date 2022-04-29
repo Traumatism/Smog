@@ -6,17 +6,17 @@ from smog import database, VARIABLES
 
 
 class Workspace:
-    """ Workspace class """
+    """Workspace class"""
 
     def __init__(self) -> None:
         self.workspace = {
             "name": VARIABLES["workspace_name"],
             "database_b64": database.export_to_data(),
-            "variables": VARIABLES
+            "variables": VARIABLES,
         }
 
     def refresh(self):
-        """ Refresh the workspace """
+        """Refresh the workspace"""
         self.workspace["name"] = VARIABLES["workspace_name"]
         self.workspace["database_b64"] = database.export_to_data()
         self.workspace["variables"] = VARIABLES
@@ -24,7 +24,5 @@ class Workspace:
     def export(self):
         self.refresh()
 
-        with open(
-            f"{self.workspace.get('name', 'default')}.smogws", "wb"
-        ) as file:
+        with open(f"{self.workspace.get('name', 'default')}.smogws", "wb") as file:
             pickle.dump(self.workspace, file)
