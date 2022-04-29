@@ -16,8 +16,7 @@ class HackerTarget(ModuleBase):
 
     def sub_action(self, domain):
         with requests.get(
-            "https://api.hackertarget.com/hostsearch/?q=%(domain)s"
-            % {"domain": domain}
+            "https://api.hackertarget.com/hostsearch/?q=%(domain)s" % {"domain": domain}
         ) as response:
             html_content = response.text
 
