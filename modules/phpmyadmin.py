@@ -329,9 +329,7 @@ class PhpMyAdmin(ModuleBase):
     def sub_action(self, target):
         for path in PHPMYADMIN_PATHS:
             try:
-                response = requests.get(
-                    "%s/%s" % (target, path), verify=False, timeout=5
-                )
+                response = requests.get(f"{target}/{path}", verify=False, timeout=5)
             except Exception:
                 continue
 
