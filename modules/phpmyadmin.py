@@ -329,11 +329,16 @@ class PhpMyAdmin(ModuleBase):
     def sub_action(self, target):
         for path in PHPMYADMIN_PATHS:
             try:
-                response = requests.get(f"{target}/{path}", verify=False, timeout=5)
+                response = requests.get(
+                    f"{target}/{path}", verify=False, timeout=5
+                )
             except Exception:
                 continue
 
-            if "phpmyadmin" in response.text.lower() and response.status_code != 404:
+            if (
+                "phpmyadmin" in response.text.lower()
+                and response.status_code != 404
+            ):
                 self.database.insert_data(URL(response.url))
 
     def execute(self):

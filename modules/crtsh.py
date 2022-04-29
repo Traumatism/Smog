@@ -30,7 +30,11 @@ class CRT(ModuleBase):
             parts = value.split("\n")
 
             for part in parts:
-                if not part.endswith(domain) or part.startswith("*") or part == domain:
+                if (
+                    not part.endswith(domain)
+                    or part.startswith("*")
+                    or part == domain
+                ):
                     continue
 
                 self.database.insert_data(Subdomain(part))
