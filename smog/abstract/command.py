@@ -19,7 +19,11 @@ class CommandBase(metaclass=ABCMeta):
     _arguments: Iterable[Any] = {}
 
     def __init__(
-        self, raw_arguments: Iterable[str], shell, console: Console, database: Database
+        self,
+        raw_arguments: Iterable[str],
+        shell,
+        console: Console,
+        database: Database,
     ):
         self.shell = shell
         self.console = console
