@@ -24,7 +24,9 @@ class Add(CommandBase):
         table = self.database.get_table_by_str(self.arguments.table)
 
         if table is None:
-            return Logger.warn(f"Table '{self.arguments.table}' does not exist.")
+            return Logger.warn(
+                f"Table '{self.arguments.table}' does not exist."
+            )
 
         data = (
             console.input(f"Enter {table.name}: ")
