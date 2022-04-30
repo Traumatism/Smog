@@ -1,6 +1,7 @@
+import smog.banner
+
 from smog.abstract.command import CommandBase
 from smog.logger import console
-from smog.banner import Banner
 
 
 class Clear(CommandBase):
@@ -22,4 +23,4 @@ class Clear(CommandBase):
         console.clear()
 
         if self.arguments.print_banner:
-            Banner.print()
+            console.print(smog.banner.BANNER)

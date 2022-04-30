@@ -1,9 +1,10 @@
 from abc import ABCMeta, abstractmethod
+
 from typing import Any, Dict, Tuple
 
 
 class Type(metaclass=ABCMeta):
-    """ " Abstract class for database types"""
+    """Abstract class for database types"""
 
     name: str = ""
     full_name: str = ""
@@ -20,3 +21,4 @@ class Type(metaclass=ABCMeta):
     @abstractmethod
     def validate(self) -> bool:
         """Validate the value"""
+        raise NotImplementedError
