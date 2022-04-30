@@ -5,7 +5,7 @@ from abc import ABCMeta, abstractmethod
 from typing import Iterable, Optional
 
 from smog.database.database import Database
-from smog.logger.logger import Logger
+from smog.logger import Logger
 
 
 class ModuleBase(metaclass=ABCMeta):

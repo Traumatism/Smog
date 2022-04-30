@@ -5,7 +5,7 @@ from rich.progress import Progress
 from smog.database.types.databaseserver import DatabaseServer
 
 from smog.abstract.module import ModuleBase
-from smog.logger.logger import Logger, console
+from smog.logger import Logger, console
 
 ENGINES = {
     "MySQL": 3306,
@@ -40,19 +40,24 @@ class Dbs(ModuleBase):
             "ip_addrs",
             i,
             engine.lower(),
-            DatabaseServer((ip, port, "null", "null", "null", engine.lower())).export(),
+            DatabaseServer(
+                (ip, port, "null", "null", "null", engine.lower())
+            ).export(),
         )
 
     def execute(self):
         targets = {
             _: target
-            for _, target in (self.database.select_data("ip_addrs") or {}).items()
+            for _, target in (
+                self.database.select_data("ip_addrs") or {}
+            ).items()
             if target.sub_data.get("org", None) != "AS13335 Cloudflare, Inc."
         }
 
         with Progress(console=console) as progress:
             task = progress.add_task(
-                "Scanning for databases", total=len(targets) * len(ENGINES.values())
+                "Scanning for databases",
+                total=len(targets) * len(ENGINES.values()),
             )
 
             for _, target in targets.items():
