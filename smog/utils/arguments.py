@@ -1,4 +1,4 @@
-from argparse import ArgumentParser, HelpFormatter, _HelpAction
+import argparse
 
 from typing import Iterator, Tuple
 
@@ -38,7 +38,7 @@ class ParserError(Exception):
     """Exception parser"""
 
 
-class HelpFormatter(HelpFormatter):
+class HelpFormatter(argparse.HelpFormatter):
     """Custom help formatter"""
 
     def _metavar_formatter(self, action, default_metavar):
@@ -54,7 +54,7 @@ class HelpFormatter(HelpFormatter):
         return format
 
 
-class ArgumentParser(ArgumentParser):
+class ArgumentParser(argparse.ArgumentParser):
     """Custom argument parser"""
 
     @property
@@ -82,7 +82,7 @@ class ArgumentParser(ArgumentParser):
 
         for action_group in self._action_groups:
             if len(action_group._group_actions) == 1 and isinstance(
-                action_group._group_actions[0], _HelpAction
+                action_group._group_actions[0], argparse._HelpAction
             ):
                 continue
 

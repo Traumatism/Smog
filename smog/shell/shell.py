@@ -79,9 +79,7 @@ class Shell:
             completer=self.completer,
             complete_while_typing=False,
             wrap_lines=False,
-            history=InMemoryHistory(
-                [command.command for command in self.commands]
-            ),
+            history=InMemoryHistory([command.command for command in self.commands]),
         )
 
     @property
@@ -129,8 +127,10 @@ class Shell:
             command.arguments = command.parser.parse_args(arguments)
             command.execute()
         except Exception as exc:
+
             if VARIABLES["exceptions_debug"][0] == "false":
                 return Logger.error(str(exc))
+
             return console.print_exception()
 
     def run(self):

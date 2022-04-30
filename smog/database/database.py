@@ -137,9 +137,7 @@ class Database:
 
         del self.__database[_table][_id]
 
-        Logger.success(
-            f"Deleted data from {table} where ID was equal to {_id}."
-        )
+        Logger.success(f"Deleted data from {table} where ID was equal to {_id}.")
 
     def get_id_by_value(self, value: str) -> int:
         """Get the id of a value"""

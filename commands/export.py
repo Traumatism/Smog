@@ -1,5 +1,5 @@
 from smog.abstract.command import CommandBase
-from smog.logger.logger import Logger
+from smog.logger import Logger
 
 
 class Export(CommandBase):
