@@ -1,3 +1,4 @@
+import contextlib
 import requests
 
 from smog.abstract.module import ModuleBase
@@ -17,13 +18,10 @@ class UrlScan(ModuleBase):
     keywords = ["urlscan", "url", "scan", "http", "https", "subdomain"]
 
     def sub_action(self, target, scheme):
-        try:
+        with contextlib.suppress(requests.RequestException):
+            requests.get(f"{scheme}://{target}/", verify=False, timeout=5)
 
-            requests.get("%s://%s/" % (scheme, target), verify=False, timeout=5)
-
-            self.database.insert_data(URL("%s://%s/" % (scheme, target)))
-        except requests.RequestException:
-            pass
+            self.database.insert_data(URL(f"{scheme}://{target}/"))
 
     def execute(self):
         targets = self.database.select_data("subdomains") or {}
