@@ -65,6 +65,7 @@ class Database:
             pickle.dump(self.__database, output)  # serialize the database
 
         self.last_sum_saved = self.md5sum
+
         Logger.success(f"Database exported to '{file}'.")
 
     def import_from_data(self, data: str):
