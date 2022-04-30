@@ -1,6 +1,6 @@
-from json.decoder import JSONDecodeError
 import requests
 
+from json.decoder import JSONDecodeError
 from smog.abstract.module import ModuleBase
 from smog.database.types.subdomain import Subdomain
 

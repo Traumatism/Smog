@@ -79,7 +79,9 @@ class Shell:
             completer=self.completer,
             complete_while_typing=False,
             wrap_lines=False,
-            history=InMemoryHistory([command.command for command in self.commands]),
+            history=InMemoryHistory(
+                [command.command for command in self.commands]
+            ),
         )
 
     @property

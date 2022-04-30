@@ -23,9 +23,15 @@ class Search(CommandBase):
         query = self.arguments.query.lower()
 
         for module in self.shell.modules:
-            if query in module.name.lower() or query in module.description.lower():
+            if (
+                query in module.name.lower()
+                or query in module.description.lower()
+            ):
                 table.add_row(
-                    module.name, module.version, module.description, module.author
+                    module.name,
+                    module.version,
+                    module.description,
+                    module.author,
                 )
 
         self.console.print(table)

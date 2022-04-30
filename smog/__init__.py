@@ -49,7 +49,17 @@ from modules.phpmyadmin import PhpMyAdmin
 from modules.fullhunt import FullHunt
 from modules.dbs import Dbs
 
-MODULES = {CRT, Test, Resolve, HackerTarget, IPInfo, UrlScan, PhpMyAdmin, FullHunt, Dbs}
+MODULES = {
+    CRT,
+    Test,
+    Resolve,
+    HackerTarget,
+    IPInfo,
+    UrlScan,
+    PhpMyAdmin,
+    FullHunt,
+    Dbs,
+}
 
 from commands.credits import Credits
 from commands.select import Select
@@ -83,4 +93,6 @@ COMMANDS = {
     Quit,
 }
 
-from smog.shell import shell
+from smog.shell import Shell
+
+shell = Shell()

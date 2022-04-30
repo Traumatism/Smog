@@ -49,7 +49,9 @@ class HelpFormatter(argparse.HelpFormatter):
         )
 
         def format(tuple_size):
-            return result if isinstance(result, tuple) else (result,) * tuple_size
+            return (
+                result if isinstance(result, tuple) else (result,) * tuple_size
+            )
 
         return format
 
@@ -103,7 +105,9 @@ class ArgumentParser(argparse.ArgumentParser):
 
     def print_help(self):
         """Display the help"""
-        console.print(Panel.fit(f"[bold magenta]{self.description}[/bold magenta]"))
+        console.print(
+            Panel.fit(f"[bold magenta]{self.description}[/bold magenta]")
+        )
 
         console.print(self.format_help(), highlight=True)
 
