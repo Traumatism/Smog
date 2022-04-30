@@ -1,3 +1,7 @@
+# noqa
+# pylint: ignore
+# flake8: noqa
+
 import json
 import os
 

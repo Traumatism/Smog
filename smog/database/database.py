@@ -137,14 +137,29 @@ class Database:
 
         del self.__database[_table][_id]
 
-        Logger.success(f"Deleted data from {table} where ID was equal to {_id}.")
+        Logger.success(
+            f"Deleted data from {table} where ID was equal to {_id}."
+        )
 
     def get_id_by_value(self, value: str) -> int:
         """Get the id of a value"""
+
+        def do_search(table: DatabaseType, value: str):
+            items = list(
+                map(lambda k: (k[0], k[1]), self.__database[table].items())
+            )
+
+            return next(
+                (_id for _id, data in items if data.value == value),
+                None,
+            )
+
         for table in self.tables:
-            for _id, data in self.__database[table].items():
-                if data.value == value:
-                    return _id
+            _id = do_search(table, value)
+
+            if _id is not None:
+                return _id
+
         return False
 
     def select_data(
