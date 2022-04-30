@@ -135,7 +135,7 @@ class Database:
         if _id not in self.__database[_table]:
             return Logger.error("Can't find the data.")
 
-        del self.__database[_table][_id]
+        self.__database[_table].pop(_id)
 
         Logger.success(
             f"Deleted data from {table} where ID was equal to {_id}."
