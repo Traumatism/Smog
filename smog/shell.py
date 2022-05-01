@@ -7,7 +7,7 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.completion import NestedCompleter
 
-from typing import Dict, Union, Set
+from typing import Dict, FrozenSet, Union
 
 from smog import MODULES, COMMANDS, VARIABLES, database
 
@@ -32,14 +32,14 @@ class Shell:
         self.selected_module: Union[ModuleBase, None] = None
 
         # list containing module objects
-        self.modules: Set[ModuleType] = {
+        self.modules: FrozenSet[ModuleType] = frozenset(
             module for module in MODULES if issubclass(module, ModuleBase)
-        }
+        )
 
         # list containing commands objets-
-        self.commands: Set[CommandType] = {
+        self.commands: FrozenSet[CommandType] = frozenset(
             command for command in COMMANDS if issubclass(command, CommandBase)
-        }
+        )
 
         # dictionnary to convert string to module object
         self.modules_map: Dict[str, ModuleType] = {
@@ -60,7 +60,6 @@ class Shell:
 
         for command in self.commands_map.values():
             command = command((), self, console, database)
-
             command.init_arguments()
 
             json_data[command.command] = {
@@ -104,20 +103,22 @@ class Shell:
 
         return rich_to_ansi(prompt)
 
-    def handle_command_line(self, user_input: str):
+    def handle_command_line(self, user_input: str) -> None:
         """Handle user input"""
         if not user_input:
             return
 
         if user_input.startswith("!"):
-            return system(user_input[1:])
+            system(user_input[1:])
+            return
 
         command, arguments = parse_user_input(user_input)
 
         command_cls = self.commands_map.get(command, None)
 
         if command_cls is None:
-            return Logger.error(f"Unknown command: '{command}'.")
+            Logger.error(f"Unknown command: '{command}'.")
+            return
 
         command = command_cls(arguments, self, console, database)
         command.init_arguments()
@@ -131,11 +132,12 @@ class Shell:
         except Exception as exc:
 
             if VARIABLES["exceptions_debug"][0] == "false":
-                return Logger.error(str(exc))
+                Logger.error(str(exc))
+                return
 
             return console.print_exception()
 
-    def run(self):
+    def run(self) -> None:
         """Run the shell"""
 
         self.handle_command_line("clear -d")  # clear screen
