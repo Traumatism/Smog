@@ -52,7 +52,6 @@ from modules.urlscan import UrlScan
 from modules.phpmyadmin import PhpMyAdmin
 from modules.fullhunt import FullHunt
 from modules.dbs import Dbs
-from modules.endpoint import EndpointScan
 
 MODULES = {
     CRT,
@@ -64,7 +63,6 @@ MODULES = {
     PhpMyAdmin,
     FullHunt,
     Dbs,
-    EndpointScan,
 }
 
 from commands.credits import Credits
