@@ -1,5 +1,5 @@
 dnspython==2.1.0
-requests==2.21.0
+requests==2.31.0
 requests-toolbelt==0.9.1
 rich==10.14.0
 prompt_toolkit
