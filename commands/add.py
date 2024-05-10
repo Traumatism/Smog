@@ -11,7 +11,6 @@ class Add(CommandBase):
     description = "Add data to the database"
 
     def init_arguments(self):
-
         self.parser.add_argument(
             "table",
             help="Table to add data to",

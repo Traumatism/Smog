@@ -2,8 +2,8 @@ import socket
 
 from rich.progress import Progress
 
+from smog import registery
 from smog.database.types.databaseserver import DatabaseServer
-
 from smog.abstract.module import ModuleBase
 from smog.logger import Logger, console
 
@@ -19,7 +19,8 @@ ENGINES = {
 }
 
 
-class Dbs(ModuleBase):
+@registery.add_module
+class Module(ModuleBase):
 
     name = "dbs"
     description = "Search for databases servers using port scanning"

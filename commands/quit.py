@@ -11,6 +11,9 @@ class Quit(CommandBase):
     description = "Exit Smog"
     aliases = ("leave", "exit", "q")
 
+    def init_arguments(self):
+        pass
+
     def execute(self):
         response = Prompt.ask(
             "Are you sure you want to exit? ", choices=["y", "n"]

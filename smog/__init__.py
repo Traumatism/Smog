@@ -9,7 +9,6 @@ import os
 PATH = os.path.join(os.path.expanduser("~"), ".smog.json")
 
 if not os.path.exists(PATH) or not os.path.isfile(PATH):
-
     if os.path.exists(PATH):
         os.remove(PATH)
 
@@ -30,7 +29,7 @@ while True:
 VARIABLES = {
     "prompt-char": (">", ("$", ">", "#", ":")),
     "logging-type": (
-        "litteral",
+        "symbols",
         ("litteral", "symbols", "emojis", "fruits", "nerdfont"),
     ),
     "shodan-key": ("null", None),
@@ -39,31 +38,25 @@ VARIABLES = {
     "user-agent": ("Mozilla/5.0", None),
 }
 
-__version__ = "1.2.0"
+__version__ = "1.3"
 
 from smog.database import database
+from smog.registery import Registery
 
-from modules.crtsh import CRT
-from modules.test import Test
-from modules.resolve import Resolve
-from modules.hackertarget import HackerTarget
-from modules.ipinfo import IPInfo
-from modules.urlscan import UrlScan
-from modules.phpmyadmin import PhpMyAdmin
-from modules.fullhunt import FullHunt
-from modules.dbs import Dbs
+registery = Registery()
 
-MODULES = {
-    CRT,
-    Test,
-    Resolve,
-    HackerTarget,
-    IPInfo,
-    UrlScan,
-    PhpMyAdmin,
-    FullHunt,
-    Dbs,
-}
+import glob
+import importlib
+
+modules_files = list(map(
+    lambda module_path: "modules." + module_path[8:][:-3],
+    glob.glob("modules/*.py")
+))
+
+
+list(map(importlib.import_module, modules_files))
+
+MODULES = registery.modules
 
 from commands.credits import Credits
 from commands.select import Select

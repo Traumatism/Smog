@@ -7,7 +7,7 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.completion import NestedCompleter
 
-from typing import Dict, FrozenSet, Union
+from typing import Dict, FrozenSet, Union, Optional
 
 from smog import MODULES, COMMANDS, VARIABLES, database
 
@@ -29,25 +29,27 @@ class Shell:
     """Shell class for Smog"""
 
     def __init__(self):
-        self.selected_module: Union[ModuleBase, None] = None
+        self.selected_module = None
+        self.project_name = None
 
         # list containing module objects
-        self.modules: FrozenSet[ModuleType] = frozenset(
+        self.modules = frozenset(
             module for module in MODULES if issubclass(module, ModuleBase)
         )
 
         # list containing commands objets-
-        self.commands: FrozenSet[CommandType] = frozenset(
+        self.commands = frozenset(
             command for command in COMMANDS if issubclass(command, CommandBase)
         )
 
         # dictionnary to convert string to module object
-        self.modules_map: Dict[str, ModuleType] = {
-            module.name.lower(): module for module in self.modules
+        self.modules_map = {
+            module.name.lower(): module
+            for module in self.modules
         }
 
         # dictionnary to convert string to command object
-        self.commands_map: Dict[str, CommandType] = {}
+        self.commands_map = {}
 
         for command in self.commands:
             self.commands_map[command.command.lower()] = command
@@ -62,9 +64,7 @@ class Shell:
             command = command((), self, console, database)
             command.init_arguments()
 
-            json_data[command.command] = {
-                argument: None for argument in command.parser.completions
-            }
+            json_data[command.command] = dict.fromkeys(command.parser.completions)
 
             # add from developer-provided arguments
             for argument in command._arguments:
@@ -91,13 +91,13 @@ class Shell:
     @property
     def prompt(self):
         """Get shell prompt"""
-        prompt = "([bold cyan]smog[/bold cyan])"
+        prompt = "[bold white]smog[/]"
 
         if self.selected_module is not None:
-            prompt += f"([bold cyan]{self.selected_module.name}[/bold cyan])"
+            prompt += f"({self.selected_module.name})"
 
         if self.execution_time >= 2:
-            prompt += f"([bold cyan]took {self.execution_time}s[/bold cyan])"
+            prompt += f"(took {self.execution_time}s)"
 
         prompt += f" {VARIABLES['prompt-char'][0]} "
 
@@ -114,23 +114,20 @@ class Shell:
 
         command, arguments = parse_user_input(user_input)
 
-        command_cls = self.commands_map.get(command, None)
-
-        if command_cls is None:
+        if (command_cls := self.commands_map.get(command, None)) is None:
             Logger.error(f"Unknown command: '{command}'.")
             return
 
-        command = command_cls(arguments, self, console, database)
-        command.init_arguments()
+        cmd_instance = command_cls(arguments, self, console, database)
+        cmd_instance.init_arguments()
 
         if "-h" in arguments or "--help" in arguments:
-            return command.parser.print_help()
+            return cmd_instance.parser.print_help()
 
         try:
-            command.arguments = command.parser.parse_args(arguments)
-            command.execute()
+            cmd_instance.arguments = cmd_instance.parser.parse_args(arguments)
+            cmd_instance.execute()
         except Exception as exc:
-
             if VARIABLES["exceptions_debug"][0] == "false":
                 Logger.error(str(exc))
                 return
@@ -147,10 +144,11 @@ class Shell:
         self.start_time = time.time()
 
         while True:
+            if self.project_name:
+                self.handle_command_line(f"export -q {self.project_name}")
+
             self.end_time = time.time()
-
             user_input = self.prompt_session.prompt(self.prompt)
-
             self.start_time = time.time()
 
             self.handle_command_line(user_input)

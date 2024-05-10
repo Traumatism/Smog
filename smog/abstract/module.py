@@ -68,4 +68,6 @@ class ModuleBase(metaclass=ABCMeta):
     @abstractmethod
     def execute(self):
         """Execute the module"""
-        raise NotImplementedError
+
+
+ABC = ModuleBase

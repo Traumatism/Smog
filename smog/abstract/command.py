@@ -36,6 +36,7 @@ class CommandBase(metaclass=ABCMeta):
 
         self.arguments = Namespace()
 
+    @abstractmethod
     def init_arguments(self):
         """Initialize command arguments"""
 

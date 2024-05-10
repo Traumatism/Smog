@@ -1,7 +1,8 @@
 import contextlib
 import requests
 
-from smog.abstract.module import ModuleBase
+from smog import registery
+from smog.abstract.module import ABC
 from smog.database.types.url import URL
 
 from urllib3 import disable_warnings
@@ -9,7 +10,8 @@ from urllib3 import disable_warnings
 disable_warnings()
 
 
-class UrlScan(ModuleBase):
+@registery.add_module
+class Module(ABC):
 
     name = "urlscan"
     description = "Scan subdomains/IP addresses for HTTP(s) protocols"
@@ -20,7 +22,6 @@ class UrlScan(ModuleBase):
     def sub_action(self, target, scheme):
         with contextlib.suppress(requests.RequestException):
             requests.get(f"{scheme}://{target}/", verify=False, timeout=5)
-
             self.database.insert_data(URL(f"{scheme}://{target}/"))
 
     def execute(self):

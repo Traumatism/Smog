@@ -1,5 +1,5 @@
 from rich.table import Table
-from rich.box import SIMPLE
+from rich.box import ASCII2
 
 from smog import VARIABLES
 
@@ -20,13 +20,13 @@ class Show(CommandBase):
         )
 
     def execute(self):
-        table = Table(box=SIMPLE)
+        table = Table(box=ASCII2)
 
         if self.arguments.type == "stats":
 
-            table.add_column("Type", style="bold green")
-            table.add_column("%", style="bold blue")
-            table.add_column("Count", style="bold cyan")
+            table.add_column("Type", style="bold white")
+            table.add_column("%", style="bold white")
+            table.add_column("Count", style="bold white")
 
             try:
                 for _table, percents, count in self.database.stats:
@@ -40,10 +40,10 @@ class Show(CommandBase):
 
         if self.arguments.type == "modules":
 
-            table.add_column("Module", style="bold green")
-            table.add_column("Version", style="bold blue")
-            table.add_column("Description", style="bold cyan")
-            table.add_column("Author", style="bold magenta")
+            table.add_column("Module", style="bold white")
+            table.add_column("Version", style="bold white")
+            table.add_column("Description", style="bold white")
+            table.add_column("Author", style="bold white")
 
             for module in self.shell.modules:
                 table.add_row(
@@ -55,17 +55,17 @@ class Show(CommandBase):
 
         if self.arguments.type == "variables":
 
-            table.add_column("Variable", style="bold green")
-            table.add_column("Value", style="bold cyan")
+            table.add_column("Variable", style="bold white")
+            table.add_column("Value", style="bold white")
 
             for v, _v in VARIABLES.items():
                 table.add_row(v, _v[0])
 
         if self.arguments.type == "tables":
 
-            table.add_column("Table", style="bold green")
-            table.add_column("Description", style="bold cyan")
-            table.add_column("Alias", style="bold magenta")
+            table.add_column("Table", style="bold white")
+            table.add_column("Description", style="bold white")
+            table.add_column("Alias", style="bold white")
 
             for _table in self.database.tables:
                 table.add_row(

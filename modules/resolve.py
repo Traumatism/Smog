@@ -1,10 +1,12 @@
 import dns.resolver
 
-from smog.abstract.module import ModuleBase
+from smog import registery
+from smog.abstract.module import ABC
 from smog.database.types.ip_address import IPAddress
 
 
-class Resolve(ModuleBase):
+@registery.add_module
+class Module(ABC):
 
     name = "resolve"
     version = "0.0.1"
@@ -12,7 +14,9 @@ class Resolve(ModuleBase):
     description = "Resolve subdomains to IP addresses"
     category = "resolving"
 
-    def sub_action(self, target: str):
+    def sub_action(self, *args):
+        (target,) = args
+
         try:
             answers = dns.resolver.resolve(target, "A")
 
@@ -34,7 +38,7 @@ class Resolve(ModuleBase):
                 )
 
         except Exception:
-            return
+            pass
 
     def execute(self):
         targets = self.database.select_data("subdomains") or {}

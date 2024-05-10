@@ -1,5 +1,6 @@
 import requests
 
+from smog import registery
 from smog.abstract.module import ModuleBase
 from smog.database.types.url import URL
 
@@ -320,7 +321,8 @@ PHPMYADMIN_PATHS = (
 disable_warnings()
 
 
-class PhpMyAdmin(ModuleBase):
+@registery.add_module
+class Module(ModuleBase):
 
     name = "phpmyadmin"
     description = "Search for phpmyadmin in the URLs"

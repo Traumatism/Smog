@@ -1,10 +1,12 @@
 import requests
 
-from smog.abstract.module import ModuleBase
+from smog import registery
+from smog.abstract.module import ABC
 from smog.database.types.subdomain import Subdomain
 
 
-class CRT(ModuleBase):
+@registery.add_module
+class Module(ABC):
 
     name = "crtsh"
     version = "0.0.1"

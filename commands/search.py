@@ -1,5 +1,5 @@
 from rich.table import Table
-from rich.box import SIMPLE
+from rich.box import ASCII2
 
 from smog.abstract.command import CommandBase
 
@@ -13,12 +13,12 @@ class Search(CommandBase):
         self.parser.add_argument("query", help="Query to search")
 
     def execute(self):
-        table = Table(box=SIMPLE)
+        table = Table(box=ASCII2)
 
-        table.add_column("Module", style="bold green")
-        table.add_column("Version", style="bold blue")
-        table.add_column("Description", style="bold cyan")
-        table.add_column("Author", style="bold magenta")
+        table.add_column("Module", style="bold white")
+        table.add_column("Version", style="bold white")
+        table.add_column("Description", style="bold white")
+        table.add_column("Author", style="bold white")
 
         query = self.arguments.query.lower()
 

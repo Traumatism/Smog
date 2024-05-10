@@ -6,9 +6,9 @@ from typing import Any, Dict, Tuple
 class Type(metaclass=ABCMeta):
     """Abstract class for database types"""
 
-    name: str = ""
-    full_name: str = ""
-    description: str = ""
+    name = ""
+    full_name = ""
+    description = ""
 
     def __init__(self, value: Any):
         self.value = value

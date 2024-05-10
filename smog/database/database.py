@@ -56,7 +56,7 @@ class Database:
         """Is the database empty?"""
         return not bool(sum((len(_) for _ in self.__database.values())))
 
-    def export_db(self, file: str):
+    def export_db(self, file: str, quiet: bool):
         """Export database to a file"""
 
         file += "" if file.endswith(".smog") else ".smog"
@@ -66,7 +66,8 @@ class Database:
 
         self.last_sum_saved = self.md5sum
 
-        Logger.success(f"Database exported to '{file}'.")
+        if not quiet:
+            Logger.success(f"Database exported to '{file}'.")
 
     def import_from_data(self, data: str):
         pass

@@ -1,11 +1,13 @@
 import requests
 
 from json.decoder import JSONDecodeError
+from smog import registery
 from smog.abstract.module import ModuleBase
 from smog.database.types.subdomain import Subdomain
 
 
-class FullHunt(ModuleBase):
+@registery.add_module
+class Module(ModuleBase):
 
     name = "fullhunt"
     version = "0.0.1"

@@ -1,10 +1,12 @@
 import requests
 
-from smog.abstract.module import ModuleBase
+from smog import registery
+from smog.abstract.module import ABC
 from smog.database.types.ip_address import IPAddress
 
 
-class IPInfo(ModuleBase):
+@registery.add_module
+class Module(ABC):
 
     name = "ipinfo"
     version = "0.0.1"
@@ -12,7 +14,9 @@ class IPInfo(ModuleBase):
     description = "Gather informations on IP addresses"
     category = "scanning"
 
-    def sub_action(self, ip_address: IPAddress):
+    def sub_action(self, *args):
+        (ip_address,) = args
+
         with requests.get(f"https://ipinfo.io/{ip_address.value}/json") as response:
             json_data = response.json()
 

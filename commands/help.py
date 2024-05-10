@@ -1,5 +1,5 @@
 from rich.table import Table
-from rich.box import SIMPLE
+from rich.box import ASCII2
 
 from smog.abstract.command import CommandBase
 
@@ -34,11 +34,11 @@ class Help(CommandBase):
                 self.console.print(panel)
             return
 
-        table = Table(box=SIMPLE)
+        table = Table(box=ASCII2)
 
-        table.add_column("Command", style="bold green")
-        table.add_column("Description", style="bold cyan")
-        table.add_column("Aliases", style="bold magenta")
+        table.add_column("Command", style="bold white")
+        table.add_column("Description", style="bold white")
+        table.add_column("Aliases", style="bold white")
 
         for command in self.shell.commands:
             table.add_row(

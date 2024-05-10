@@ -31,8 +31,8 @@ class Select(CommandBase):
         table = Table(box=ASCII2)
 
         table.add_column("#", style="bold bright_black")
-        table.add_column("Value", style="bold green")
-        table.add_column("Sub-data", style="bold magenta")
+        table.add_column("Value", style="bold white")
+        table.add_column("Sub-data", style="bold white")
 
         for i, j in data.items():
             table.add_row(str(i), j.value, str(j.sub_data))

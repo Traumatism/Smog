@@ -16,7 +16,6 @@ class Use(CommandBase):
         )
 
     def execute(self):
-
         module = self.shell.modules_map.get(self.arguments.module, None)
 
         if module is None:
