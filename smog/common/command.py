@@ -1,9 +1,6 @@
 from argparse import Namespace
-
 from typing import Iterable, Any
-
 from rich.console import Console
-
 from abc import ABCMeta, abstractmethod
 
 from smog.database.database import Database
@@ -31,7 +28,8 @@ class CommandBase(metaclass=ABCMeta):
         self.raw_arguments = raw_arguments
 
         self.parser = ArgumentParser(
-            description=self.description, usage=f"{self.command} <options>"
+            description=self.description,
+            usage=f"{self.command} <options>"
         )
 
         self.arguments = Namespace()
