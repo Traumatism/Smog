@@ -24,10 +24,10 @@ class Highlighter(RegexHighlighter):
 
 theme = Theme(
     {
-        "arguments.metavar": "bold magenta",
-        "arguments.argument": "bold yellow",
-        "arguments.usage": "cyan",
-        "arguments.opt": "bold green",
+        "arguments.metavar": "bold white",
+        "arguments.argument": "bold white",
+        "arguments.usage": "white",
+        "arguments.opt": "bold white",
     }
 )
 
@@ -99,14 +99,14 @@ class ArgumentParser(argparse.ArgumentParser):
         """Display the help"""
 
         return (
-            Panel.fit(f"[bold magenta]{self.description}[/bold magenta]"),
+            Panel.fit(f"[bold white]{self.description}[/bold white]"),
             render(self.format_help()),
         )
 
     def print_help(self):
         """Display the help"""
         console.print(
-            Panel.fit(f"[bold magenta]{self.description}[/bold magenta]")
+            Panel.fit(f"[bold white]{self.description}[/bold white]")
         )
 
         console.print(self.format_help(), highlight=True)

@@ -1,5 +1,6 @@
 from rich.console import Console
 from typing import Literal
+
 from smog import VARIABLES
 
 console = Console()
@@ -31,7 +32,7 @@ class Logger:
     def __log(cls, message: str, prefix: str):
         """Log a message to the console"""
         console.print(
-            f"[bold bright_black][{prefix}][/bold bright_black] {message}"
+            f"[{prefix}] {message}"
         )
 
     @classmethod

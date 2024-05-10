@@ -2,6 +2,7 @@
 *.smog
 .idea
 a.sh
+modules/private_*.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

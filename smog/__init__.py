@@ -1,9 +1,9 @@
-# noqa
-# pylint: ignore
-# flake8: noqa
-
+import importlib
+import glob
 import json
 import os
+
+from typing import List, Type
 
 
 PATH = os.path.join(os.path.expanduser("~"), ".smog.json")
@@ -41,12 +41,11 @@ VARIABLES = {
 __version__ = "1.3"
 
 from smog.database import database
-from smog.registery import Registery
+from smog.common.module import ModuleBase
 
-registery = Registery()
+registery: List[Type[ModuleBase]] = []
 
-import glob
-import importlib
+module = registery.append
 
 modules_files = list(map(
     lambda module_path: "modules." + module_path[8:][:-3],
@@ -56,7 +55,7 @@ modules_files = list(map(
 
 list(map(importlib.import_module, modules_files))
 
-MODULES = registery.modules
+MODULES = registery
 
 from commands.credits import Credits
 from commands.select import Select

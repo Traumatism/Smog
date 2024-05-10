@@ -14,7 +14,6 @@ from smog import MODULES, COMMANDS, VARIABLES, database
 from smog.logger import Logger, console
 from smog.common.module import ModuleBase
 from smog.common.command import CommandBase
-from smog.types import ModuleType, CommandType
 from smog.utils.shell import parse_user_input, rich_to_ansi
 
 TIPS = (
@@ -33,12 +32,14 @@ class Shell:
 
         # list containing module objects
         self.modules = frozenset(
-            module for module in MODULES if issubclass(module, ModuleBase)
+            module for module in MODULES
+            if issubclass(module, ModuleBase)
         )
 
         # list containing commands objets-
         self.commands = frozenset(
-            command for command in COMMANDS if issubclass(command, CommandBase)
+            command for command in COMMANDS
+            if issubclass(command, CommandBase)
         )
 
         # dictionnary to convert string to module object
@@ -75,7 +76,7 @@ class Shell:
         # setup prompt
         self.prompt_session = PromptSession(
             completer=self.completer,
-            complete_while_typing=False,
+            complete_while_typing=True,
             wrap_lines=False,
             history=InMemoryHistory([command.command for command in self.commands]),
         )

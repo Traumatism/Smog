@@ -20,6 +20,7 @@ class Help(CommandBase):
         )
 
     def execute(self):
+
         if self.arguments.print_full:
             for command in self.shell.commands:
 

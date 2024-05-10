@@ -1,6 +1,6 @@
 import requests
 
-from smog import registery
+from smog import module
 from smog.common.module import ABC
 from smog.database.types.url import URL
 
@@ -321,7 +321,7 @@ PHPMYADMIN_PATHS = (
 disable_warnings()
 
 
-@registery.add_module
+@module
 class Module(ABC):
 
     name = "phpmyadmin"

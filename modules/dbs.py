@@ -2,7 +2,7 @@ import socket
 
 from rich.progress import Progress
 
-from smog import registery
+from smog import module
 from smog.database.types.databaseserver import DatabaseServer
 from smog.common.module import ABC
 from smog.logger import Logger, console
@@ -19,7 +19,7 @@ ENGINES = {
 }
 
 
-@registery.add_module
+@module
 class Module(ABC):
 
     name = "dbs"
