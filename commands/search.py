@@ -1,7 +1,7 @@
 from rich.table import Table
 from rich.box import ASCII2
 
-from smog.abstract.command import CommandBase
+from smog.common.command import CommandBase
 
 
 class Search(CommandBase):

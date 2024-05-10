@@ -21,7 +21,7 @@ class CommandBase(metaclass=ABCMeta):
     def __init__(
         self,
         raw_arguments: Iterable[str],
-        shell,
+        shell,  # can't import Shell due to circular imports, llo
         console: Console,
         database: Database,
     ):

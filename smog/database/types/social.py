@@ -1,4 +1,4 @@
-from smog.abstract.type import Type
+from smog.common.type import Type
 
 TYPES = ("instagram.com", "facebook.com", "github.com")
 

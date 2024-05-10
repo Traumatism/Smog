@@ -1,13 +1,13 @@
 import requests
 
 from smog import registery
-from smog.abstract.module import ModuleBase
+from smog.common.module import ABC
 from smog.database.types.subdomain import Subdomain
 from smog.database.types.ip_address import IPAddress
 
 
 @registery.add_module
-class Module(ModuleBase):
+class Module(ABC):
 
     name = "hackertarget"
     version = "0.0.1"

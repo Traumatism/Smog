@@ -4,7 +4,7 @@ from rich.box import ASCII2
 from smog import VARIABLES
 
 from smog.logger import Logger
-from smog.abstract.command import CommandBase
+from smog.common.command import CommandBase
 
 
 class Show(CommandBase):

@@ -5,7 +5,7 @@ import base64
 from typing import Dict, Iterable, List, Literal, Union, Tuple, Optional
 from typing import Type as _Type
 
-from smog.abstract.type import Type
+from smog.common.type import Type
 from smog.logger import Logger
 
 from smog.database.types import (
@@ -40,7 +40,7 @@ class Database:
         }
 
         self.__database: DatabaseDict = {
-            table: {} for table in self.__tables if issubclass(table, Type)
+            table: {} for table in self.__tables if issubclass(table, Type)  # type: ignore
         }
 
         self.saved = False
@@ -190,9 +190,7 @@ class Database:
         if data.validate() is False:
             return Logger.warn(f"Can't validate the data: '{data.value}'.")
 
-        table = self.get_table_by_str(data.full_name)
-
-        if table is None:
+        if (table := self.get_table_by_str(data.full_name)) is None:
             return Logger.warn("Can't find the table.")
 
         # don't add data if its already in the database

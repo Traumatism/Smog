@@ -1,6 +1,6 @@
 from smog import MODULES
 from smog.logger import Logger
-from smog.abstract.command import CommandBase
+from smog.common.command import CommandBase
 
 
 class Use(CommandBase):

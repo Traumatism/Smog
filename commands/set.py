@@ -1,4 +1,4 @@
-from smog.abstract.command import CommandBase
+from smog.common.command import CommandBase
 from smog.logger import Logger
 
 from smog import VARIABLES

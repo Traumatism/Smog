@@ -2,7 +2,7 @@ import contextlib
 import requests
 
 from smog import registery
-from smog.abstract.module import ABC
+from smog.common.module import ABC
 from smog.database.types.url import URL
 
 from urllib3 import disable_warnings

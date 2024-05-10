@@ -12,8 +12,8 @@ from typing import Dict, FrozenSet, Union, Optional
 from smog import MODULES, COMMANDS, VARIABLES, database
 
 from smog.logger import Logger, console
-from smog.abstract.module import ModuleBase
-from smog.abstract.command import CommandBase
+from smog.common.module import ModuleBase
+from smog.common.command import CommandBase
 from smog.types import ModuleType, CommandType
 from smog.utils.shell import parse_user_input, rich_to_ansi
 
@@ -21,7 +21,6 @@ TIPS = (
     "Type 'help' to see a list of available commands.",
     "Use '!command' to run a command in the shell.",
     "If you are using a Nerd Font, you can use 'set logging-type nerdfont'.",
-    "Subscribe to my Twitter: @toastakerman :)",
 )
 
 
@@ -78,9 +77,7 @@ class Shell:
             completer=self.completer,
             complete_while_typing=False,
             wrap_lines=False,
-            history=InMemoryHistory(
-                [command.command for command in self.commands]
-            ),
+            history=InMemoryHistory([command.command for command in self.commands]),
         )
 
     @property

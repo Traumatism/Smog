@@ -1,7 +1,7 @@
 import requests
 
 from smog import registery
-from smog.abstract.module import ModuleBase
+from smog.common.module import ABC
 from smog.database.types.url import URL
 
 from urllib3 import disable_warnings
@@ -322,7 +322,7 @@ disable_warnings()
 
 
 @registery.add_module
-class Module(ModuleBase):
+class Module(ABC):
 
     name = "phpmyadmin"
     description = "Search for phpmyadmin in the URLs"

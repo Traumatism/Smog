@@ -1,3 +1,4 @@
+
 class Registery:
     def __init__(self):
         self.modules = []

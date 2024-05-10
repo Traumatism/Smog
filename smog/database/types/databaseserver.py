@@ -1,6 +1,6 @@
 from typing import Literal, Tuple
 
-from smog.abstract.type import Type
+from smog.common.type import Type
 from smog.database.types.ip_address import IPAddress
 
 ValueType = Tuple[

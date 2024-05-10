@@ -1,6 +1,6 @@
 import re
 
-from smog.abstract.type import Type
+from smog.common.type import Type
 
 
 class IPAddress(Type):

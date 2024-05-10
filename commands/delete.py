@@ -1,6 +1,6 @@
 import re
 
-from smog.abstract.command import CommandBase
+from smog.common.command import CommandBase
 
 
 class Delete(CommandBase):

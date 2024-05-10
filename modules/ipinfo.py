@@ -1,7 +1,7 @@
 import requests
 
 from smog import registery
-from smog.abstract.module import ABC
+from smog.common.module import ABC
 from smog.database.types.ip_address import IPAddress
 
 

@@ -1,7 +1,7 @@
 from rich.table import Table
 from rich.box import ASCII2
 
-from smog.abstract.command import CommandBase
+from smog.common.command import CommandBase
 
 
 class Help(CommandBase):
@@ -20,7 +20,6 @@ class Help(CommandBase):
         )
 
     def execute(self):
-
         if self.arguments.print_full:
             for command in self.shell.commands:
 

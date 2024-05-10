@@ -3,7 +3,7 @@ from rich.box import ASCII2
 
 from smog import database
 
-from smog.abstract.command import CommandBase
+from smog.common.command import CommandBase
 from smog.logger import Logger
 
 

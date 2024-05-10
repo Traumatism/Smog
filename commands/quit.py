@@ -2,7 +2,7 @@ import sys
 
 from rich.prompt import Prompt
 
-from smog.abstract.command import CommandBase
+from smog.common.command import CommandBase
 
 
 class Quit(CommandBase):
