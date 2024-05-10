@@ -15,50 +15,30 @@ class Logger:
     INFO = "*"
 
     @classmethod
-    def reload(cls):
-        maps = {
-            "litteral": ("info", "okay", "warn", "fail"),
-            "symbols": ("*", "+", "!", "-"),
-            "emojis": ("ℹ️", "✅", "⚠️", "❌"),
-            "fruits": ("🫐", "🍏", "🍋", "🍎"),
-            "nerdfont": ("", "", "", ""),
-        }
-
-        cls.INFO, cls.SUCCESS, cls.WARNING, cls.ERROR = maps.get(
-            VARIABLES["logging-type"][0], (" ",) * 4
-        )
-
-    @classmethod
     def __log(cls, message: str, prefix: str):
         """Log a message to the console"""
-        console.print(
-            f"[{prefix}] {message}"
-        )
+        console.print(f"[{prefix}] {message}")
 
     @classmethod
     def info(cls, message: str) -> Literal[True]:
         """Log an info message"""
-        cls.reload()
         cls.__log(message, f"[bold cyan]{cls.INFO}[/bold cyan]")
         return True
 
     @classmethod
     def warn(cls, message: str) -> Literal[False]:
         """Log a warning message"""
-        cls.reload()
         cls.__log(message, f"[bold yellow]{cls.WARNING}[/bold yellow]")
         return False
 
     @classmethod
     def error(cls, message: str) -> Literal[False]:
         """Log an error message"""
-        cls.reload()
         cls.__log(message, f"[bold red]{cls.ERROR}[/bold red]")
         return False
 
     @classmethod
     def success(cls, message: str) -> Literal[True]:
         """Log a success message"""
-        cls.reload()
         cls.__log(message, f"[bold green]{cls.SUCCESS}[/bold green]")
         return True

@@ -31,8 +31,7 @@ class Show(CommandBase):
             try:
                 for _table, percents, count in self.database.stats:
                     table.add_row(
-                        _table.description.lower(),
-                        *map(str, (percents, count))
+                        _table.description.lower(), *map(str, (percents, count))
                     )
 
             except ZeroDivisionError:
@@ -68,8 +67,6 @@ class Show(CommandBase):
             table.add_column("Alias", style="bold white")
 
             for _table in self.database.tables:
-                table.add_row(
-                    _table.full_name, _table.description, _table.name
-                )
+                table.add_row(_table.full_name, _table.description, _table.name)
 
         return self.console.print(table)

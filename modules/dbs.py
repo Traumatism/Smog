@@ -21,7 +21,6 @@ ENGINES = {
 
 @module
 class Module(ABC):
-
     name = "dbs"
     description = "Search for databases servers using port scanning"
     author = "toastakerman"
@@ -41,17 +40,13 @@ class Module(ABC):
             "ip_addrs",
             i,
             engine.lower(),
-            DatabaseServer(
-                (ip, port, "null", "null", "null", engine.lower())
-            ).export(),
+            DatabaseServer((ip, port, "null", "null", "null", engine.lower())).export(),
         )
 
     def execute(self):
         targets = {
             _: target
-            for _, target in (
-                self.database.select_data("ip_addrs") or {}
-            ).items()
+            for _, target in (self.database.select_data("ip_addrs") or {}).items()
             if target.sub_data.get("org", None) != "AS13335 Cloudflare, Inc."
         }
 

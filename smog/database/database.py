@@ -117,9 +117,7 @@ class Database:
 
     def update_subdata(self, table: str, _id: int, key: str, value):
         """Update sub-data from a table"""
-        _table = self.get_table_by_str(table)
-
-        if _table is None:
+        if (_table := self.get_table_by_str(table)) is None:
             return Logger.error("Can't find the table.")
 
         if _id not in self.__database[_table]:
@@ -129,9 +127,7 @@ class Database:
 
     def delete_data(self, table: str, _id: int):
         """Delete data from a table"""
-        _table = self.get_table_by_str(table)
-
-        if _table is None:
+        if (_table := self.get_table_by_str(table)) is None:
             return Logger.error("Can't find the table.")
 
         if _id not in self.__database[_table]:
@@ -139,17 +135,13 @@ class Database:
 
         self.__database[_table].pop(_id)
 
-        Logger.success(
-            f"Deleted data from {table} where ID was equal to {_id}."
-        )
+        Logger.success(f"Deleted data from {table} where ID was equal to {_id}.")
 
     def get_id_by_value(self, value: str) -> int:
         """Get the id of a value"""
 
         def do_search(table: DatabaseType, value: str):
-            items = list(
-                map(lambda k: (k[0], k[1]), self.__database[table].items())
-            )
+            items = list(map(lambda k: (k[0], k[1]), self.__database[table].items()))
 
             return next(
                 (_id for _id, data in items if data.value == value),
@@ -157,9 +149,7 @@ class Database:
             )
 
         for table in self.tables:
-            _id = do_search(table, value)
-
-            if _id is not None:
+            if (_id := do_search(table, value)) is not None:
                 return _id
 
         return False
@@ -168,9 +158,8 @@ class Database:
         self, table: str, _id: Optional[int] = None
     ) -> Union[Literal[False], Dict[int, Type]]:
         """Select data from a table"""
-        _table = self.get_table_by_str(table)
 
-        if _table is None:
+        if (_table := self.get_table_by_str(table)) is None:
             return Logger.warn("Can't find the table.")
 
         return (
@@ -183,7 +172,7 @@ class Database:
             else False
         )
 
-    def insert_data(self, data: Type):
+    def insert_data(self, data: Type) -> int | None:
         """Insert data into the table"""
 
         # data validation
@@ -196,7 +185,7 @@ class Database:
         # don't add data if its already in the database
         for _, j in self.__database[table].items():
             if j.value == data.value:
-                return
+                return None
 
         # generate the ID
         _id = (
@@ -208,3 +197,5 @@ class Database:
         self.__database[table][_id] = data  # assign new data to the ID
 
         Logger.success(f"Added '{data.value}' to {table.full_name}.")
+
+        return _id

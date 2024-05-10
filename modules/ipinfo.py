@@ -7,16 +7,13 @@ from smog.database.types.ip_address import IPAddress
 
 @module
 class Module(ABC):
-
     name = "ipinfo"
     version = "0.0.1"
     author = "toastakerman"
     description = "Gather informations on IP addresses"
     category = "scanning"
 
-    def sub_action(self, *args):
-        (ip_address,) = args
-
+    def sub_action(self, ip_address):
         with requests.get(f"https://ipinfo.io/{ip_address.value}/json") as response:
             json_data = response.json()
 
@@ -38,7 +35,5 @@ class Module(ABC):
             pass
 
     def execute(self):
-        targets = self.database.select_data("ip_addrs") or {}
-
-        for _, target in targets.items():
+        for _, target in (self.database.select_data("ip_addrs") or {}).items():
             self.respect_threads_run((target,))

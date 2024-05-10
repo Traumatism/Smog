@@ -19,8 +19,12 @@ class Module(ABC):
 
     def sub_action(self, target, scheme):
         with contextlib.suppress(requests.RequestException):
-            requests.get(f"{scheme}://{target}/", verify=False, timeout=5)
-            self.database.insert_data(URL(f"{scheme}://{target}/"))
+            response = requests.get(f"{scheme}://{target}/", verify=False, timeout=5)
+
+            _id = self.database.insert_data(URL(f"{scheme}://{target}/"))
+
+            self.database.update_subdata("urls", _id, "body", response.text)
+            self.database.update_subdata("urls", _id, "headers", response.headers)
 
     def execute(self):
         targets = self.database.select_data("subdomains") or {}

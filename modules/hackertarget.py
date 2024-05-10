@@ -8,7 +8,6 @@ from smog.database.types.ip_address import IPAddress
 
 @module
 class Module(ABC):
-
     name = "hackertarget"
     version = "0.0.1"
     author = "toastakerman"
@@ -31,7 +30,5 @@ class Module(ABC):
             self.database.insert_data(IPAddress(parts[1]))
 
     def execute(self):
-        targets = self.database.select_data("domains") or {}
-
-        for _, target in targets.items():
+        for _, target in (self.database.select_data("domains") or {}).items():
             self.respect_threads_run((target.value,))

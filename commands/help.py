@@ -24,9 +24,7 @@ class Help(CommandBase):
         if self.arguments.print_full:
             for command in self.shell.commands:
 
-                command_cls = command(
-                    (), self.shell, self.console, self.database
-                )
+                command_cls = command((), self.shell, self.console, self.database)
                 command_cls.init_arguments()
 
                 panel = command_cls.parser.print_help()

@@ -323,7 +323,6 @@ disable_warnings()
 
 @module
 class Module(ABC):
-
     name = "phpmyadmin"
     description = "Search for phpmyadmin in the URLs"
     author = "toastakerman"
@@ -339,6 +338,5 @@ class Module(ABC):
                 self.database.insert_data(URL(response.url))
 
     def execute(self):
-        targets = self.database.select_data("urls") or {}
-        for _, target in targets.items():
+        for _, target in (self.database.select_data("urls") or {}).items():
             self.respect_threads_run((target,))

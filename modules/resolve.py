@@ -7,16 +7,13 @@ from smog.database.types.ip_address import IPAddress
 
 @module
 class Module(ABC):
-
     name = "resolve"
     version = "0.0.1"
     author = "toastakerman"
     description = "Resolve subdomains to IP addresses"
     category = "resolving"
 
-    def sub_action(self, *args):
-        (target,) = args
-
+    def sub_action(self, target):
         try:
             answers = dns.resolver.resolve(target, "A")
 

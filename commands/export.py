@@ -10,7 +10,9 @@ class Export(CommandBase):
 
     def init_arguments(self):
         self.parser.add_argument("file", help="File to export the DB to")
-        self.parser.add_argument("-q", "--quiet", help="Export silently", action="store_true")
+        self.parser.add_argument(
+            "-q", "--quiet", help="Export silently", action="store_true"
+        )
 
     def execute(self):
         if self.database.is_empty is True:

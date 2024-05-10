@@ -16,12 +16,6 @@ from smog.common.module import ModuleBase
 from smog.common.command import CommandBase
 from smog.utils.shell import parse_user_input, rich_to_ansi
 
-TIPS = (
-    "Type 'help' to see a list of available commands.",
-    "Use '!command' to run a command in the shell.",
-    "If you are using a Nerd Font, you can use 'set logging-type nerdfont'.",
-)
-
 
 class Shell:
     """Shell class for Smog"""
@@ -32,21 +26,16 @@ class Shell:
 
         # list containing module objects
         self.modules = frozenset(
-            module for module in MODULES
-            if issubclass(module, ModuleBase)
+            module for module in MODULES if issubclass(module, ModuleBase)
         )
 
         # list containing commands objets-
         self.commands = frozenset(
-            command for command in COMMANDS
-            if issubclass(command, CommandBase)
+            command for command in COMMANDS if issubclass(command, CommandBase)
         )
 
         # dictionnary to convert string to module object
-        self.modules_map = {
-            module.name.lower(): module
-            for module in self.modules
-        }
+        self.modules_map = {module.name.lower(): module for module in self.modules}
 
         # dictionnary to convert string to command object
         self.commands_map = {}
@@ -136,9 +125,6 @@ class Shell:
         """Run the shell"""
 
         self.handle_command_line("clear -d")  # clear screen
-
-        Logger.info(f"{random.choice(TIPS)}\n")
-
         self.start_time = time.time()
 
         while True:

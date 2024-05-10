@@ -28,8 +28,7 @@ class CommandBase(metaclass=ABCMeta):
         self.raw_arguments = raw_arguments
 
         self.parser = ArgumentParser(
-            description=self.description,
-            usage=f"{self.command} <options>"
+            description=self.description, usage=f"{self.command} <options>"
         )
 
         self.arguments = Namespace()

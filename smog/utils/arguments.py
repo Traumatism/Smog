@@ -1,13 +1,12 @@
 import argparse
 
-from typing import Iterator, Tuple
-
 from rich.highlighter import RegexHighlighter
 from rich.console import Console
 from rich.markup import render
 from rich.theme import Theme
 from rich.panel import Panel
 from rich.text import Text
+from typing import Iterator, Tuple
 
 
 class Highlighter(RegexHighlighter):
@@ -49,9 +48,7 @@ class HelpFormatter(argparse.HelpFormatter):
         )
 
         def format(tuple_size):
-            return (
-                result if isinstance(result, tuple) else (result,) * tuple_size
-            )
+            return result if isinstance(result, tuple) else (result,) * tuple_size
 
         return format
 
@@ -97,7 +94,6 @@ class ArgumentParser(argparse.ArgumentParser):
 
     def get_help(self) -> Tuple[Panel, Text]:
         """Display the help"""
-
         return (
             Panel.fit(f"[bold white]{self.description}[/bold white]"),
             render(self.format_help()),
@@ -105,10 +101,7 @@ class ArgumentParser(argparse.ArgumentParser):
 
     def print_help(self):
         """Display the help"""
-        console.print(
-            Panel.fit(f"[bold white]{self.description}[/bold white]")
-        )
-
+        console.print(Panel.fit(f"[bold white]{self.description}[/bold white]"))
         console.print(self.format_help(), highlight=True)
 
     def error(self, message):

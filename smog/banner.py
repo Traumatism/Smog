@@ -2,16 +2,15 @@ from smog import __version__
 
 __all__ = ("BANNER",)
 
-BANNER = r"""
+BANNER = (
+    r"""
 [reset]
  ______     __    __     ______     ______
 /\  ___\   /\ "-./  \   /\  __ \   /\  ___\
 \ \___  \  \ \ \-./\ \  \ \ \/\ \  \ \ \__ \
  \/\_____\  \ \_\ \ \_\  \ \_____\  \ \_____\
-  \/_____/   \/_/  \/_/   \/_____/   \/_____/
+  \/_____/   \/_/  \/_/   \/_____/   \/_____/  [bright_black]v%s[/]
 [/]
-semi automatic recon framework
-
-version: %(version)s
-
-""" % {"version": __version__}
+    """
+    % __version__
+)

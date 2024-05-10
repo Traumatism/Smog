@@ -22,12 +22,11 @@ class ModuleBase(metaclass=ABCMeta):
         self.debug_threads = debug_threads
         self.database = database
         self.threads = threads
-
         self.__action = 0
 
     @abstractmethod
     def sub_action(self, *args):
-        """This function gonna be run with threading"""
+        """This function gonna be ran with threading"""
 
     def _sub_action(self, i, args=()):
         """Run sub-action"""
@@ -39,14 +38,15 @@ class ModuleBase(metaclass=ABCMeta):
         if self.debug_threads:
             Logger.success(f"Subaction #{i} finished.")
 
-    def respect_threads_run(self, args: Optional[Iterable] = None):
+    def respect_threads_run(self, args: Iterable | None = None):
         """Run a function with respect to max threads"""
         if args is None:
             args = []
 
-        while 1:
+        while True:
             if _threading.active_count() <= self.threads:
                 self.__action += 1
+
                 return _threading.Thread(
                     target=self._sub_action, args=(self.__action, args)
                 ).start()

@@ -5,7 +5,6 @@ import os
 
 from typing import List, Type
 
-
 PATH = os.path.join(os.path.expanduser("~"), ".smog.json")
 
 if not os.path.exists(PATH) or not os.path.isfile(PATH):
@@ -28,10 +27,6 @@ while True:
 
 VARIABLES = {
     "prompt-char": (">", ("$", ">", "#", ":")),
-    "logging-type": (
-        "symbols",
-        ("litteral", "symbols", "emojis", "fruits", "nerdfont"),
-    ),
     "shodan-key": ("null", None),
     "workspace_name": ("default", None),
     "exceptions_debug": ("false", ("false", "true")),
@@ -43,19 +38,15 @@ __version__ = "1.3"
 from smog.database import database
 from smog.common.module import ModuleBase
 
-registery: List[Type[ModuleBase]] = []
+MODULES: List[Type[ModuleBase]] = []
+module = MODULES.append
 
-module = registery.append
-
-modules_files = list(map(
-    lambda module_path: "modules." + module_path[8:][:-3],
-    glob.glob("modules/*.py")
-))
+modules_files = list(
+    map(lambda path: "modules." + path[8:][:-3], glob.glob("modules/*.py"))
+)
 
 
 list(map(importlib.import_module, modules_files))
-
-MODULES = registery
 
 from commands.credits import Credits
 from commands.select import Select
